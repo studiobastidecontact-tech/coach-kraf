@@ -755,6 +755,37 @@
     .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
     .form-row { grid-template-columns: 1fr; }
   }
+
+  /* ---- MODALS LÉGALES ---- */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    overflow-y: auto; padding: 2rem 1rem;
+  }
+  .modal-overlay:target { display: flex; align-items: flex-start; justify-content: center; }
+  .modal-box {
+    background: var(--background-elevated);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    max-width: 720px; width: 100%;
+    margin: auto; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    background: var(--background-surface);
+    border: 1px solid var(--border);
+    color: var(--foreground-muted);
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; font-size: 1.1rem;
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--foreground); }
+  .modal-box h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+  .modal-box h3 { font-size: 1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; color: var(--combat); }
+  .modal-box p { color: var(--foreground-muted); font-size: 0.875rem; line-height: 1.8; margin-bottom: 0.75rem; }
+  .modal-box ul { color: var(--foreground-muted); font-size: 0.875rem; line-height: 1.8; padding-left: 1.25rem; margin-bottom: 0.75rem; }
 </style>
 </head>
 <body>
@@ -769,6 +800,7 @@
       <a href="#coach">Qui suis-je</a>
       <a href="#temoignages">Avis</a>
       <a href="#cta">Contact</a>
+      <a href="#contact">Contact</a>
       <a href="#cta" class="cta-nav">Réserver</a>
     </nav>
   </div>
@@ -1053,6 +1085,7 @@
     <div class="section-header fade-in">
       <div class="line-combat"></div>
       <h2 class="section-title">Ce qu'en disent les élèves</h2>
+      <p class="section-lead" style="font-size:0.8rem;color:var(--foreground-subtle);margin-top:-2rem">(Témoignages à remplacer par de vrais avis)</p>
     </div>
     <div class="testi-grid">
       <div class="testi-card fade-in">
@@ -1218,7 +1251,7 @@
         <h3>Contact</h3>
         <div class="contact-info-title">Réservons votre première séance.</div>
         <p>Un cours d'essai, une question sur les formules, une demande de groupe ou d'entreprise. Réponse sous 48h.</p>
-        <a href="/cdn-cgi/l/email-protection#6d061d041902012d010c1d021e190843030819" class="contact-detail">
+        <a href="/cdn-cgi/l/email-protection#84eff4edf0ebe8c4e8e5f4ebf7f0e1aaeae1f0" class="contact-detail">
           <div class="contact-detail-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </div>
@@ -1236,22 +1269,25 @@
         </div>
       </div>
 
-      <!-- Formulaire -->
-      <div class="contact-form fade-in">
+      <!-- Formulaire Formspree -->
+      <form id="contact-form" class="contact-form fade-in" action="https://formspree.io/f/xaqlaapn" method="POST">
+        <input type="hidden" name="_subject" value="Nouvelle demande - coach-krav.fr">
+        <input type="hidden" name="_next" value="https://coach-krav.fr#contact-success">
+        <input type="text" name="_gotcha" style="display:none">
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Nom *</label>
-            <input type="text" class="form-input" placeholder="Votre nom">
+            <input type="text" name="nom" class="form-input" placeholder="Votre nom" required>
           </div>
           <div class="form-group">
             <label class="form-label">Email *</label>
-            <input type="email" class="form-input" placeholder="votre@email.fr">
+            <input type="email" name="email" class="form-input" placeholder="votre@email.fr" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Type de cours</label>
-            <select class="form-select">
+            <select name="cours" class="form-select">
               <option value="" disabled selected>Sélectionner...</option>
               <option>Krav Maga / Self-défense</option>
               <option>Boxe Thaïlandaise</option>
@@ -1263,7 +1299,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Nb de participants</label>
-            <select class="form-select">
+            <select name="participants" class="form-select">
               <option value="" disabled selected>Sélectionner...</option>
               <option>1 (cours particulier)</option>
               <option>2 (duo)</option>
@@ -1275,15 +1311,21 @@
         </div>
         <div class="form-group">
           <label class="form-label">Votre message *</label>
-          <textarea class="form-textarea" placeholder="Dites-moi ce que vous cherchez, votre niveau, vos disponibilités..."></textarea>
+          <textarea name="message" class="form-textarea" placeholder="Dites-moi ce que vous cherchez, votre niveau, vos disponibilités..." required></textarea>
         </div>
         <label class="form-checkbox">
-          <input type="checkbox">
+          <input type="checkbox" required>
           J'accepte que mes données soient utilisées pour répondre à ma demande.
         </label>
-        <button class="btn-submit">Envoyer le message</button>
+        <button type="submit" class="btn-submit" id="submit-btn">Envoyer le message</button>
         <p class="form-note">Réponse sous 48h · Aucun engagement</p>
-      </div>
+        <div id="form-success" style="display:none;text-align:center;padding:1rem;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:0.75rem;color:#4ade80;font-size:0.9rem;">
+          ✅ Message envoyé ! David vous répondra sous 48h.
+        </div>
+        <div id="form-error" style="display:none;text-align:center;padding:1rem;background:rgba(212,25,32,0.1);border:1px solid rgba(212,25,32,0.3);border-radius:0.75rem;color:var(--combat);font-size:0.9rem;">
+          ❌ Erreur d'envoi. Écrivez directement à <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3259425b465d5e725e53425d4146571c5c5746">[email&#160;protected]</a>
+        </div>
+      </form>
 
     </div>
   </div>
@@ -1328,7 +1370,7 @@
       <div>
         <div class="footer-section-title">Contact</div>
         <div class="footer-contact">
-          <a href="/cdn-cgi/l/email-protection#5c372c352833301c253d343333723f3331" class="contact-item">
+          <a href="/cdn-cgi/l/email-protection#9af1eaf3eef5f6daf6fbeaf5e9eeffb4f4ffee" class="contact-item">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <span class="__cf_email__" data-cfemail="bad1cad3ced5d6fac3dbd2d5d594d9d5d7">[email&#160;protected]</span>
           </a>
@@ -1342,14 +1384,80 @@
     <div class="footer-bottom">
       <span>© 2026 coach-krav.fr</span>
       <div class="footer-legal">
-        <a href="#">Mentions légales</a>
-        <a href="#">Confidentialité</a>
+        <a href="#mentions-legales">Mentions légales</a>
+        <a href="#confidentialite">Confidentialité</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+  // Formulaire Formspree AJAX
+  const form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const success = document.getElementById('form-success');
+      const error = document.getElementById('form-error');
+      btn.textContent = 'Envoi en cours...';
+      btn.disabled = true;
+      success.style.display = 'none';
+      error.style.display = 'none';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          success.style.display = 'block';
+          form.reset();
+          btn.textContent = 'Message envoyé ✓';
+        } else {
+          throw new Error('Erreur serveur');
+        }
+      } catch(err) {
+        error.style.display = 'block';
+        btn.textContent = 'Envoyer le message';
+        btn.disabled = false;
+      }
+    });
+  }
+</script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+  // Formulaire Formspree AJAX
+  const form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const success = document.getElementById('form-success');
+      const error = document.getElementById('form-error');
+      btn.textContent = 'Envoi en cours...';
+      btn.disabled = true;
+      success.style.display = 'none';
+      error.style.display = 'none';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          success.style.display = 'block';
+          form.reset();
+          btn.textContent = 'Message envoyé ✓';
+        } else {
+          throw new Error('Erreur serveur');
+        }
+      } catch(err) {
+        error.style.display = 'block';
+        btn.textContent = 'Envoyer le message';
+        btn.disabled = false;
+      }
+    });
+  }
+</script><script>
   // Header scroll effect
   const header = document.getElementById('site-header');
   window.addEventListener('scroll', () => {
@@ -1361,15 +1469,4 @@
   // Animated counters
   function animateCounter(el) {
     const target = parseInt(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    const duration = 1500;
-    const start = performance.now();
-
-    const tick = (now) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(eased * target);
-      el.textContent = current + suffix;
-      if (progress < 1) requestAnimationFrame(tick);
-    };
+    const
