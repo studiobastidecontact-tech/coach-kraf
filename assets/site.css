@@ -421,6 +421,14 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .tarifs .p{font-family:var(--tf);font-size:30px;font-weight:800;color:var(--accent-franc);letter-spacing:-.03em;white-space:nowrap}
 .tarifs .p small{font-family:var(--tc);font-size:14px;font-weight:400;color:var(--sur-2);letter-spacing:0}
 .tarifs .m{font-size:15px;color:var(--sur-2)}
+/* LE PALIER RECOMMANDÉ. Cinq lignes rigoureusement égales ne recommandent
+   rien : « Recommandé pour débuter » se lisait comme une troisième ligne de
+   description, et sur téléphone il tombait sous le prix sans aucun signal.
+   Un écusson le nomme, un filet à gauche le désigne. */
+.tarifs .l--phare{background:var(--survol);box-shadow:inset 3px 0 0 var(--accent-franc)}
+.ecusson{display:inline-block;font-family:var(--tf);font-size:13px;font-weight:800;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--accent);
+  background:rgba(var(--accent-rgb),.13);padding:5px 10px;border-radius:var(--r-controle)}
 .duree{max-width:58ch;margin-top:16px;font-size:15px;color:var(--sur-2)}
 .extras{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
 .extras div{border:1px solid var(--filet);border-left:3px solid var(--accent-franc);border-radius:var(--r-surface);padding:22px 24px;background:var(--fond-carte)}
@@ -512,6 +520,15 @@ p a[href^="tel:"]::after,p a[href^="sms:"]::after,p a[href^="mailto:"]::after{
 .bas button{background:none;border:none;color:inherit;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 
 /* ── appel permanent, mobile ───────────────────────────────────────── */
+/* ELLE NE DOUBLE PLUS LE BOUTON DU HÉROS. Mesuré le 2026-09-09 : deux
+   boutons brique identiques visibles ensemble au premier écran, à 296 px
+   l'un de l'autre. La barre sert à celui qui a DÉFILÉ ; en haut de page, le
+   bouton du héros suffit et il est plus grand. Elle se révèle quand le
+   bouton du héros sort du champ, et le script pose l'attribut. Sans
+   JavaScript elle reste visible en permanence : on ne retire jamais un
+   moyen d'appeler à quelqu'un qui n'a pas le moyen de le faire revenir. */
+.pouce[data-repliee]{transform:translateY(105%);pointer-events:none}
+.pouce{transition:transform .28s cubic-bezier(.16,1,.3,1)}
 .pouce{position:fixed;inset:auto 0 0 0;z-index:110;display:none;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(var(--fond-rgb),.97);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--filet)}
 .pouce a{flex:1;font-size:15px;padding:14px 10px}
 

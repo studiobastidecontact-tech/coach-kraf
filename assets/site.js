@@ -159,6 +159,23 @@
     poserQ();
   }
 
+  // La barre du pouce ne double plus le bouton du heros : elle arrive quand
+  // il sort du champ. On observe le BOUTON, pas une hauteur en pixels — une
+  // hauteur devinee se trompe des que le titre passe sur trois lignes.
+  var pouce = document.querySelector('.pouce');
+  var appelHero = document.querySelector('.hero .btn-1');
+  if (pouce && appelHero && 'IntersectionObserver' in window) {
+    // Ici l'observateur convient : on surveille UN element, et ses deux etats
+    // sont notifies. C'est un balayage qu'il faut quand on suit des sections.
+    pouce.setAttribute('data-repliee', '');
+    new IntersectionObserver(function(entrees){
+      entrees.forEach(function(e){
+        if (e.isIntersecting) pouce.setAttribute('data-repliee', '');
+        else pouce.removeAttribute('data-repliee');
+      });
+    }, {rootMargin: '-8px 0px 0px 0px'}).observe(appelHero);
+  }
+
   // Le rail d'ancres marque la section courante. Pas d'IntersectionObserver,
   // pour la meme raison que les entrees au defilement : il ne signale que ce
   // qu'il voit ENTRER, et sur un saut d'ancre les sections traversees ne sont
