@@ -4,19 +4,26 @@
 
   // l'en-tete se pose sur une bordure des qu'on quitte le haut
   var tete = document.getElementById('tete');
-  var poser = function(){ tete.classList.toggle('pose', window.scrollY > 24); };
-  window.addEventListener('scroll', poser, {passive:true}); poser();
+  if (tete) {
+    var poser = function(){ tete.classList.toggle('pose', window.scrollY > 24); };
+    window.addEventListener('scroll', poser, {passive:true}); poser();
+  }
 
-  // menu mobile
+  // Menu mobile. Chaque bloc verifie ses elements : la page 404 n'a pas de
+  // menu, et une page future pourrait ne pas en avoir non plus. Sans ce
+  // garde, un seul element absent leve une TypeError qui emporte TOUT ce
+  // qui suit — dont les entrees au defilement et l'envoi du formulaire.
   var burger = document.getElementById('burger'), menu = document.getElementById('menu');
-  var fermerMenu = function(){ menu.classList.remove('ouvert'); burger.setAttribute('aria-expanded','false'); burger.setAttribute('aria-label','Ouvrir le menu'); };
-  burger.addEventListener('click', function(){
-    var ouvert = menu.classList.toggle('ouvert');
-    burger.setAttribute('aria-expanded', String(ouvert));
-    burger.setAttribute('aria-label', ouvert ? 'Fermer le menu' : 'Ouvrir le menu');
-  });
-  menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') fermerMenu(); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') fermerMenu(); });
+  if (burger && menu) {
+    var fermerMenu = function(){ menu.classList.remove('ouvert'); burger.setAttribute('aria-expanded','false'); burger.setAttribute('aria-label','Ouvrir le menu'); };
+    burger.addEventListener('click', function(){
+      var ouvert = menu.classList.toggle('ouvert');
+      burger.setAttribute('aria-expanded', String(ouvert));
+      burger.setAttribute('aria-label', ouvert ? 'Fermer le menu' : 'Ouvrir le menu');
+    });
+    menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') fermerMenu(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') fermerMenu(); });
+  }
 
   // Entrees au defilement. On n'arme le masquage QUE si l'utilisateur ne
   // demande pas moins de mouvement ; sinon on ne touche a rien et le contenu
@@ -42,27 +49,36 @@
       var saut = Math.abs(y - dernierY) >= vh;
       dernierY = y;
       var seuil = saut ? vh * 2.2 : vh;
-      restants = restants.filter(function(el){
-        if (el.getBoundingClientRect().top >= seuil) return true;
-        el.classList.add('vu');
-        return false;
-      });
+      // On LIT toutes les positions, PUIS on ecrit toutes les classes.
+      // Melanger les deux dans un meme filter force le navigateur a
+      // recalculer la mise en page a chaque tour : c'est le reflow force
+      // que le profileur relevait au chargement.
+      var aReveler = [], i;
+      for (i = 0; i < restants.length; i++) {
+        if (restants[i].getBoundingClientRect().top < seuil) aReveler.push(restants[i]);
+      }
+      for (i = 0; i < aReveler.length; i++) aReveler[i].classList.add('vu');
+      if (aReveler.length) {
+        restants = restants.filter(function(el){ return aReveler.indexOf(el) === -1; });
+      }
       if (!restants.length) {
         window.removeEventListener('scroll', demander);
         window.removeEventListener('resize', demander);
         window.removeEventListener('hashchange', sauter);
+        document.removeEventListener('click', surAncre);
       }
     };
     var demander = function(){ if (!enAttente) { enAttente = true; requestAnimationFrame(balayer); } };
     // un changement d'ancre est un saut par definition, meme sans evenement scroll
     var sauter = function(){ dernierY = -1e6; demander(); };
+    var surAncre = function(e){
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (a) setTimeout(sauter, 60);
+    };
     window.addEventListener('scroll', demander, {passive:true});
     window.addEventListener('resize', demander, {passive:true});
     window.addEventListener('hashchange', sauter);
-    document.addEventListener('click', function(e){
-      var a = e.target.closest && e.target.closest('a[href^="#"]');
-      if (a) setTimeout(sauter, 60);
-    });
+    document.addEventListener('click', surAncre);
     balayer();
   }
 
@@ -82,6 +98,10 @@
         ok.className = 'retour ok';
         f.reset();
         btn.textContent = 'Message envoyé';
+        // On rend le bouton apres quelques secondes : le temps que l'accuse
+        // se lise, sans enfermer celui qui veut ajouter une precision — il
+        // devait sinon recharger la page pour ecrire une deuxieme fois.
+        setTimeout(function(){ btn.disabled = false; btn.textContent = libelle; }, 6000);
       })
       .catch(function(){
         ko.className = 'retour ko';
