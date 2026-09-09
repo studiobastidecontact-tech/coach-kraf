@@ -75,6 +75,23 @@
       var a = e.target.closest && e.target.closest('a[href^="#"]');
       if (a) setTimeout(sauter, 60);
     };
+    // Filet : un moteur de rendu qui NE FAIT PAS defiler — Googlebot ouvre une
+    // fenetre tres haute au lieu de scroller, les captures pleine page et les
+    // robots de lecture ne bougent pas non plus — ne verrait JAMAIS le reste
+    // de la page. Mesure du 2026-09-09 : 1 074 mots sur 1 198 restaient a
+    // opacite zero. Passe ce delai, si personne n'a defile, on montre tout :
+    // c'est hors ecran, donc invisible pour un humain, et present pour le reste.
+    var aDefile = false;
+    window.addEventListener('scroll', function(){ aDefile = true; }, {passive:true, once:true});
+    setTimeout(function(){
+      if (aDefile || !restants.length) return;
+      for (var k = 0; k < restants.length; k++) restants[k].classList.add('vu');
+      restants = [];
+      window.removeEventListener('scroll', demander);
+      window.removeEventListener('resize', demander);
+      window.removeEventListener('hashchange', sauter);
+      document.removeEventListener('click', surAncre);
+    }, 2600);
     window.addEventListener('scroll', demander, {passive:true});
     window.addEventListener('resize', demander, {passive:true});
     window.addEventListener('hashchange', sauter);
