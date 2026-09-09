@@ -122,15 +122,24 @@ header.pose{border-bottom-color:var(--trait);background:rgba(14,26,43,.97)}
 
 /* ── bienfaits ─────────────────────────────────────────────────────── */
 .bien{border-top:1px solid var(--trait-clair)}
-.bien li{list-style:none;display:grid;grid-template-columns:64px 250px 1fr;gap:22px;align-items:baseline;padding:22px 8px;border-bottom:1px solid var(--trait-clair);transition:background .18s,padding-left .18s}
+.bien li{list-style:none;display:grid;grid-template-columns:64px 250px minmax(0,56ch);gap:22px;align-items:baseline;padding:22px 8px;border-bottom:1px solid var(--trait-clair);transition:background .18s,padding-left .18s}
 .bien li:hover{background:var(--papier-2);padding-left:16px}
 .bien .num{font-family:var(--tf);font-size:15px;font-weight:800;color:var(--signal-encre);letter-spacing:.06em}
 .bien h3{font-size:19px}
 .bien p{color:var(--ardoise);font-size:16px}
 
 /* ── coach ─────────────────────────────────────────────────────────── */
-.coach{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:start}
-.coach-img{position:relative;border-radius:10px;overflow:hidden}
+.coach{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:stretch}
+.coach-img{position:relative;border-radius:10px;overflow:hidden;align-self:stretch}
+.coach-img picture,.coach-img img{width:100%;height:100%;object-fit:cover;display:block}
+/* La photo s'etire pour aligner les deux colonnes, mais un groupe cadre en
+   portrait perd les gens des bords : sous 1200 px la colonne devient trop
+   etroite (rapport mesure 0,66 a 1024), on rend alors son cadrage a l'image
+   et on accepte la difference de hauteur. */
+@media (max-width:1200px){
+  .coach{align-items:start}
+  .coach-img picture,.coach-img img{height:auto;aspect-ratio:4/3}
+}
 .coach-img img{width:100%;aspect-ratio:4/3;object-fit:cover}
 .coach-img figcaption{position:absolute;inset:auto 0 0 0;padding:34px 20px 16px;background:linear-gradient(to top,rgba(14,26,43,.94),transparent);color:var(--brume);font-size:14px}
 .coach blockquote{border-left:3px solid var(--signal);padding:4px 0 4px 20px;margin:24px 0;font-size:19px;line-height:1.55;color:var(--sur-nuit)}
@@ -150,6 +159,7 @@ header.pose{border-bottom-color:var(--trait);background:rgba(14,26,43,.97)}
 .tarifs{border:1px solid var(--trait-clair);border-radius:10px;overflow:hidden;background:var(--papier)}
 .tarifs .l{display:grid;grid-template-columns:1.7fr .8fr 1.2fr;gap:16px;align-items:center;padding:22px 26px;border-bottom:1px solid var(--trait-clair)}
 .tarifs .l:last-child{border-bottom:none}
+.duree{max-width:58ch}
 .tarifs .l:hover{background:var(--papier-2)}
 .tarifs .t{font-family:var(--tf);font-weight:700;font-size:17px}
 .tarifs .d{font-size:15px;color:var(--ardoise);margin-top:3px}
@@ -183,7 +193,7 @@ header.pose{border-bottom-color:var(--trait);background:rgba(14,26,43,.97)}
 .envoi{background:var(--signal);color:var(--nuit);font-family:var(--tf);font-weight:800;font-size:16px;padding:17px;border:none;border-radius:4px;cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
 .envoi:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(240,180,41,.3)}
 .envoi:disabled{opacity:.62;cursor:progress}
-.retour{padding:16px 18px;border-radius:6px;font-size:16px;display:none}
+.retour{padding:16px 18px;border-radius:6px;font-size:16px;display:none;max-width:64ch}
 .retour.ok{display:block;background:rgba(31,122,76,.16);border:1px solid rgba(31,122,76,.5);color:#7BD9A6}
 .retour.ko{display:block;background:rgba(179,38,30,.16);border:1px solid rgba(179,38,30,.55);color:#FF9B93}
 
@@ -307,7 +317,7 @@ dialog::backdrop{background:rgba(6,11,19,.82);backdrop-filter:blur(6px)}
 .renvoi span{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:var(--tf);font-weight:700;font-size:15px;color:var(--signal)}
 
 /* corps de texte long des pages legales */
-.texte{max-width:760px}
+.texte{max-width:62ch}
 .texte h3{font-family:var(--tf);font-size:15px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--signal-encre);margin:34px 0 10px}
 .texte p{color:var(--ardoise);margin-bottom:12px}
 .texte a{color:var(--signal-encre);font-weight:600}
