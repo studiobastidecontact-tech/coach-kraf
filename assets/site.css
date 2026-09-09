@@ -178,7 +178,9 @@ header.pose{border-bottom-color:var(--trait);background:rgba(14,26,43,.97)}
 .champ input,.champ select,.champ textarea{width:100%;font-family:var(--tc);font-size:16px;padding:14px 16px;background:var(--nuit);border:1.5px solid var(--trait);border-radius:4px;color:var(--sur-nuit);transition:border-color .18s}
 .champ textarea{min-height:126px;resize:vertical}
 .champ input::placeholder,.champ textarea::placeholder{color:#7A889B}
-.champ input:focus,.champ select:focus,.champ textarea:focus{outline:none;border-color:var(--signal)}
+/* au clavier, un simple changement de bordure se remarque mal : on ajoute
+   un halo, qui donne au focus une aire visible et un contraste franc */
+.champ input:focus,.champ select:focus,.champ textarea:focus{outline:none;border-color:var(--signal);box-shadow:0 0 0 3px rgba(240,180,41,.32)}
 .coche{display:flex;gap:11px;align-items:flex-start;font-size:15px;color:var(--brume);cursor:pointer}
 .coche input{margin-top:4px;width:18px;height:18px;accent-color:var(--signal);flex-shrink:0}
 .envoi{background:var(--signal);color:var(--nuit);font-family:var(--tf);font-weight:800;font-size:16px;padding:17px;border:none;border-radius:4px;cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
@@ -329,3 +331,31 @@ dialog::backdrop{background:rgba(6,11,19,.82);backdrop-filter:blur(6px)}
 .sec--nuit .sit-n{color:var(--signal)}
 .sec--nuit .qr p{color:var(--brume)}
 .sec--nuit .qr a{color:var(--signal)}
+
+/* ── la flèche des liens ─────────────────────────────────────────────
+   U+2192 n'existe dans aucun des deux sous-ensembles latins d'Archivo et
+   d'Inter : le caractère tombait sur une police système, dans un dessin
+   étranger au reste. On la trace donc comme les autres icônes du site,
+   en trait, et elle prend la couleur de son lien. */
+.go::after,
+.renvoi span::after{
+  content:'';
+  width:1.05em;height:1.05em;
+  background:currentColor;
+  -webkit-mask:var(--fleche) no-repeat center/contain;
+          mask:var(--fleche) no-repeat center/contain;
+  transition:transform .2s;
+  flex-shrink:0;
+}
+:root{
+  --fleche:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+}
+.go{align-items:center}
+.renvoi span{align-items:center}
+.sit:hover .go::after{transform:translateX(4px)}
+.renvoi:hover span::after{transform:translateX(4px)}
+
+/* le numero en toutes lettres tient dans la barre du pouce : il inspire
+   plus confiance qu'un simple « Appeler », et reste lisible jusqu'a 320 px */
+.pouce a{font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+@media (max-width:359px){ .pouce a{font-size:14px;padding:14px 6px} }
