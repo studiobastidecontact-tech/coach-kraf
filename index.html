@@ -76,7 +76,7 @@
     <nav class="nav" id="menu" aria-label="Navigation principale">
       <a href="#situations">Pour qui</a>
       <a href="#formules">Cours</a>
-      <a href="#coach">Le coach</a>
+      <a href="/le-coach/">Le coach</a>
       <a href="#tarifs">Tarifs</a>
       <button type="button" class="nav-bouton" data-ouvre="ecrire">Contact</button>
     </nav>
@@ -131,6 +131,16 @@
     </ul>
   </div>
 </div>
+
+<nav class="rail" aria-label="Sections de la page">
+  <a href="#situations">Pour qui</a>
+  <a href="#formules">Cours</a>
+  <a href="#deroule">Déroulé</a>
+  <a href="#bienfaits">Bienfaits</a>
+  <a href="#fond">Le coach</a>
+  <a href="#tarifs">Tarifs</a>
+  <a href="#contact">Contact</a>
+</nav>
 
 <section class="sec" id="situations">
   <div class="wrap">
@@ -226,7 +236,8 @@
       <h2>Sept effets, séance après séance</h2>
       <p class="lead">La self-défense en est la porte d’entrée. Ce qui suit vient avec, que vous le cherchiez ou non.</p>
     </div>
-    <ul class="bien monte">
+    <div class="bloc-deplie">
+    <ul class="bien monte" id="liste-bienfaits">
       <li><span class="num">01</span><h3>Tonicité</h3><p>Un renforcement musculaire complet, sans machine ni salle.</p></li>
       <li><span class="num">02</span><h3>Souplesse</h3><p>Gym douce et récupération : la conscience du corps et le travail de la souplesse.</p></li>
       <li><span class="num">03</span><h3>Équilibre</h3><p>Le tonus des jambes par les positions de base, et la confiance dans ses appuis.</p></li>
@@ -235,61 +246,33 @@
       <li><span class="num">06</span><h3>Mémoire</h3><p>Les enchaînements codifiés sont un entraînement de la mémoire, à tout âge.</p></li>
       <li><span class="num">07</span><h3>Stress</h3><p>L’entraînement régulier évacue le stress accumulé dans la journée.</p></li>
     </ul>
+    <button type="button" class="deplier" data-nom="bienfaits" data-deplie="liste-bienfaits" data-garde="3" aria-expanded="false" aria-controls="liste-bienfaits" hidden></button>
+    </div>
   </div>
 </section>
 
-<section class="sec" id="coach">
+<section class="sec" id="fond">
   <div class="wrap">
     <div class="head monte">
-      <p class="eyebrow">Le coach</p>
-      <h2>Quinze ans à enseigner le Krav Maga</h2>
+      <p class="eyebrow">L’homme et la méthode</p>
+      <h2>Quinze ans d’enseignement, soixante-dix ans de discipline</h2>
     </div>
-    <div class="coach">
-      <figure class="coach-img monte">
-        <picture>
-          <source type="image/webp" srcset="/assets/cours-groupe-800.webp 800w, /assets/cours-groupe-1400.webp 1400w" sizes="(max-width:900px) 92vw, 500px">
-          <img src="/assets/cours-groupe-800.jpg" srcset="/assets/cours-groupe-800.jpg 800w, /assets/cours-groupe-1400.jpg 1400w" sizes="(max-width:900px) 92vw, 500px" alt="Cours collectif de Krav Maga en extérieur" width="800" height="600" loading="lazy" decoding="async">
-        </picture>
-        <figcaption>Cours collectif en extérieur, sur le secteur toulousain.</figcaption>
-      </figure>
-      <div class="monte">
-        <p><strong>Officier de gendarmerie, puis membre des forces spéciales.</strong> J’ai eu maintes fois l’occasion de tester en situation réelle, avec ou sans arme, ce qui fonctionne et ce qui ne fonctionne pas.</p>
-        <p>Développement personnel, sport et pédagogie ont toujours été mes plus grandes passions. Je pratique plusieurs sports de combat et arts martiaux à haut niveau — karaté, kudo, sambo, jiu-jitsu brésilien, Krav Maga — et je suis également préparateur physique pour combattants.</p>
-        <blockquote>« J’ai appris à être plus tolérant, plus apte à négocier les situations pour les résoudre par la non-violence et la parole. Car le plus difficile est de lutter contre soi. »</blockquote>
-        <p>En me perfectionnant dans les techniques de combat, j’ai beaucoup appris sur mes capacités et mes limites. Je vous propose de vous transmettre ce savoir-être pour profiter au maximum de votre savoir-vivre.</p>
-        <p class="devise">Ma devise : <strong>ne pas subir.</strong></p>
-      </div>
-    </div>
-    <dl class="certifs monte">
-      <div><dt>Instructeur Krav Maga</dt><dd>Mention militaire et forces de l’ordre</dd></div>
-      <div><dt>G5 Krav Maga</dt><dd>Grade d’expert, dixième niveau de l’échelle internationale</dd></div>
-      <div><dt>Ceintures noires</dt><dd>Karaté · Kudo · ceinture violette de JJB</dd></div>
-      <div><dt>Savate d’argent</dt><dd>Monitorat savate et bâton défense</dd></div>
-      <div><dt>BEES Sambo</dt><dd>Brevet d’État d’éducateur sportif</dd></div>
-      <div><dt>Instructeur militaire C4 · MIP</dt><dd>Combat rapproché, niveau avancé</dd></div>
-      <div><dt>DU préparateur physique</dt><dd>Diplôme universitaire · CQP MAM</dd></div>
-    </dl>
-  </div>
-</section>
-
-<section class="sec sec--pierre" id="discipline">
-  <div class="wrap">
-    <div class="head monte">
-      <p class="eyebrow">La discipline</p>
-      <h2>Le Krav Maga sacrifie l’esthétique à l’efficacité</h2>
-      <p class="lead">En hébreu, « combat rapproché ». Créé dans les années 1940 par Imi Lichtenfeld, adopté par l’armée et la police israéliennes, puis enseigné dans de nombreuses unités de police à travers le monde. Plus de 70 ans d’histoire.</p>
-      <p class="lead" style="margin-top:14px">Il ne s’agit pas d’apprendre un programme figé qui correspondrait à des attaques codifiées. Il s’agit de savoir s’adapter — et l’efficacité, elle, suit des règles.</p>
-    </div>
-    <div class="princ monte">
-      <div><p class="n">01</p><h3>Simplicité</h3></div>
-      <div><p class="n">02</p><h3>Rapidité</h3></div>
-      <div><p class="n">03</p><h3>Efficacité</h3></div>
-      <div><p class="n">04</p><h3>Maîtrise de soi</h3></div>
+    <div class="renvois monte">
+      <a class="renvoi" href="/le-coach/">
+        <h3>Le coach</h3>
+        <p>Officier de gendarmerie, puis membre des forces spéciales. Instructeur Krav Maga mention militaire, grade G5 — sept certifications.</p>
+        <span>Voir la page</span>
+      </a>
+      <a class="renvoi" href="/la-discipline/">
+        <h3>La discipline</h3>
+        <p>« Combat rapproché » en hébreu. Créé dans les années 1940, adopté par l’armée et la police israéliennes. Quatre principes, aucune figure.</p>
+        <span>Voir la page</span>
+      </a>
     </div>
   </div>
 </section>
 
-<section class="sec" id="tarifs">
+<section class="sec sec--pierre" id="tarifs">
   <div class="wrap">
     <div class="head monte">
       <p class="eyebrow">Tarifs</p>
@@ -336,7 +319,7 @@
   </div>
 </section>
 
-<section class="sec sec--pierre" id="contact">
+<section class="sec" id="contact">
   <div class="wrap">
     <div class="head monte">
       <p class="eyebrow">Contact</p>
@@ -405,6 +388,8 @@
           <li><a href="/enfants/">Enfants et harcèlement</a></li>
           <li><a href="/toulouse/">Toulouse</a></li>
           <li><a href="/saint-sulpice/">Saint-Sulpice-la-Pointe</a></li>
+          <li><a href="/le-coach/">Le coach</a></li>
+          <li><a href="/la-discipline/">La discipline</a></li>
           <li><a href="/mentions/">Mentions légales</a></li>
         </ul>
       </div>

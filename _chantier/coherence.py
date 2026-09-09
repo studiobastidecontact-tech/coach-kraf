@@ -77,7 +77,12 @@ for p in PAGES:
     MOTS = {'deux':2,'trois':3,'quatre':4,'cinq':5,'six':6,'sept':7,'huit':8,'neuf':9,'dix':10}
     for m in re.finditer(r'<h2[^>]*>(.*?)</h2>(.*?)(?=<h2|</section>|\Z)', s, re.S):
         titre = texte(m.group(1)).strip()
-        n_annonce = next((v for mot, v in MOTS.items() if re.search(r'\b'+mot+r'\b', titre, re.I)), None)
+        # Un numeral COMPOSE n'annonce pas un decompte : « soixante-dix ans
+        # d'histoire » ne promet pas dix elements, et « dix-sept » n'en promet
+        # pas dix non plus. Le trait d'union est une frontiere que \b ne voit
+        # pas — il la considere comme un separateur de mots.
+        n_annonce = next((v for mot, v in MOTS.items()
+                          if re.search(r'(?<![-\w])' + mot + r'(?![-\w])', titre, re.I)), None)
         d = re.search(r'\b(\d+)\b', titre)
         if d: n_annonce = int(d.group(1))
         if not n_annonce or n_annonce < 2: continue

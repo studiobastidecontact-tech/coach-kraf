@@ -405,7 +405,16 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 footer{background:var(--fond);color:var(--sur-2);border-top:1px solid var(--filet);padding:64px 0 28px}
 .pied{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:44px;margin-bottom:44px}
 .pied h2{font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sur-2);margin-bottom:15px}
-.pied ul{list-style:none;display:grid;gap:9px;font-size:16px}
+/* WCAG 2.5.8 demande 24 px de haut a une cible tactile. « Voir les tarifs »
+   tenait 22, les liens du pied 20. On agrandit la ZONE de touche sans
+   toucher au dessin : un pseudo-element l'etire par-dessus l'interligne,
+   la ligne de texte ne bouge pas d'un pixel. La hauteur reste sous
+   l'ecart entre deux liens, sinon les zones se recouvriraient et on
+   toucherait le mauvais. */
+.pied ul{list-style:none;display:grid;gap:14px;font-size:16px}
+.prix-hero a,.pied ul a,.bas nav a{position:relative}
+.prix-hero a::after,.pied ul a::after,.bas nav a::after{
+  content:'';position:absolute;left:0;right:0;top:50%;height:30px;transform:translateY(-50%)}
 .pied a{text-decoration:none;transition:color .18s}
 .pied a:hover{color:var(--sur)}
 .pied .desc{font-size:16px;margin-top:14px;max-width:340px}
@@ -486,7 +495,11 @@ button.btn{font-family:inherit;cursor:pointer}
 }
 @media (max-width:760px){
   body{font-size:16px}
-  .sec{padding:74px 0}
+  /* 224 px repris sur les huit respirations de la page. Les grilles en
+     deux colonnes, elles, ne rapportaient plus que 50 px une fois les
+     certifications et les principes partis sur leurs propres pages — et
+     elles auraient fait casser le texte davantage. Mesuré, pas supposé. */
+  .sec{padding:58px 0}
   .wrap{padding:0 20px}
   .nav{display:none}
   .burger{display:flex}
@@ -635,6 +648,50 @@ button.btn{font-family:inherit;cursor:pointer}
 }
 .note b{color:var(--accent);font-weight:600}
 @media (max-width:640px){ .offre{flex-direction:column;align-items:flex-start;gap:6px} }
+
+/* ── les listes longues se replient sur téléphone ────────────────────
+   Sept certifications ou sept bienfaits font une grille compacte sur un
+   écran large et une échelle de 762 px sur un téléphone. On en montre
+   trois, et le bouton propose le reste.
+
+   Le bouton est `hidden` dans le HTML et c'est le script qui le révèle :
+   sans JS, la liste reste ENTIÈRE. Le contenu n'est jamais retiré du
+   document — les moteurs et les lecteurs d'écran le voient toujours.
+
+   `[hidden]` a besoin de `!important` : `.bien li` déclare `display:grid`,
+   qui gagne contre la règle du navigateur et laisserait l'élément visible. */
+[hidden]{display:none!important}
+.deplier{display:none}
+@media (max-width:760px){
+  .deplier{display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;margin-top:16px;padding:13px 18px;cursor:pointer;
+    font-family:var(--tf);font-weight:700;font-size:15px;
+    color:var(--accent);background:none;
+    border:1.5px solid var(--contour);border-radius:var(--r-controle)}
+  .deplier:hover{border-color:var(--accent)}
+}
+
+/* ── le rail d'ancres, sur téléphone ─────────────────────────────────
+   Il ne coiffe pas le héros : posé après la bande de preuve, il défile
+   avec la page puis se colle sous l'en-tête. Le héros garde donc toute
+   sa hauteur, et le rail n'apparaît qu'une fois dans le contenu.
+   Sans lui, atteindre les tarifs demandait deux gestes — ouvrir le menu,
+   choisir ; il les met à un seul tapotement. */
+.rail{display:none}
+@media (max-width:760px){
+  .rail{display:flex;position:sticky;top:var(--tete);z-index:100;
+    overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+    background:var(--fond);border-bottom:1px solid var(--filet);
+    scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail a{flex:0 0 auto;padding:13px 16px;text-decoration:none;white-space:nowrap;
+    font-family:var(--tf);font-weight:700;font-size:14px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--sur-2);
+    border-bottom:2px solid transparent;transition:color .18s,border-color .18s}
+  .rail a[aria-current="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  /* une ancre ne doit pas atterrir SOUS le rail : on ajoute sa hauteur */
+  section{scroll-margin-top:calc(var(--tete) + 56px)}
+}
 
 /* quatre renvois tiennent sur une ligne en grand écran, deux en dessous */
 .renvois.quatre{grid-template-columns:repeat(4,1fr);margin-top:0;margin-bottom:44px}

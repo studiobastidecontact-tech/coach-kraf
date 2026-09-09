@@ -100,6 +100,78 @@
   }
 
 
+  // Les listes longues se replient sous 760 px. Le bouton arrive `hidden`
+  // du serveur et c'est CE script qui le revele : sans JS, la liste reste
+  // entiere — on ne cache jamais du contenu a quelqu'un qui n'a pas le
+  // moyen de le rouvrir. Rien n'est retire du document : les elements sont
+  // masques, pas supprimes, donc les moteurs et les lecteurs d'ecran les
+  // voient toujours.
+  var replis = Array.prototype.slice.call(document.querySelectorAll('.deplier[data-deplie]'));
+  if (replis.length && window.matchMedia) {
+    var etroit = window.matchMedia('(max-width:760px)');
+    replis.forEach(function(bouton){
+      var liste = document.getElementById(bouton.getAttribute('data-deplie'));
+      if (!liste) return;
+      var garde = parseInt(bouton.getAttribute('data-garde'), 10) || 3;
+      var caches = Array.prototype.slice.call(liste.children).slice(garde);
+      if (!caches.length) return;
+      var nom = bouton.getAttribute('data-nom') || 'éléments';
+      var ouvert = false;
+      var poser = function(){
+        var replie = etroit.matches && !ouvert;
+        for (var i = 0; i < caches.length; i++) caches[i].hidden = replie;
+        bouton.hidden = !etroit.matches;
+        bouton.setAttribute('aria-expanded', String(!replie));
+        bouton.textContent = ouvert
+          ? 'Masquer les ' + caches.length + ' ' + nom
+          : 'Voir les ' + caches.length + ' autres ' + nom;
+      };
+      bouton.addEventListener('click', function(){
+        ouvert = !ouvert;
+        poser();
+        // en repliant, on ramene la vue sur la liste : sinon le doigt se
+        // retrouve devant la section suivante, sans savoir ce qui a bouge
+        if (!ouvert) liste.scrollIntoView({block:'nearest'});
+      });
+      var surBascule = function(){ ouvert = false; poser(); };
+      if (etroit.addEventListener) etroit.addEventListener('change', surBascule);
+      else if (etroit.addListener) etroit.addListener(surBascule);
+      poser();
+    });
+  }
+
+  // Le rail d'ancres marque la section courante. Pas d'IntersectionObserver,
+  // pour la meme raison que les entrees au defilement : il ne signale que ce
+  // qu'il voit ENTRER, et sur un saut d'ancre les sections traversees ne sont
+  // jamais notifiees. Un balayage ne peut pas manquer une section depassee.
+  var rail = document.querySelector('.rail');
+  if (rail) {
+    var onglets = Array.prototype.slice.call(rail.querySelectorAll('a[href^="#"]'));
+    var cibles = onglets.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+    var courant = null, attente = false;
+    var marquer = function(){
+      attente = false;
+      var repere = rail.getBoundingClientRect().bottom + 8;
+      var gagnant = 0;
+      for (var i = 0; i < cibles.length; i++) {
+        if (cibles[i] && cibles[i].getBoundingClientRect().top <= repere) gagnant = i;
+      }
+      if (gagnant === courant) return;
+      if (courant !== null) onglets[courant].removeAttribute('aria-current');
+      courant = gagnant;
+      onglets[courant].setAttribute('aria-current', 'true');
+      // on fait glisser le rail pour que l'onglet actif reste visible
+      var o = onglets[courant].getBoundingClientRect(), r = rail.getBoundingClientRect();
+      if (o.left < r.left + 12 || o.right > r.right - 12) {
+        rail.scrollTo({left: rail.scrollLeft + (o.left - r.left) - 16, behavior: doux ? 'auto' : 'smooth'});
+      }
+    };
+    window.addEventListener('scroll', function(){
+      if (!attente) { attente = true; requestAnimationFrame(marquer); }
+    }, {passive:true});
+    marquer();
+  }
+
   // La modale d'ecriture. Le formulaire ne traine plus en bas de page : on
   // l'ouvre depuis l'en-tete, ou depuis le bloc de contact. Sans script, une
   // balise <dialog> ne s'ouvre pas — un <noscript> la rend alors au fil de la
