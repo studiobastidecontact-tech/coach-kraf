@@ -395,6 +395,26 @@ dialog::backdrop{background:rgba(6,11,19,.82);backdrop-filter:blur(6px)}
 .sec--nuit .offre b{color:var(--sur-nuit)}
 .sec--nuit .offre span{color:var(--brume)}
 .note span{display:block}
+/* La deuxieme question du visiteur presse. Discret : c'est une reponse, pas
+   une accroche — le prix ne doit pas concurrencer « premier cours offert ». */
+.prix-hero{margin:10px 0 0 17px;font-size:15px;color:var(--brume);max-width:520px}
+.prix-hero b{color:var(--sur-nuit);font-weight:600}
+.prix-hero a{color:var(--signal);text-decoration:none;border-bottom:1px solid rgba(240,180,41,.4);padding-bottom:1px;white-space:nowrap}
+.prix-hero a:hover{border-bottom-color:var(--signal)}
+
+/* Sur un ecran de 568 px de haut, 122 px de marge au-dessus du titre coutent
+   un cinquieme de la fenetre. Mesure a 320 px : le premier bouton d'appel
+   commencait a 529 px, sous la ligne de flottaison. On resserre le rythme
+   vertical du heros — et de lui seul — la ou chaque pixel se paie. */
+@media (max-width:420px){
+  .hero{padding:calc(var(--tete) + 26px) 0 52px}
+  .hero--court{padding:calc(var(--tete) + 22px) 0 44px}
+  .hero .eyebrow{margin-bottom:9px}
+  .hero h1{margin:10px 0 16px}
+  .hero-in > p:not(.note):not(.prix-hero){margin-bottom:20px}
+  .note{margin-top:14px}
+  .prix-hero{margin-top:8px}
+}
 .note b{color:var(--signal);font-weight:600}
 @media (max-width:640px){ .offre{flex-direction:column;align-items:flex-start;gap:6px} }
 
