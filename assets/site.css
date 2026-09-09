@@ -550,8 +550,14 @@ button.btn{font-family:inherit;cursor:pointer}
 .renvoi p{color:var(--sur-2);font-size:16px}
 .renvoi span{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:var(--tf);font-weight:700;font-size:15px;color:var(--accent)}
 
-/* corps de texte long des pages legales */
-.texte{max-width:62ch}
+/* Corps de texte long des pages legales.
+   La laisse de 62 caracteres se pose sur les PARAGRAPHES, pas sur le
+   conteneur : posee sur `.wrap`, elle reduisait la boite entiere, et
+   `margin:0 auto` la recentrait — le bord gauche de la page sautait de
+   130 a 388 px sur cette seule page. Le defaut est ancien ; il ne se
+   voyait pas sur un fond sombre, et un fond clair pardonne moins. */
+.texte{max-width:1180px}
+.texte > p,.texte > h2,.texte > h3,.texte > ul,.texte > ol{max-width:62ch}
 .texte h3{font-family:var(--tf);font-size:15px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:34px 0 10px}
 .texte p{color:var(--sur-2);margin-bottom:12px}
 .texte a{color:var(--accent);font-weight:600}
