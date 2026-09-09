@@ -39,7 +39,7 @@ h2{font-size:clamp(30px,4.4vw,44px);margin-bottom:14px}
 .head{margin-bottom:52px}
 
 /* ── en-tête ───────────────────────────────────────────────────────── */
-header{position:fixed;inset:0 0 auto;z-index:120;background:rgba(14,26,43,.88);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:border-color .25s,background .25s}
+header{position:fixed;inset:0 0 auto;z-index:120;background:rgba(14,26,43,.88);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:border-color .25s,background .25s}
 header.pose{border-bottom-color:var(--trait);background:rgba(14,26,43,.97)}
 .tete{display:flex;align-items:center;justify-content:space-between;gap:20px;height:var(--tete)}
 .marque{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--sur-nuit);flex-shrink:0}
@@ -184,6 +184,17 @@ header.pose{border-bottom-color:var(--trait);background:rgba(14,26,43,.97)}
 .champ label{display:block;font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--brume);margin-bottom:8px}
 .champ input,.champ select,.champ textarea{width:100%;font-family:var(--tc);font-size:16px;padding:14px 16px;background:var(--nuit);border:1.5px solid var(--trait);border-radius:4px;color:var(--sur-nuit);transition:border-color .18s}
 .champ textarea{min-height:126px;resize:vertical}
+/* Sans cette remise a zero, iOS habille le <select> a sa facon : fond clair,
+   chevron systeme, hauteur differente de celle des champs voisins. On dessine
+   donc le chevron nous-memes, et on fixe la hauteur pour que la ligne
+   s'aligne — mesure a Chrome, le select faisait deja 2 px de plus. */
+.champ select{
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A8B4C4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;background-size:18px 18px;
+  padding-right:44px;line-height:1.4;height:51px
+}
+.champ select::-ms-expand{display:none}
 .champ input::placeholder,.champ textarea::placeholder{color:#7A889B}
 /* au clavier, un simple changement de bordure se remarque mal : on ajoute
    un halo, qui donne au focus une aire visible et un contraste franc */
@@ -216,12 +227,12 @@ footer{background:var(--nuit);color:var(--brume);border-top:1px solid var(--trai
 .bas button{background:none;border:none;color:inherit;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 
 /* ── appel permanent, mobile ───────────────────────────────────────── */
-.pouce{position:fixed;inset:auto 0 0 0;z-index:110;display:none;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(14,26,43,.97);backdrop-filter:blur(16px);border-top:1px solid var(--trait)}
+.pouce{position:fixed;inset:auto 0 0 0;z-index:110;display:none;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(14,26,43,.97);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-top:1px solid var(--trait)}
 .pouce a{flex:1;font-size:15px;padding:14px 10px}
 
 /* ── volets légaux ─────────────────────────────────────────────────── */
 dialog{width:min(680px,92vw);border:1px solid var(--trait);border-radius:12px;background:var(--nuit-2);color:var(--brume);padding:0}
-dialog::backdrop{background:rgba(6,11,19,.82);backdrop-filter:blur(6px)}
+dialog::backdrop{background:rgba(6,11,19,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .vol{padding:36px 34px 34px;max-height:min(78vh,780px);overflow-y:auto}
 .vol h2{font-size:26px;color:var(--sur-nuit);margin-bottom:20px}
 .vol h3{font-family:var(--tf);font-size:14px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--signal);margin:24px 0 7px}
