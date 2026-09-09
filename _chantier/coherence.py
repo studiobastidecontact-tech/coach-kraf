@@ -116,6 +116,25 @@ for p in PAGES:
         if cible in ANCRES and frag not in ANCRES[cible]:
             fautes.append(f"{p} : l'ancre {href} ne mene nulle part")
 
+    # 7) titre et description dans les bornes que Google affiche.
+    #    Au-dela, il tronque : la fin de la phrase n'existe plus pour personne.
+    #    Les bornes viennent de l'audit SEO du 09/09, ou les six pages d'alors
+    #    ont ete ramenees a 49-53 et 138-143. Deux pages creees le jour meme en
+    #    sont ressorties — un titre a 70, une description a 163 — parce que
+    #    RIEN ne les mesurait. Les pages en noindex sont hors sujet : elles ne
+    #    paraissent dans aucun resultat.
+    if 'noindex' not in (re.search(r'<meta name="robots" content="([^"]*)"', s) or type('', (), {'group': lambda *a: ''})).group(1):
+        titre = re.search(r'<title>(.*?)</title>', s, re.S)
+        if not titre:
+            fautes.append(f"{p} : pas de <title>")
+        elif len(titre.group(1).strip()) > 60:
+            fautes.append(f"{p} : titre de {len(titre.group(1).strip())} caracteres — Google en affiche 60")
+        desc = re.search(r'<meta name="description" content="([^"]*)"', s)
+        if not desc:
+            fautes.append(f"{p} : pas de meta description")
+        elif len(desc.group(1)) > 160:
+            fautes.append(f"{p} : description de {len(desc.group(1))} caracteres — Google en affiche 160")
+
     # 5) le balisage FAQ doit citer un texte present sur la page
     for bloc in re.findall(r'<script[^>]*ld\+json[^>]*>(.*?)</script>', s, re.S):
         try: d = json.loads(bloc)
