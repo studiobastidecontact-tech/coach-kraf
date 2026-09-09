@@ -293,32 +293,14 @@ def controler_charte(fautes):
         if j not in definis:
             fautes.append(f"assets/site.css : {j} est utilise mais n'est defini nulle part")
 
-    # ── 7) l'aplat clair n'est LEGAL qu'a partir de 19 px gras ────────────
-    # --accent-aplat vaut #B85C38 sur fond clair, et le blanc dessus rend
-    # 4,43:1 : sous les 4,5 du texte courant. Il ne passe QUE par l'exemption
-    # « grand texte » (>= 18,66 px en gras). Cette clarte n'est donc pas un
-    # choix libre, c'est une dette gagee sur la taille des libelles — un
-    # bouton qui la prend a 15 px echoue WCAG en silence, et rien d'autre
-    # ne le dirait.
-    ALLOUES = {
-        '.btn-1': "prend ses 19 px et son gras du gabarit .btn",
-        '.pouce a.btn-1': "contexte sombre : encre sur l'aplat rend 5,07:1, bon a toute taille",
-    }
-    corps_css = brut[brut.index(BORNES[2]):]
-    for bloc in re.finditer(r'([^{}]+)\{([^{}]*)\}', corps_css):
-        sel, decl = bloc.group(1).strip().split('\n')[-1].strip(), bloc.group(2)
-        if 'var(--accent-aplat)' not in decl:
-            continue
-        if sel in ALLOUES:
-            continue
-        taille = re.search(r'font-size:(\d+(?:\.\d+)?)px', decl)
-        gras = re.search(r'font-weight:(\d+)', decl)
-        if not taille or not gras:
-            fautes.append(f"assets/site.css : « {sel} » prend --accent-aplat sans declarer sa taille NI son gras — "
-                          f"cet aplat n'est lisible qu'a partir de 19 px en 700+")
-        elif float(taille.group(1)) < 19 or int(gras.group(1)) < 700:
-            fautes.append(f"assets/site.css : « {sel} » prend --accent-aplat a {taille.group(1)}px/{gras.group(1)} — "
-                          f"il faut 19px et 700 minimum, sinon le blanc dessus tombe a 4,43:1")
+    # ── 7) l'aplat du bouton se juge sur son CONTRASTE, pas sur sa taille ──
+    # Cette regle exigeait 19 px pour tout selecteur prenant --accent-aplat :
+    # la brique rendait 4,43:1 avec le blanc, et ne passait que par l'exemption
+    # « grand texte ». Elle avait une LISTE BLANCHE, et cette liste couvrait
+    # exactement le cas qui violait la regle — la barre du pouce, a 15 px.
+    # Un scan l'a trouve le 2026-09-09, pas le garde.
+    # La brique a baisse d'un point de clarte (4,57) : la dette n'existe plus,
+    # et le contraste se verifie la ou il se mesure, dans verifier-direction.py.
 
 controler_charte(fautes)
 

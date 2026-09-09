@@ -102,14 +102,17 @@ PAIRES = ([(t, f, 4.5) for t in ('--sur', '--sur-2', '--accent', '--note', '--ac
           # DEUX — la première seule laisserait passer un bouton illisible,
           # la seconde seule un bouton invisible sur son fond.
           #
-          #   · son LIBELLÉ sur son aplat : 3,0 parce que 19 px en gras. Ce
-          #     seuil est gagé sur une taille que ce fichier ne voit pas —
-          #     c'est la règle 7 de coherence.py qui la tient, et les deux
-          #     tombent ensemble si l'une disparaît.
+          #   · son LIBELLÉ sur son aplat : 4,5, le seuil du texte courant.
+          #     Il valait 3,0 tant que la brique rendait 4,43 avec le blanc —
+          #     une dette gagée sur une taille de 19 px, que la barre du pouce
+          #     violait à 15 px sans que rien ne le dise (la règle 7 de
+          #     coherence.py avait une liste blanche qui couvrait ce cas
+          #     précis). La brique a baissé d'un point de clarté ; le seuil
+          #     remonte, et la dette n'existe plus.
           #   · sa FORME contre le fond de chaque contexte : 3,0, WCAG 1.4.11.
           #     C'est cette seconde exigence qui a désigné #B85C38 : 3,87:1
           #     sur la pierre claire, 3,85:1 sur le fond profond.
-          + [('--accent-aplat-sur', '--accent-aplat', 3.0)]
+          + [('--accent-aplat-sur', '--accent-aplat', 4.5)]
           + [('--accent-aplat', f, 3.0) for f in ('--fond', '--fond-2')])
 
 

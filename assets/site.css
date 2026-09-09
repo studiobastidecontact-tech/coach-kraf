@@ -75,7 +75,12 @@
      c'est une incoherence. Un aplat porte donc exactement la brique de son
      contexte. */
   --t-brique:#A9502F;          --t-brique-rgb:169,80,47;
-  --t-brique-franche:#B85C38;  --t-brique-franche-rgb:184,92,56;
+  /* #B85C38 rendait 4,43:1 avec le blanc — assez pour un libelle de 19 px en
+     gras, pas pour les 15 px de la barre du pouce. Un point de clarte plus bas
+     (47 -> 46 %) et il tient 4,57 : le bouton passe A TOUTE TAILLE, et la dette
+     gagee sur la taille des libelles disparait. L'ecart est de dE 1,2 —
+     invisible a l'oeil, decisif pour la sonde. */
+  --t-brique-franche:#B55A36;  --t-brique-franche-rgb:181,90,54;
   --t-brique-claire:#E08A5A;   --t-brique-claire-rgb:224,138,90;
 
   /* la note bleue. 12,7 % des pixels et les plus hautes saturations de
@@ -225,7 +230,12 @@ section{scroll-margin-top:calc(var(--tete) + 12px)}
 
 /* ── rythme des sections : le blanc domine, la pierre ponctue ───────── */
 .sec{padding:104px 0;background:var(--fond);color:var(--sur)}
-.eyebrow{font-family:var(--tf);font-size:16px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--note);margin-bottom:16px}
+/* L'INTITULE DE SECTION, TROISIEME REGLAGE. 13 px au depart, 16 apres la
+   premiere remarque de William, 19 apres la seconde. Un intitule en capitales
+   se lit plus petit qu'il n'est : la hauteur d'x disparait, l'oeil n'a plus que
+   des rectangles. A 19 px il fait la meme impression qu'un texte courant de 16.
+   L'interlettrage descend de .2 a .14 em — a 19 px, .2 em disloque le mot. */
+.eyebrow{font-family:var(--tf);font-size:19px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--note);margin-bottom:18px}
 /* le trait s'aligne sur la PREMIERE ligne, pas au milieu du bloc */
 h2{font-size:clamp(30px,4.4vw,44px);margin-bottom:14px}
 .lead{color:var(--sur-2);max-width:660px;font-size:17px}
@@ -292,7 +302,10 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
    plus que `.eyebrow`, donc il gagne, et l'etiquette tombait en gris
    estompé au lieu de porter la note bleue — sur la seule surface où
    cette note se voit le mieux. */
-.hero p.eyebrow{max-width:none;margin-bottom:16px;color:var(--note)}
+/* `.hero p` fixe une taille au clamp et sa specificite bat `.eyebrow` : le
+   premier intitule de la page rendait donc 16 px quand tous les autres etaient
+   passes a 19. Il faut le dire ici, explicitement. */
+.hero p.eyebrow{max-width:none;margin-bottom:16px;color:var(--note);font-size:19px}
 .actes{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .note{margin-top:18px;font-size:15px;color:var(--sur-2);display:flex;align-items:flex-start;gap:9px;max-width:520px;margin-bottom:0}
 .note::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--acquis);flex-shrink:0;margin-top:.52em}
@@ -668,9 +681,12 @@ button.btn{font-family:inherit;cursor:pointer}
      cadrage horizontal. Premiere tentative : du gravier sur 216 px.
      La photo occupe desormais la bande SEULE, avec son propre cadrage, et le
      voile ne couvre plus qu'elle : un fond uni au-dessus, une image en bas. */
-  .hero-photo{inset:auto 0 0 0;height:216px}
+  /* 175 et non 216 : a 19 px l'intitule passe sur deux lignes, et le heros
+     doit tenir dans un ecran. La bande paie la difference — c'est une photo,
+     pas du texte. */
+  .hero-photo{inset:auto 0 0 0;height:168px}
   .hero-photo img{object-position:center 66%}
-  .hero-voile{inset:auto 0 0 0;height:216px;background:linear-gradient(to bottom,
+  .hero-voile{inset:auto 0 0 0;height:168px;background:linear-gradient(to bottom,
       var(--fond) 0, rgba(var(--fond-rgb),.42) 38%, rgba(var(--fond-rgb),.12) 100%)}
   /* l'intitulé tenait sur deux lignes à cause du seul interlettrage */
   /* L'intitulé passait sur deux lignes par le seul interlettrage : 350 px de
@@ -843,7 +859,7 @@ button.btn{font-family:inherit;cursor:pointer}
      bouton d'appel au-dessus de la ligne de flottaison, et il ECRASAIT le
      padding pose plus haut — le hero rendait 78 px de photo au lieu de 190.
      Le contenu reste haut, la bande s'ajoute dessous. */
-  .hero{padding:calc(var(--tete) + 26px) 0 190px}
+  .hero{padding:calc(var(--tete) + 26px) 0 161px}
   .hero--court{padding:calc(var(--tete) + 22px) 0 44px}
   .hero .eyebrow{margin-bottom:9px}
   .hero h1{margin:10px 0 16px}
