@@ -328,11 +328,31 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .certifs div{background:var(--fond-carte);padding:24px 22px}
 /* Sept titres dans trois colonnes laissent DEUX cases vides sur la
    dernière ligne — un grand rectangle de fond qui ressemble à une image
-   qui n'a pas chargé. Le dernier élément s'étire jusqu'à la dernière
-   ligne de grille : `grid-column-end:-1` couvre tous les cas — 7 items
-   s'étirent sur 3, 8 sur 2, 9 sur 1 — et suit les points de rupture,
-   où la grille passe à deux colonnes puis à une. */
-.certifs > div:last-child,.princ > div:last-child{grid-column-end:-1}
+   qui n'a pas chargé. Le dernier élément s'étire sur ce qui reste.
+
+   `grid-column-end:-1` ne marche PAS ici : avec un début en `auto`, la
+   spécification place l'élément sur UNE case finissant à cette ligne, au
+   lieu de l'étirer. Mesuré : le bloc restait à 373 px sur 1 124.
+
+   C'est `span` qu'il faut, et il dépend de la position du dernier
+   élément dans sa ligne — d'où le `:nth-child`, refait à chaque point
+   de rupture puisque le nombre de colonnes change. */
+.certifs > div:last-child:nth-child(3n+1){grid-column:span 3}
+.certifs > div:last-child:nth-child(3n+2){grid-column:span 2}
+@media (max-width:980px){
+  .certifs > div:last-child:nth-child(3n+1),
+  .certifs > div:last-child:nth-child(3n+2){grid-column:auto}
+  .certifs > div:last-child:nth-child(2n+1){grid-column:span 2}
+}
+/* En UNE colonne, un `span 2` fabrique une deuxième colonne implicite.
+   Le reset doit être AUSSI spécifique que ce qu'il annule — un simple
+   `.certifs > div:last-child` perd contre un `:nth-child`, quel que soit
+   l'ordre des règles. Relevé : la grille rapportait 2 colonnes à 390 px. */
+@media (max-width:760px){
+  .certifs > div:last-child:nth-child(2n+1),
+  .certifs > div:last-child:nth-child(3n+1),
+  .certifs > div:last-child:nth-child(3n+2){grid-column:auto}
+}
 .certifs dt{font-family:var(--tf);font-weight:700;font-size:16px;margin-bottom:6px;color:var(--sur)}
 .certifs dd{font-size:15px;color:var(--sur-2)}
 
