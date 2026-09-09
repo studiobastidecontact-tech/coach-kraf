@@ -212,6 +212,12 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .marque-glyphe--pied{width:22px;height:38px}
 .marque span{font-family:var(--tf);font-weight:800;font-size:16px;letter-spacing:-.01em}
 .nav{display:flex;align-items:center;gap:28px}
+/* Les entrées du menu faisaient 23 px de haut — la seule hauteur de leur
+   interligne — quand WCAG 2.5.8 en demande 24. Une entrée de menu n'est PAS
+   posée au fil d'une phrase : l'exemption « inline » ne la couvre pas.
+   Six pixels de marge intérieure suffisent, et l'en-tête ne bouge pas : les
+   entrées sont centrées dans une ligne de 68 px, elles ont la place. */
+.nav a,.nav .nav-bouton{padding:6px 0}
 .nav a{font-family:var(--tf);font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--sur-2);text-decoration:none;transition:color .18s}
 .nav a:hover{color:var(--sur)}
 .tel-tete{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:15px;padding:11px 18px;border-radius:var(--r-controle);text-decoration:none;white-space:nowrap;transition:transform .16s,box-shadow .16s}
