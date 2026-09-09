@@ -392,7 +392,12 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .envoi{background:var(--accent);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:16px;padding:17px;border:none;border-radius:var(--r-controle);cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
 .envoi:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-rgb),.3)}
 .envoi:disabled{opacity:.62;cursor:progress}
+/* L'accusé porte un RECOURS, pas seulement une confirmation : Formspree
+   rend « reçu », jamais « délivré », et un message perdu se lit aujourd'hui
+   comme un message envoyé. Le lien reste dans la couleur du message — vert
+   pour l'accusé, rouge pour l'échec — et se souligne pour rester un lien. */
 .retour{padding:16px 18px;border-radius:var(--r-surface);font-size:16px;display:none;max-width:64ch}
+.retour a{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .retour.ok{display:block;background:rgba(var(--acquis-rgb),.12);border:1px solid rgba(var(--acquis-rgb),.5);color:var(--acquis)}
 .retour.ko{display:block;background:rgba(var(--alerte-rgb),.1);border:1px solid rgba(var(--alerte-rgb),.5);color:var(--alerte)}
 
