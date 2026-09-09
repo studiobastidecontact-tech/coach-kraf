@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /_chantier/
 
 Sitemap: https://coach-krav.fr/sitemap.xml
