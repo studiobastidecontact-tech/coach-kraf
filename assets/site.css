@@ -442,6 +442,19 @@ footer{background:var(--fond);color:var(--sur-2);border-top:1px solid var(--file
 .prix-hero a,.pied ul a,.bas nav a{position:relative}
 .prix-hero a::after,.pied ul a::after,.bas nav a::after{
   content:'';position:absolute;left:0;right:0;top:50%;height:30px;transform:translateY(-50%)}
+
+/* Un lien POSÉ AU FIL D'UNE PHRASE fait la hauteur de son interligne — 20 px
+   ici. WCAG 2.5.8 l'exempte pour cette raison même, et on ne cherche pas à
+   les agrandir tous : des zones de touche qui se chevauchent d'une ligne à
+   l'autre feraient toucher le mauvais lien.
+   Mais un lien qui DÉCLENCHE quelque chose — appeler, écrire — se tape, il ne
+   se lit pas. Et l'un d'eux est le 3018, le numéro national contre le
+   harcèlement, cité deux fois sur la page enfants : celui-là doit s'atteindre
+   du premier coup. 28 px pour une foulée de ligne de 26 : le recouvrement
+   tient dans deux pixels. */
+p a[href^="tel:"],p a[href^="sms:"],p a[href^="mailto:"]{position:relative}
+p a[href^="tel:"]::after,p a[href^="sms:"]::after,p a[href^="mailto:"]::after{
+  content:'';position:absolute;left:0;right:0;top:50%;height:28px;transform:translateY(-50%)}
 .pied a{text-decoration:none;transition:color .18s}
 .pied a:hover{color:var(--sur)}
 .pied .desc{font-size:16px;margin-top:14px;max-width:340px}
