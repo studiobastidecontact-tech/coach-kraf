@@ -1,0 +1,48 @@
+/* Direction candidate — « Vert de garde ».
+   Le vert est la couleur que personne n'emploie en sport de combat, et
+   c'est pourquoi elle serait mémorable. Elle dit le calme et le dehors —
+   or les cours se donnent en extérieur, et le message est « la violence
+   est la dernière option ». Piège à éviter : le kaki militaire, cliché du
+   secteur. C'est un vert sapin, pas un treillis.
+
+   Pour l'essayer :
+       python3 _chantier/verifier-direction.py _chantier/directions/vert-de-garde.css
+   Pour la poser, remplacer le bloc entre les bornes @charte:direction de
+   assets/site.css par le contenu de ce fichier. Rien d'autre ne bouge :
+   les contextes et les 247 règles de la feuille ne connaissent que les
+   rôles, jamais ces valeurs. */
+:root{
+  --t-blanc:#F8F8F3;
+  --t-pierre-pale:#ECEEE5;
+  --t-brique-pale:#E6EDE6;
+
+  --t-profond:#12261F;         --t-profond-rgb:18,38,31;
+  --t-profond-2:#1E332B;
+  --t-abysse:#08130F;          --t-abysse-rgb:8,19,15;
+
+  --t-encre:#16211C;           --t-encre-rgb:22,33,28;
+  --t-pierre:#5C6660;
+  --t-estompe:#9FB2A6;
+
+  --t-filet:#D2D8CC;
+  /* Premier jet à #828C85 : refusé par le validateur à 2,92 sur le fond
+     de carte, pour un seuil à 3. Un écart de huit centièmes qu'aucun œil
+     ne rattrape — c'est exactement ce que l'outil existe pour attraper. */
+  --t-contour:#7C867F;
+  --t-filet-profond:#324740;
+  --t-contour-profond:#6E8077;
+
+  --t-brique:#8A5A12;          --t-brique-rgb:138,90,18;
+  --t-brique-claire:#D9A441;   --t-brique-claire-rgb:217,164,65;
+
+  --t-pastel:#1F5C8A;
+  --t-ciel:#6DB7E3;
+
+  --t-olive:#4F6B2A;           --t-olive-rgb:79,107,42;
+  --t-olive-clair:#A8CE7C;     --t-olive-clair-rgb:168,206,124;
+
+  --t-alerte:#A3231B;          --t-alerte-rgb:163,35,27;
+  --t-alerte-claire:#FF9B93;   --t-alerte-claire-rgb:255,155,147;
+
+  --t-chevron:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235C6660' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}

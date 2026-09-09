@@ -135,27 +135,99 @@ RAYONS  = {'var(--r-controle)', 'var(--r-surface)', 'var(--r-focus)', '50%'}
 # papier, l'encre n'a pas de teinte de marque.
 COULEURS_TOLEREES = {'#fff', '#000', '#444'}
 
+BORNES = ('/* @charte:direction-debut */',
+          '/* @charte:contextes-debut */',
+          '/* @charte:contextes-fin */')
+
+def sans_commentaires(s):
+    """Un commentaire bien ecrit cite les valeurs qu'il explique, et une sonde
+    qui ne le retire pas trouve ce qu'elle cherche DANS SA PROPRE PROSE. Les
+    adresses de donnees partent aussi : leur SVG porte une couleur de trait
+    qui n'est pas une couleur de charte."""
+    s = re.sub(r'/\*.*?\*/', '', s, flags=re.S)
+    return re.sub(r'data:image/svg\+xml[^"\')]*', '', s)
+
 def controler_charte(fautes):
     q = os.path.join(R, 'assets', 'site.css')
     if not os.path.exists(q):
         fautes.append("assets/site.css introuvable"); return
     brut = open(q, encoding='utf-8').read()
-    fin_racine = brut.index('}', brut.index(':root{')) + 1
-    racine, corps = brut[:fin_racine], brut[fin_racine:]
-    corps = re.sub(r'/\*.*?\*/', '', corps, flags=re.S)
-    corps = re.sub(r'data:image/svg\+xml[^"\')]*', '', corps)
 
-    for t in sorted({float(x) for x in re.findall(r'font-size:\s*([\d.]+)px', corps)}):
+    # ── Les bornes AVANT tout le reste ────────────────────────────────────
+    # Un repere introuvable rend -1, et brut[a:-1] lit alors presque tout le
+    # fichier sans lever la moindre erreur : le controle passerait au vert en
+    # ne mesurant rien. On refuse donc de decouper tant que les trois bornes
+    # ne sont pas la, uniques, et dans l'ordre.
+    postes = []
+    for b in BORNES:
+        n = brut.count(b)
+        if n != 1:
+            fautes.append(f"assets/site.css : la borne « {b} » apparait {n} fois, il en faut exactement une")
+            return
+        postes.append(brut.index(b))
+    if not (postes[0] < postes[1] < postes[2]):
+        fautes.append("assets/site.css : les bornes @charte ne sont pas dans l'ordre")
+        return
+
+    direction = brut[postes[0]:postes[1]]
+    contextes = brut[postes[1]:postes[2]]
+    corps     = brut[:postes[0]] + brut[postes[2]:]
+    direction_p, contextes_p, corps_p = map(sans_commentaires, (direction, contextes, corps))
+
+    # ── 1) l'echelle typographique et les rayons ──────────────────────────
+    for t in sorted({float(x) for x in re.findall(r'font-size:\s*([\d.]+)px', corps_p)}):
         if t not in ECHELLE:
             fautes.append(f"assets/site.css : {t:g}px hors de l'echelle typographique ({sorted(ECHELLE)})")
-    for r in sorted({x.strip() for x in re.findall(r'border-radius:\s*([^;}]+)', corps)}):
+    for r in sorted({x.strip() for x in re.findall(r'border-radius:\s*([^;}]+)', corps_p)}):
         if r not in RAYONS:
             fautes.append(f"assets/site.css : rayon « {r} » hors charte — attendus : {sorted(RAYONS)}")
-    for c in sorted({x.lower() for x in re.findall(r'#[0-9a-fA-F]{3,8}\b', corps)}):
-        if c not in COULEURS_TOLEREES:
-            fautes.append(f"assets/site.css : couleur {c} ecrite en dur — elle doit passer par un jeton")
-    for c in sorted({re.sub(r'\s+', '', x) for x in re.findall(r'rgba?\(\s*\d[^)]*\)', corps)}):
-        fautes.append(f"assets/site.css : transparence {c} ecrite en dur — deriver de --*-rgb")
+
+    # ── 2) aucune couleur hors du bloc de direction ───────────────────────
+    # C'est l'invariant qui rend la charte remplacable : si une seule valeur
+    # vit ailleurs, changer de direction ne la suit pas.
+    for zone, nom in ((corps_p, 'le corps de la feuille'), (contextes_p, 'la couche des contextes')):
+        for c in sorted({x.lower() for x in re.findall(r'#[0-9a-fA-F]{3,8}\b', zone)}):
+            if c not in COULEURS_TOLEREES:
+                fautes.append(f"assets/site.css : couleur {c} ecrite dans {nom} — elle doit vivre dans le bloc de direction")
+        for c in sorted({re.sub(r'\s+', '', x) for x in re.findall(r'rgba?\(\s*\d[^)]*\)', zone)}):
+            fautes.append(f"assets/site.css : transparence {c} ecrite dans {nom} — deriver de --*-rgb")
+
+    # ── 3) le corps ne cite jamais un jeton de direction ──────────────────
+    # Un --t-* dans le corps court-circuite la couche des contextes : la regle
+    # cesse alors de basculer entre fond clair et fond profond, en silence.
+    for j in sorted(set(re.findall(r'var\((--t-[a-z0-9-]+)\)', corps_p))):
+        fautes.append(f"assets/site.css : {j} cite hors des contextes — le corps ne connait que les roles")
+
+    # ── 4) chaque triplet doit valoir son hexadecimal ─────────────────────
+    # La duplication est assumee (rgba ne lit pas un hexadecimal) mais elle
+    # ne doit pas deriver.
+    hexa = dict(re.findall(r'(--t-[a-z0-9-]+):\s*(#[0-9A-Fa-f]{6})\s*;', direction_p))
+    for nom, trio in re.findall(r'(--t-[a-z0-9-]+)-rgb:\s*(\d+,\s*\d+,\s*\d+)\s*;', direction_p):
+        h = hexa.get(nom)
+        if not h:
+            fautes.append(f"assets/site.css : {nom}-rgb existe sans {nom}")
+            continue
+        attendu = tuple(int(h[i:i+2], 16) for i in (1, 3, 5))
+        reel = tuple(int(x) for x in trio.replace(' ', '').split(','))
+        if attendu != reel:
+            fautes.append(f"assets/site.css : {nom}-rgb vaut {reel} alors que {nom} vaut {h} = {attendu}")
+
+    # ── 5) le chevron du <select> suit la couleur de texte secondaire ─────
+    # Il vit dans une adresse de donnees, ou aucune variable n'entre : c'est
+    # la seule couleur du fichier qui ne peut pas etre un renvoi.
+    ch = re.search(r"--t-chevron:.*?stroke='%23([0-9A-Fa-f]{6})'", direction, re.S)
+    if not ch:
+        fautes.append("assets/site.css : --t-chevron introuvable ou sans couleur de trait")
+    elif '#' + ch.group(1).upper() != (hexa.get('--t-pierre') or '').upper():
+        fautes.append(f"assets/site.css : le chevron trace en #{ch.group(1)} alors que --t-pierre vaut {hexa.get('--t-pierre')}")
+
+    # ── 6) tout var(--x) doit renvoyer a un --x defini quelque part ───────
+    # Une faute de frappe dans un nom de jeton ne casse rien : la declaration
+    # est simplement ignoree, et l'element se peint avec la valeur heritee.
+    definis = set(re.findall(r'(--[a-z0-9-]+)\s*:', sans_commentaires(brut)))
+    for j in sorted(set(re.findall(r'var\((--[a-z0-9-]+)\)', sans_commentaires(brut)))):
+        if j not in definis:
+            fautes.append(f"assets/site.css : {j} est utilise mais n'est defini nulle part")
 
 controler_charte(fautes)
 
