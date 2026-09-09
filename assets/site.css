@@ -300,6 +300,11 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
   background:currentColor;-webkit-mask:var(--fleche) no-repeat center/contain;
           mask:var(--fleche) no-repeat center/contain;transition:transform .2s}
 .lien-doux:hover span::after{transform:translateX(4px)}
+
+/* La ligne de renvois posee SOUS une grille — disciplines, sept effets. Elle
+   prolonge la section vers sa page dediee sans casser le bloc : un renvoi en
+   carte y aurait ajoute un troisieme niveau de lecture. */
+.apres-grille{display:flex;flex-wrap:wrap;gap:26px;margin-top:26px}
 .hero h1{font-size:clamp(42px,7.4vw,78px);margin:18px 0 22px}
 .hero h1 em{font-style:normal;color:var(--accent-franc);display:block}
 .hero p{color:var(--sur-2);font-size:clamp(16px,1.7vw,19px);max-width:530px;margin-bottom:34px}

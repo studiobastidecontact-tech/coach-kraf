@@ -344,8 +344,34 @@ def controler_frontiere(fautes):
             f"Le pilotage vit dans wdelpech-mediane/coach-kraf-chantier")
 
 
+# ── Une grille a un nombre de colonnes FIXE ──────────────────────────────
+# `.princ` est en repeat(4,1fr) et `.trio` en trois colonnes : y poser trois
+# cartes au lieu de quatre laisse une case VIDE a droite. Le defaut ne casse
+# rien, ne leve aucune erreur, et aucun des deux gardes ne le voyait — il a
+# fallu une capture d'ecran pour l'apercevoir, le 2026-09-09, sur la page
+# coach-sportif. C'est exactement le genre de faute qu'une relecture rate et
+# qu'un compte attrape.
+GRILLES = (('princ', r'<p class="n">', 4), ('trio', r'class="sit-n"', 3))
+
+
+def controler_grilles(fautes):
+    for p in PAGES:
+        q = os.path.join(R, p)
+        if not os.path.exists(q):
+            continue
+        s = open(q, encoding='utf-8').read()
+        for classe, marque, attendu in GRILLES:
+            for m in re.finditer(rf'<div class="{classe}[^"]*">(.*?)\n    </div>', s, re.S):
+                n = len(re.findall(marque, m.group(1)))
+                if n and n != attendu:
+                    fautes.append(
+                        f"{p} : une grille .{classe} porte {n} carte(s) pour "
+                        f"{attendu} colonnes — la derniere case restera vide")
+
+
 controler_charte(fautes)
 controler_frontiere(fautes)
+controler_grilles(fautes)
 
 if fautes:
     print("\n".join("  ✗ " + f for f in fautes))
