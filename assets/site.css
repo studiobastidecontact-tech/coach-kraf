@@ -281,6 +281,11 @@ button.btn{font-family:inherit;cursor:pointer}
 .vol-intro{font-size:15px;color:var(--brume);margin:-8px 0 22px;line-height:1.6}
 .vol-intro a{color:var(--signal)}
 .vol .formulaire{margin-top:0}
+/* Ni le telephone ni l'adresse ne sont obligatoires seuls : c'est le script
+   qui exige l'un des deux. Sans cette phrase, le visiteur ne peut pas le
+   deviner — il verrait deux champs facultatifs et n'en remplirait aucun. */
+.joindre{font-size:15px;color:var(--brume);margin:-10px 0 18px;line-height:1.5}
+.joindre b{color:var(--sur-nuit);font-weight:600}
 
 /* ── entrées animées ────────────────────────────────────────────────
    Le contenu est VISIBLE par défaut. C'est le script qui pose .anime sur

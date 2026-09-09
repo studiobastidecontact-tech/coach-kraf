@@ -312,9 +312,16 @@
         </div>
         <div class="champ">
           <label for="c-tel">Téléphone</label>
-          <input id="c-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Pour vous rappeler" required>
+          <input id="c-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Pour vous rappeler" aria-describedby="c-joindre">
         </div>
       </div>
+      <div class="rang">
+        <div class="champ">
+          <label for="c-mail">E-mail</label>
+          <input id="c-mail" name="email" type="email" autocomplete="email" placeholder="Si vous préférez une réponse écrite" aria-describedby="c-joindre">
+        </div>
+      </div>
+      <p class="joindre" id="c-joindre">Un numéro <b>ou</b> une adresse suffit — c’est vous qui choisissez comment on vous répond.</p>
       <div class="rang">
         <div class="champ">
           <label for="c-qui">Pour qui&nbsp;?</label>

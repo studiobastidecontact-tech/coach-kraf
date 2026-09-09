@@ -168,8 +168,27 @@
   })();
   var btn = document.getElementById('c-envoi'), ok = document.getElementById('c-ok'), ko = document.getElementById('c-ko');
   var libelle = btn.textContent;
+  // Ni le telephone ni l'adresse ne sont obligatoires seuls — HTML ne sait pas
+  // exprimer « l'un OU l'autre ». Quelqu'un qui ecrit plutot que d'appeler le
+  // fait souvent pour ne PAS avoir a parler : lui imposer un numero contredit
+  // la raison d'etre du formulaire.
+  var tel = f.querySelector('[name=telephone]'), mail = f.querySelector('[name=email]');
+  var joindre = function(){
+    if (!tel || !mail) return;
+    var vide = !tel.value.trim() && !mail.value.trim();
+    var msg = vide ? 'Laissez au moins un numéro ou une adresse, sans quoi personne ne peut vous répondre.' : '';
+    tel.setCustomValidity(msg); mail.setCustomValidity(msg);
+  };
+  if (tel && mail) {
+    tel.addEventListener('input', joindre);
+    mail.addEventListener('input', joindre);
+    joindre();
+  }
+
   f.addEventListener('submit', function(e){
     e.preventDefault();
+    joindre();
+    if (!f.checkValidity()) { f.reportValidity(); return; }
     ok.className = 'retour'; ko.className = 'retour';
     btn.disabled = true; btn.textContent = 'Envoi en cours…';
     fetch(f.action, {method:'POST', body:new FormData(f), headers:{'Accept':'application/json'}})
