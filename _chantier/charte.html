@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charte — Bleu de garde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#0E1A2B; --nuit-2:#16243A; --nuit-3:#1F3350;
+  --papier:#F7F6F3; --papier-2:#EBE8E2;
+  --sur-nuit:#F7F6F3; --sur-nuit-2:#A8B4C4;
+  --encre:#0E1A2B; --encre-2:#55606E;
+  --signal:#F0B429; --signal-texte:#8A5D00;
+  --trait:#26364C; --trait-clair:#DAD6CE;
+  --alerte:#B3261E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--papier);color:var(--encre);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6}
+h1,h2,h3,.t{font-family:Archivo,Inter,sans-serif;letter-spacing:-.03em;line-height:1.05}
+.wrap{max-width:1180px;margin:0 auto;padding:0 40px}
+section{padding:64px 0;border-bottom:1px solid var(--trait-clair)}
+.lab{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--signal-texte);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.lab::before{content:'';width:26px;height:2px;background:var(--signal)}
+h2{font-size:38px;font-weight:800;margin-bottom:10px}
+.sub{color:var(--encre-2);max-width:640px;margin-bottom:36px;font-size:16px}
+
+/* BANDEAU */
+.hero{background:var(--nuit);color:var(--sur-nuit);padding:72px 0 64px;border:none}
+.hero h1{font-size:68px;font-weight:800;margin-bottom:18px}
+.hero .k{color:var(--signal)}
+.hero p{color:var(--sur-nuit-2);max-width:620px;font-size:18px}
+.hero .lab{color:var(--signal)}
+
+/* COULEURS */
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--trait-clair);border:1px solid var(--trait-clair)}
+.sw{background:var(--papier);padding:0}
+.sw .chip{height:104px;display:flex;align-items:flex-end;padding:12px}
+.sw .meta{padding:14px 16px 18px}
+.sw .nom{font-weight:700;font-size:15px;font-family:Archivo}
+.sw .hex{font-size:13px;color:var(--encre-2);font-variant-numeric:tabular-nums;margin-top:2px}
+.sw .use{font-size:13px;color:var(--encre-2);margin-top:8px;line-height:1.45}
+.ratio{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 7px;border-radius:3px;background:#1F7A4C;color:#fff;margin-top:8px}
+.ratio.no{background:var(--alerte)}
+
+/* TYPO */
+.typo-row{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:18px 0;border-bottom:1px solid var(--trait-clair);align-items:baseline}
+.typo-row:last-child{border:none}
+.typo-meta{font-size:13px;color:var(--encre-2);font-variant-numeric:tabular-nums;line-height:1.5}
+.typo-meta b{display:block;color:var(--encre);font-size:14px;font-family:Archivo;letter-spacing:0}
+
+/* COMPOSANTS */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:var(--papier);border:1px solid var(--trait-clair);border-radius:8px;padding:24px}
+.card.dark{background:var(--nuit-2);border-color:var(--trait);color:var(--sur-nuit)}
+.card h3{font-size:19px;font-weight:700;margin-bottom:8px}
+.card p{font-size:15px;color:var(--encre-2);line-height:1.65}
+.card.dark p{color:var(--sur-nuit-2)}
+.card .fl{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--signal-texte);margin-bottom:10px}
+.card.dark .fl{color:var(--signal)}
+
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:Archivo;font-weight:700;font-size:15px;letter-spacing:.01em;padding:14px 24px;border-radius:4px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s}
+.btn-1{background:var(--signal);color:var(--nuit)}
+.btn-2{background:var(--nuit);color:var(--papier)}
+.btn-3{background:transparent;color:var(--encre);border:1.5px solid var(--encre)}
+.btn-4{background:transparent;color:var(--sur-nuit);border:1.5px solid var(--trait)}
+.btn:hover{transform:translateY(-2px)}
+.btns{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.onDark{background:var(--nuit);padding:28px;border-radius:8px;margin-top:20px}
+
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--encre-2);margin-bottom:7px}
+.field input,.field select{width:100%;font-family:inherit;font-size:16px;padding:13px 15px;border:1.5px solid var(--trait-clair);border-radius:4px;background:#fff;color:var(--encre)}
+.field input:focus{outline:none;border-color:var(--signal-texte);box-shadow:0 0 0 3px rgba(240,180,41,.25)}
+
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:4px;border:1px solid var(--trait-clair);color:var(--encre-2)}
+.badge.or{border-color:rgba(240,180,41,.5);background:rgba(240,180,41,.12);color:var(--signal-texte)}
+/* sur la nuit, le jaune encre tombe a 2,99:1 — c'est la version claire qui s'applique */
+.onDark .badge.or,.card.dark .badge.or{color:var(--signal)}
+
+.strip{background:var(--nuit);color:var(--sur-nuit-2);padding:18px 0;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-align:center;border:none}
+.strip b{color:var(--sur-nuit)}
+.strip .dot{color:var(--signal);margin:0 12px}
+
+.don{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}
+.don .box{border:1px solid var(--trait-clair);border-radius:8px;padding:20px}
+.don .box h4{font-family:Archivo;font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.don .ok h4::before{content:'✓';color:#1F7A4C;font-size:17px}
+.don .ko h4::before{content:'✕';color:var(--alerte);font-size:16px}
+.don ul{list-style:none;font-size:14px;color:var(--encre-2);line-height:1.9}
+.don li::before{content:'—';color:var(--trait-clair);margin-right:9px}
+.alt{background:#1B2A1E;color:#EDEBE2;border-radius:8px;padding:28px;margin-top:22px}
+.alt .sw2{display:flex;gap:2px;margin-top:16px}
+.alt .sw2 div{height:52px;flex:1;border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="lab">Charte graphique · proposition</div>
+    <h1>Bleu de <span class="k">garde</span></h1>
+    <p>Le contrepied du noir et rouge : la couleur de ceux qui protègent, pas de ceux qui frappent. Bleu nuit, papier, et un seul signal jaune pour dire où agir.</p>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <b>G5 KRAV MAGA</b><span class="dot">·</span>MENTION MILITAIRE<span class="dot">·</span><b>15 ANS</b><span class="dot">·</span>À DOMICILE<span class="dot">·</span>TOULOUSE ET TARN
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="lab">Couleurs</div>
+    <h2>Sept valeurs, pas une de plus</h2>
+    <p class="sub">Chaque couleur porte un rôle unique. Le jaune ne décore jamais : il signale l'endroit où l'on agit. Les ratios de contraste sont mesurés sur leur fond d'usage.</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#0E1A2B;color:#F7F6F3">Aa</div><div class="meta"><div class="nom">Nuit</div><div class="hex">#0E1A2B</div><div class="use">Fond des sections d'ancrage : hero, coach, contact.</div><span class="ratio">16,2:1</span></div></div>
+      <div class="sw"><div class="chip" style="background:#16243A;color:#F7F6F3">Aa</div><div class="meta"><div class="nom">Nuit élevée</div><div class="hex">#16243A</div><div class="use">Cartes et surfaces posées sur la nuit.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F7F6F3;color:#0E1A2B;border:1px solid #DAD6CE">Aa</div><div class="meta"><div class="nom">Papier</div><div class="hex">#F7F6F3</div><div class="use">Fond des sections de lecture : situations, bienfaits, tarifs.</div><span class="ratio">16,2:1</span></div></div>
+      <div class="sw"><div class="chip" style="background:#EBE8E2;color:#0E1A2B">Aa</div><div class="meta"><div class="nom">Papier élevé</div><div class="hex">#EBE8E2</div><div class="use">Cartes et lignes alternées sur le papier.</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F0B429;color:#0E1A2B">Aa</div><div class="meta"><div class="nom">Signal</div><div class="hex">#F0B429</div><div class="use">Boutons d'action, traits d'accroche, chiffres. Jamais en texte courant.</div><span class="ratio">9,5:1 sur nuit</span></div></div>
+      <div class="sw"><div class="chip" style="background:#8A5D00;color:#F7F6F3">Aa</div><div class="meta"><div class="nom">Signal encre</div><div class="hex">#8A5D00</div><div class="use">La version lisible du signal, pour du texte sur papier.</div><span class="ratio">5,1:1</span></div></div>
+      <div class="sw"><div class="chip" style="background:#A8B4C4;color:#0E1A2B">Aa</div><div class="meta"><div class="nom">Brume</div><div class="hex">#A8B4C4</div><div class="use">Texte secondaire sur la nuit.</div><span class="ratio">8,4:1</span></div></div>
+      <div class="sw"><div class="chip" style="background:#55606E;color:#F7F6F3">Aa</div><div class="meta"><div class="nom">Ardoise</div><div class="hex">#55606E</div><div class="use">Texte secondaire sur le papier.</div><span class="ratio">5,6:1</span></div></div>
+    </div>
+    <p class="sub" style="margin-top:26px;margin-bottom:0">Pour mémoire, le site actuel : son gris secondaire tient <b>2,95:1</b> et son rouge de marque <b>3,2:1</b>, quand le minimum légal est 4,5. Ici, la valeur la plus basse est 5,1.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="lab">Typographie</div>
+    <h2>Deux familles, neuf tailles</h2>
+    <p class="sub">Archivo pour ce qui affirme, Inter pour ce qui explique. Aucune fantaisie : sur un site qui vend du sérieux, la lisibilité est la première preuve.</p>
+    <div class="typo-row"><div class="typo-meta"><b>Titre 1</b>Archivo 800 · 68px<br>interlettre −3 %</div><div class="t" style="font-size:56px;font-weight:800">Vous n'avez pas à subir.</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Titre 2</b>Archivo 800 · 38px</div><div class="t" style="font-size:38px;font-weight:800">Vous êtes probablement ici</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Titre 3</b>Archivo 700 · 21px</div><div class="t" style="font-size:21px;font-weight:700">Votre enfant, à l'école</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Étiquette</b>Archivo 700 · 12px<br>capitales, +22 %</div><div style="font-family:Archivo;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--signal-texte)">Situations</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Corps</b>Inter 400 · 17px<br>interligne 1,6</div><div style="font-size:17px;max-width:620px">Harcèlement, racket. Il rentre la tête basse et ne dit rien. Quelques séances suffisent souvent à ce qu'il cesse d'être une cible.</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Corps second</b>Inter 400 · 15px</div><div style="font-size:15px;color:var(--encre-2);max-width:620px">Un renforcement musculaire complet, une récupération qui travaille la souplesse et la conscience du corps.</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Chiffre</b>Archivo 800 · 52px</div><div style="font-family:Archivo;font-size:52px;font-weight:800;color:var(--signal-texte)">50 €</div></div>
+    <p class="sub" style="margin-top:26px;margin-bottom:0">Les deux polices sont <b>hébergées avec le site</b>, pas appelées chez Google : c'est plus rapide, et ça évite d'envoyer l'adresse IP de chaque visiteur aux États-Unis.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="lab">Composants</div>
+    <h2>Boutons, cartes, champs</h2>
+    <p class="sub">Angles à 4 px, jamais de pilule. Une bordure d'1,5 px plutôt qu'une ombre. Le jaune est réservé à l'action principale — il n'y en a qu'une par écran.</p>
+    <div class="btns">
+      <a class="btn btn-1" href="#">📞 07 81 68 60 84</a>
+      <a class="btn btn-2" href="#">Envoyer un SMS</a>
+      <a class="btn btn-3" href="#">Voir les tarifs</a>
+    </div>
+    <div class="onDark">
+      <div class="btns">
+        <a class="btn btn-1" href="#">📞 07 81 68 60 84</a>
+        <a class="btn btn-4" href="#">Envoyer un SMS</a>
+        <span class="badge or">G5 · grade d'expert</span>
+      </div>
+    </div>
+    <div class="grid3" style="margin-top:30px">
+      <div class="card"><div class="fl">Situation</div><h3>Vous, au quotidien</h3><p>Des incivilités au travail. Un trajet le soir qui pèse. L'idée de ne pas savoir réagir.</p></div>
+      <div class="card"><div class="fl">Situation</div><h3>Votre enfant, à l'école</h3><p>Harcèlement, racket. Il rentre la tête basse et ne dit rien.</p></div>
+      <div class="card dark"><div class="fl">Certification</div><h3>Instructeur militaire C4</h3><p>Combat rapproché, niveau avancé.</p></div>
+    </div>
+    <div class="grid2" style="margin-top:30px">
+      <div><div class="field"><label for="n">Nom</label><input id="n" placeholder="Votre nom"></div></div>
+      <div><div class="field"><label for="p">Pour qui ?</label><select id="p"><option>Moi</option><option>Mon enfant</option><option>Mon équipe</option></select></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="lab">Photographie</div>
+    <h2>Des gens qui apprennent, pas qui frappent</h2>
+    <p class="sub">C'est la règle qui distingue le plus ce site de ses concurrents, et celle qui coûte le moins cher à tenir.</p>
+    <div class="don">
+      <div class="box ok"><h4>Ce qu'on cherche</h4><ul>
+        <li>Un geste en cours d'apprentissage, pas un impact</li>
+        <li>Des femmes, des enfants, des corps ordinaires</li>
+        <li>De l'extérieur, du réel, de la lumière du jour</li>
+        <li>Le coach à côté de l'élève, en train d'expliquer</li>
+        <li>Un léger voile bleu nuit pour lier la photo à la page</li>
+      </ul></div>
+      <div class="box ko"><h4>Ce qu'on refuse</h4><ul>
+        <li>Le poing serré face caméra</li>
+        <li>Le contre-jour héroïque et le coucher de soleil</li>
+        <li>Le torse nu, le sang, la grimace</li>
+        <li>Les gants de boxe posés sur un ring vide</li>
+        <li>Toute image qui pourrait illustrer une salle de MMA</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section style="border:none">
+  <div class="wrap">
+    <div class="lab">Variante</div>
+    <h2>Si tu préfères revendiquer le militaire</h2>
+    <p class="sub">Même structure, même typographie, même discipline de contraste — seule la palette change. Elle assume la filiation « mention militaire, instructeur C4 » au lieu de la protection civile.</p>
+    <div class="alt">
+      <div style="font-family:Archivo;font-size:30px;font-weight:800;letter-spacing:-.03em">Kaki d'instructeur</div>
+      <p style="color:#AFB8A6;font-size:15px;margin-top:8px;max-width:620px">Plus sec, plus masculin, plus niche. Gagne si la cible principale devient l'entreprise et la sécurité privée ; perd sur les parents et les femmes, qui sont le vrai gisement.</p>
+      <div class="sw2">
+        <div style="background:#1B2A1E"></div><div style="background:#2C4030"></div><div style="background:#C8C2B0"></div><div style="background:#EDEBE2"></div><div style="background:#C46A20"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
