@@ -326,6 +326,13 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .coach p{color:var(--sur-2);margin-bottom:16px}
 .certifs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--filet);border:1px solid var(--filet);border-radius:var(--r-surface);overflow:hidden;margin-top:52px}
 .certifs div{background:var(--fond-carte);padding:24px 22px}
+/* Sept titres dans trois colonnes laissent DEUX cases vides sur la
+   dernière ligne — un grand rectangle de fond qui ressemble à une image
+   qui n'a pas chargé. Le dernier élément s'étire jusqu'à la dernière
+   ligne de grille : `grid-column-end:-1` couvre tous les cas — 7 items
+   s'étirent sur 3, 8 sur 2, 9 sur 1 — et suit les points de rupture,
+   où la grille passe à deux colonnes puis à une. */
+.certifs > div:last-child,.princ > div:last-child{grid-column-end:-1}
 .certifs dt{font-family:var(--tf);font-weight:700;font-size:16px;margin-bottom:6px;color:var(--sur)}
 .certifs dd{font-size:15px;color:var(--sur-2)}
 
