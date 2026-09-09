@@ -11,9 +11,9 @@
 :root{
   --nuit:#0E1A2B; --nuit-2:#16243A; --nuit-3:#1F3350;
   --papier:#F7F6F3; --papier-2:#EBE8E2;
-  --sur-nuit:#F7F6F3; --sur-nuit-2:#A8B4C4;
-  --encre:#0E1A2B; --encre-2:#55606E;
-  --signal:#F0B429; --signal-texte:#8A5D00;
+  --sur-nuit:#F7F6F3; --brume:#A8B4C4;
+  --encre:#0E1A2B; --ardoise:#55606E;
+  --signal:#F0B429; --signal-encre:#8A5D00;
   --trait:#26364C; --trait-clair:#DAD6CE;
   --alerte:#B3261E;
 }
@@ -22,16 +22,16 @@ body{background:var(--papier);color:var(--encre);font-family:Inter,system-ui,san
 h1,h2,h3,.t{font-family:Archivo,Inter,sans-serif;letter-spacing:-.03em;line-height:1.05}
 .wrap{max-width:1180px;margin:0 auto;padding:0 40px}
 section{padding:64px 0;border-bottom:1px solid var(--trait-clair)}
-.lab{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--signal-texte);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.lab{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--signal-encre);display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .lab::before{content:'';width:26px;height:2px;background:var(--signal)}
 h2{font-size:38px;font-weight:800;margin-bottom:10px}
-.sub{color:var(--encre-2);max-width:640px;margin-bottom:36px;font-size:16px}
+.sub{color:var(--ardoise);max-width:640px;margin-bottom:36px;font-size:16px}
 
 /* BANDEAU */
 .hero{background:var(--nuit);color:var(--sur-nuit);padding:72px 0 64px;border:none}
 .hero h1{font-size:68px;font-weight:800;margin-bottom:18px}
 .hero .k{color:var(--signal)}
-.hero p{color:var(--sur-nuit-2);max-width:620px;font-size:18px}
+.hero p{color:var(--brume);max-width:620px;font-size:18px}
 .hero .lab{color:var(--signal)}
 
 /* COULEURS */
@@ -40,15 +40,15 @@ h2{font-size:38px;font-weight:800;margin-bottom:10px}
 .sw .chip{height:104px;display:flex;align-items:flex-end;padding:12px}
 .sw .meta{padding:14px 16px 18px}
 .sw .nom{font-weight:700;font-size:15px;font-family:Archivo}
-.sw .hex{font-size:13px;color:var(--encre-2);font-variant-numeric:tabular-nums;margin-top:2px}
-.sw .use{font-size:13px;color:var(--encre-2);margin-top:8px;line-height:1.45}
+.sw .hex{font-size:13px;color:var(--ardoise);font-variant-numeric:tabular-nums;margin-top:2px}
+.sw .use{font-size:13px;color:var(--ardoise);margin-top:8px;line-height:1.45}
 .ratio{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 7px;border-radius:3px;background:#1F7A4C;color:#fff;margin-top:8px}
 .ratio.no{background:var(--alerte)}
 
 /* TYPO */
 .typo-row{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:18px 0;border-bottom:1px solid var(--trait-clair);align-items:baseline}
 .typo-row:last-child{border:none}
-.typo-meta{font-size:13px;color:var(--encre-2);font-variant-numeric:tabular-nums;line-height:1.5}
+.typo-meta{font-size:13px;color:var(--ardoise);font-variant-numeric:tabular-nums;line-height:1.5}
 .typo-meta b{display:block;color:var(--encre);font-size:14px;font-family:Archivo;letter-spacing:0}
 
 /* COMPOSANTS */
@@ -57,9 +57,9 @@ h2{font-size:38px;font-weight:800;margin-bottom:10px}
 .card{background:var(--papier);border:1px solid var(--trait-clair);border-radius:8px;padding:24px}
 .card.dark{background:var(--nuit-2);border-color:var(--trait);color:var(--sur-nuit)}
 .card h3{font-size:19px;font-weight:700;margin-bottom:8px}
-.card p{font-size:15px;color:var(--encre-2);line-height:1.65}
-.card.dark p{color:var(--sur-nuit-2)}
-.card .fl{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--signal-texte);margin-bottom:10px}
+.card p{font-size:15px;color:var(--ardoise);line-height:1.65}
+.card.dark p{color:var(--brume)}
+.card .fl{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--signal-encre);margin-bottom:10px}
 .card.dark .fl{color:var(--signal)}
 
 .btn{display:inline-flex;align-items:center;gap:9px;font-family:Archivo;font-weight:700;font-size:15px;letter-spacing:.01em;padding:14px 24px;border-radius:4px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s}
@@ -72,16 +72,16 @@ h2{font-size:38px;font-weight:800;margin-bottom:10px}
 .onDark{background:var(--nuit);padding:28px;border-radius:8px;margin-top:20px}
 
 .field{margin-bottom:16px}
-.field label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--encre-2);margin-bottom:7px}
+.field label{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ardoise);margin-bottom:7px}
 .field input,.field select{width:100%;font-family:inherit;font-size:16px;padding:13px 15px;border:1.5px solid var(--trait-clair);border-radius:4px;background:#fff;color:var(--encre)}
-.field input:focus{outline:none;border-color:var(--signal-texte);box-shadow:0 0 0 3px rgba(240,180,41,.25)}
+.field input:focus{outline:none;border-color:var(--signal-encre);box-shadow:0 0 0 3px rgba(240,180,41,.25)}
 
-.badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:4px;border:1px solid var(--trait-clair);color:var(--encre-2)}
-.badge.or{border-color:rgba(240,180,41,.5);background:rgba(240,180,41,.12);color:var(--signal-texte)}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:6px 12px;border-radius:4px;border:1px solid var(--trait-clair);color:var(--ardoise)}
+.badge.or{border-color:rgba(240,180,41,.5);background:rgba(240,180,41,.12);color:var(--signal-encre)}
 /* sur la nuit, le jaune encre tombe a 2,99:1 — c'est la version claire qui s'applique */
 .onDark .badge.or,.card.dark .badge.or{color:var(--signal)}
 
-.strip{background:var(--nuit);color:var(--sur-nuit-2);padding:18px 0;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-align:center;border:none}
+.strip{background:var(--nuit);color:var(--brume);padding:18px 0;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-align:center;border:none}
 .strip b{color:var(--sur-nuit)}
 .strip .dot{color:var(--signal);margin:0 12px}
 
@@ -90,7 +90,7 @@ h2{font-size:38px;font-weight:800;margin-bottom:10px}
 .don .box h4{font-family:Archivo;font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .don .ok h4::before{content:'✓';color:#1F7A4C;font-size:17px}
 .don .ko h4::before{content:'✕';color:var(--alerte);font-size:16px}
-.don ul{list-style:none;font-size:14px;color:var(--encre-2);line-height:1.9}
+.don ul{list-style:none;font-size:14px;color:var(--ardoise);line-height:1.9}
 .don li::before{content:'—';color:var(--trait-clair);margin-right:9px}
 .alt{background:#1B2A1E;color:#EDEBE2;border-radius:8px;padding:28px;margin-top:22px}
 .alt .sw2{display:flex;gap:2px;margin-top:16px}
@@ -116,8 +116,8 @@ h2{font-size:38px;font-weight:800;margin-bottom:10px}
 <section>
   <div class="wrap">
     <div class="lab">Couleurs</div>
-    <h2>Sept valeurs, pas une de plus</h2>
-    <p class="sub">Chaque couleur porte un rôle unique. Le jaune ne décore jamais : il signale l'endroit où l'on agit. Les ratios de contraste sont mesurés sur leur fond d'usage.</p>
+    <h2>Quatorze valeurs nommées, aucune en dur</h2>
+    <p class="sub">Chaque couleur porte un rôle unique. Le jaune ne décore jamais : il signale l'endroit où l'on agit. Les ratios de contraste sont mesurés sur leur fond d'usage. <b>Depuis l'audit du 09/09, aucune couleur n'est écrite en dur dans la feuille</b> — les transparences elles-mêmes dérivent des jetons, via des composantes <code>--*-rgb</code>, et un contrôle refuse tout commit qui en réintroduirait une.</p>
     <div class="swatches">
       <div class="sw"><div class="chip" style="background:#0E1A2B;color:#F7F6F3">Aa</div><div class="meta"><div class="nom">Nuit</div><div class="hex">#0E1A2B</div><div class="use">Fond des sections d'ancrage : hero, coach, contact.</div><span class="ratio">16,2:1</span></div></div>
       <div class="sw"><div class="chip" style="background:#16243A;color:#F7F6F3">Aa</div><div class="meta"><div class="nom">Nuit élevée</div><div class="hex">#16243A</div><div class="use">Cartes et surfaces posées sur la nuit.</div></div></div>
@@ -135,15 +135,15 @@ h2{font-size:38px;font-weight:800;margin-bottom:10px}
 <section>
   <div class="wrap">
     <div class="lab">Typographie</div>
-    <h2>Deux familles, neuf tailles</h2>
+    <h2>Deux familles, onze tailles</h2>
     <p class="sub">Archivo pour ce qui affirme, Inter pour ce qui explique. Aucune fantaisie : sur un site qui vend du sérieux, la lisibilité est la première preuve.</p>
     <div class="typo-row"><div class="typo-meta"><b>Titre 1</b>Archivo 800 · 68px<br>interlettre −3 %</div><div class="t" style="font-size:56px;font-weight:800">Vous n'avez pas à subir.</div></div>
     <div class="typo-row"><div class="typo-meta"><b>Titre 2</b>Archivo 800 · 38px</div><div class="t" style="font-size:38px;font-weight:800">Vous êtes probablement ici</div></div>
     <div class="typo-row"><div class="typo-meta"><b>Titre 3</b>Archivo 700 · 21px</div><div class="t" style="font-size:21px;font-weight:700">Votre enfant, à l'école</div></div>
-    <div class="typo-row"><div class="typo-meta"><b>Étiquette</b>Archivo 700 · 12px<br>capitales, +22 %</div><div style="font-family:Archivo;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--signal-texte)">Situations</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Étiquette</b>Archivo 700 · 12px<br>capitales, +22 %</div><div style="font-family:Archivo;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--signal-encre)">Situations</div></div>
     <div class="typo-row"><div class="typo-meta"><b>Corps</b>Inter 400 · 17px<br>interligne 1,6</div><div style="font-size:17px;max-width:620px">Harcèlement, racket. Il rentre la tête basse et ne dit rien. Quelques séances suffisent souvent à ce qu'il cesse d'être une cible.</div></div>
-    <div class="typo-row"><div class="typo-meta"><b>Corps second</b>Inter 400 · 15px</div><div style="font-size:15px;color:var(--encre-2);max-width:620px">Un renforcement musculaire complet, une récupération qui travaille la souplesse et la conscience du corps.</div></div>
-    <div class="typo-row"><div class="typo-meta"><b>Chiffre</b>Archivo 800 · 52px</div><div style="font-family:Archivo;font-size:52px;font-weight:800;color:var(--signal-texte)">50 €</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Corps second</b>Inter 400 · 15px</div><div style="font-size:15px;color:var(--ardoise);max-width:620px">Un renforcement musculaire complet, une récupération qui travaille la souplesse et la conscience du corps.</div></div>
+    <div class="typo-row"><div class="typo-meta"><b>Chiffre</b>Archivo 800 · 52px</div><div style="font-family:Archivo;font-size:52px;font-weight:800;color:var(--signal-encre)">50 €</div></div>
     <p class="sub" style="margin-top:26px;margin-bottom:0">Les deux polices sont <b>hébergées avec le site</b>, pas appelées chez Google : c'est plus rapide, et ça évite d'envoyer l'adresse IP de chaque visiteur aux États-Unis.</p>
   </div>
 </section>
@@ -215,6 +215,57 @@ h2{font-size:38px;font-weight:800;margin-bottom:10px}
     </div>
   </div>
 </section>
+
+
+  <section id="audit-charte">
+    <div class="wrap">
+      <div class="lab">Audit du 9 septembre 2026</div>
+      <h2>Ce que la feuille faisait vraiment</h2>
+      <p class="sub">Une charte qui n'est pas mesurée dérive. Voici l'écart relevé entre ce document et le code, et ce qu'il en reste.</p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:15px;margin-top:26px">
+        <tr style="text-align:left;border-bottom:1px solid #26364C">
+          <th style="padding:12px 14px 12px 0;font-family:Archivo;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:#A8B4C4">Ce qui dérivait</th>
+          <th style="padding:12px 14px;font-family:Archivo;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:#A8B4C4">Mesure</th>
+          <th style="padding:12px 0 12px 14px;font-family:Archivo;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:#A8B4C4">Après</th>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(38,54,76,.5)">
+          <td style="padding:14px 14px 14px 0"><b>Trois jetons avaient été renommés</b> dans le code sans que ce document suive</td>
+          <td style="padding:14px">quiconque lisait la charte et écrivait <code>var(--encre-2)</code> n'obtenait rien</td>
+          <td style="padding:14px 0 14px 14px">noms alignés : <code>--brume</code>, <code>--ardoise</code>, <code>--signal-encre</code></td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(38,54,76,.5)">
+          <td style="padding:14px 14px 14px 0"><b>Vingt-deux transparences réécrivaient une teinte à la main</b></td>
+          <td style="padding:14px"><code>rgba(14,26,43,.88)</code> plutôt que <code>--nuit</code> : aucune n'aurait suivi un changement de palette</td>
+          <td style="padding:14px 0 14px 14px">composantes <code>--nuit-rgb</code>, <code>--signal-rgb</code>, <code>--alerte-rgb</code>, <code>--vert-rgb</code>, <code>--abysse-rgb</code></td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(38,54,76,.5)">
+          <td style="padding:14px 14px 14px 0"><b>Six couleurs vivaient sans nom</b></td>
+          <td style="padding:14px">invite de champ, texte tertiaire, accusé de réussite, message d'échec, fond de modale</td>
+          <td style="padding:14px 0 14px 14px"><code>--brume-2</code>, <code>--brume-3</code>, <code>--vert-clair</code>, <code>--alerte-claire</code>, <code>--abysse</code></td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(38,54,76,.5)">
+          <td style="padding:14px 14px 14px 0"><b>Huit rayons pour trois familles d'objets</b></td>
+          <td style="padding:14px">2, 4, 5, 6, 8, 10, 12 px et 50 % — dont trois cartes arrondies à 8 quand toutes les autres l'étaient à 10</td>
+          <td style="padding:14px 0 14px 14px"><code>--r-controle</code> 4 px · <code>--r-surface</code> 10 px · <code>--r-focus</code> 2 px · 50 % pour les cercles</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(38,54,76,.5)">
+          <td style="padding:14px 14px 14px 0"><b>Quatre tailles pour un seul rôle</b> : le titre d'une carte</td>
+          <td style="padding:14px">20, 21, 23 et 24 px coexistaient. Entre 20 et 21, l'œil ne fait pas la différence — la charte, si</td>
+          <td style="padding:14px 0 14px 14px">deux : <b>23 px</b> pour les grandes cartes, <b>20 px</b> pour les petites. Échelle globale ramenée de 13 tailles à 11</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 14px 14px 0"><b><code>--alerte</code> déclaré, jamais employé</b></td>
+          <td style="padding:14px">et sa valeur utilisée trois fois en dur, juste à côté</td>
+          <td style="padding:14px 0 14px 14px">le jeton sert enfin</td>
+        </tr>
+      </table>
+
+      <p class="sub" style="margin-top:30px"><b>Ce document ne suffit pas.</b> Il n'a empêché aucune de ces dérives : il les décrivait pendant que le code s'en éloignait. Quatre règles de <code>_chantier/coherence.py</code> refusent désormais tout commit qui poserait une taille hors de l'échelle, un rayon hors charte, une couleur ou une transparence écrite en dur. Chacune a été éprouvée en réinjectant son défaut.</p>
+
+      <p class="sub"><b>La seule exception tolérée</b> : le noir et le blanc purs de la feuille d'impression. Sur du papier, l'encre n'a pas de teinte de marque.</p>
+    </div>
+  </section>
 
 </body>
 </html>

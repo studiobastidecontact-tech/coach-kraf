@@ -118,6 +118,41 @@ for p in PAGES:
                     if re.sub(r'\s+', ' ', val).strip() not in vis:
                         fautes.append(f"{p} : la {quoi} balisée « {val[:44]}… » n'est pas sur la page")
 
+# ── La charte, telle qu'elle est reellement appliquee ────────────────────
+# Ces trois listes ne decrivent pas une intention : elles sont relevees sur la
+# feuille, et le controle refuse tout ce qui en sort. Sans ca, la charte
+# derive — il y avait huit rayons pour trois familles d'objets, et quatre
+# tailles de titre pour une seule fonction.
+ECHELLE = {13, 14, 15, 16, 17, 19, 20, 23, 26, 30, 46}
+RAYONS  = {'var(--r-controle)', 'var(--r-surface)', 'var(--r-focus)', '50%'}
+# Le noir et le blanc purs de la feuille d'impression sont voulus : sur du
+# papier, l'encre n'a pas de teinte de marque.
+COULEURS_TOLEREES = {'#fff', '#000', '#444'}
+
+def controler_charte(fautes):
+    q = os.path.join(R, 'assets', 'site.css')
+    if not os.path.exists(q):
+        fautes.append("assets/site.css introuvable"); return
+    brut = open(q, encoding='utf-8').read()
+    fin_racine = brut.index('}', brut.index(':root{')) + 1
+    racine, corps = brut[:fin_racine], brut[fin_racine:]
+    corps = re.sub(r'/\*.*?\*/', '', corps, flags=re.S)
+    corps = re.sub(r'data:image/svg\+xml[^"\')]*', '', corps)
+
+    for t in sorted({float(x) for x in re.findall(r'font-size:\s*([\d.]+)px', corps)}):
+        if t not in ECHELLE:
+            fautes.append(f"assets/site.css : {t:g}px hors de l'echelle typographique ({sorted(ECHELLE)})")
+    for r in sorted({x.strip() for x in re.findall(r'border-radius:\s*([^;}]+)', corps)}):
+        if r not in RAYONS:
+            fautes.append(f"assets/site.css : rayon « {r} » hors charte — attendus : {sorted(RAYONS)}")
+    for c in sorted({x.lower() for x in re.findall(r'#[0-9a-fA-F]{3,8}\b', corps)}):
+        if c not in COULEURS_TOLEREES:
+            fautes.append(f"assets/site.css : couleur {c} ecrite en dur — elle doit passer par un jeton")
+    for c in sorted({re.sub(r'\s+', '', x) for x in re.findall(r'rgba?\(\s*\d[^)]*\)', corps)}):
+        fautes.append(f"assets/site.css : transparence {c} ecrite en dur — deriver de --*-rgb")
+
+controler_charte(fautes)
+
 if fautes:
     print("\n".join("  ✗ " + f for f in fautes))
     print(f"\n{len(fautes)} contradiction(s).")
