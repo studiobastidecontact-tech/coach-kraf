@@ -67,15 +67,16 @@
      couleur du site ». Détail :
      _chantier/croquis/2026-09-09-la-brique-est-trop-sombre-de-six-points.md
 
-     Un troisième pour les APLATS, et il ne double aucun des deux : une
-     même valeur lue en glyphe et lue en surface de 830 sur 130 px ne rend
-     pas la même couleur — la grande surface paraît plus claire et vire au
-     pêche. La claire est juste pour le mot du héros, trop claire pour le
-     bouton qui le suit. */
+     Un troisieme jeton pour les aplats a existe une heure : il assombrissait
+     le bouton du heros pour compenser qu'une grande surface parait plus claire
+     qu'un glyphe. William l'a vu tout de suite, et il avait raison : ca faisait
+     QUATRE briques a l'ecran, et un bouton d'une autre couleur que le mot juste
+     au-dessus. Une compensation optique qui se voit n'est plus une compensation,
+     c'est une incoherence. Un aplat porte donc exactement la brique de son
+     contexte. */
   --t-brique:#A9502F;          --t-brique-rgb:169,80,47;
   --t-brique-franche:#B85C38;  --t-brique-franche-rgb:184,92,56;
   --t-brique-claire:#E08A5A;   --t-brique-claire-rgb:224,138,90;
-  --t-brique-aplat:#D2764A;    --t-brique-aplat-rgb:210,118,74;
 
   /* la note bleue. 12,7 % des pixels et les plus hautes saturations de
      toute la mesure. Ce n'est pas un ajout : la richesse de Toulouse
@@ -162,10 +163,10 @@
      6,6:1, elle n'a aucun plafond à contourner */
   --accent-franc:var(--t-brique-claire);
   --accent-franc-rgb:var(--t-brique-claire-rgb);
-  /* l'aplat, plus profond que le glyphe : 5,07:1 avec le texte encre,
-     donc bon à toute taille — la barre du pouce garde ses 15 px */
-  --accent-aplat:var(--t-brique-aplat);
-  --accent-aplat-rgb:var(--t-brique-aplat-rgb);
+  /* l'aplat porte la MEME brique que le glyphe : 6,27:1 avec le texte encre,
+     bon a toute taille, donc la barre du pouce garde ses 15 px */
+  --accent-aplat:var(--t-brique-claire);
+  --accent-aplat-rgb:var(--t-brique-claire-rgb);
   --note:var(--t-ciel);
   --acquis:var(--t-olive-clair);      --acquis-rgb:var(--t-olive-clair-rgb);
   --alerte:var(--t-alerte-claire);    --alerte-rgb:var(--t-alerte-claire-rgb);
@@ -222,7 +223,7 @@ section{scroll-margin-top:calc(var(--tete) + 12px)}
 
 /* ── rythme des sections : le blanc domine, la pierre ponctue ───────── */
 .sec{padding:104px 0;background:var(--fond);color:var(--sur)}
-.eyebrow{font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--note);display:flex;align-items:flex-start;gap:11px;margin-bottom:16px}
+.eyebrow{font-family:var(--tf);font-size:16px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--note);display:flex;align-items:flex-start;gap:11px;margin-bottom:16px}
 /* le trait s'aligne sur la PREMIERE ligne, pas au milieu du bloc */
 .eyebrow::before{content:'';width:28px;height:2px;background:var(--accent-franc);flex-shrink:0;margin-top:.62em}
 h2{font-size:clamp(30px,4.4vw,44px);margin-bottom:14px}
@@ -257,7 +258,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .nav a,.nav .nav-bouton{padding:6px 0}
 .nav a{font-family:var(--tf);font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--sur-2);text-decoration:none;transition:color .18s}
 .nav a:hover{color:var(--sur)}
-.tel-tete{display:inline-flex;align-items:center;gap:8px;background:var(--accent-aplat);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:11px 18px;border-radius:var(--r-controle);text-decoration:none;white-space:nowrap;transition:transform .16s,box-shadow .16s}
+.tel-tete{display:inline-flex;align-items:center;gap:8px;background:var(--accent-aplat);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:7px 18px;border-radius:var(--r-controle);text-decoration:none;white-space:nowrap;transition:transform .16s,box-shadow .16s}
 .tel-tete:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(var(--accent-aplat-rgb),.28)}
 .burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:1px solid var(--contour);border-radius:var(--r-controle);color:var(--sur);cursor:pointer}
 .burger svg{width:20px;height:20px}
@@ -404,6 +405,10 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .princ div{background:var(--fond-carte);padding:28px 24px}
 .princ .n{font-family:var(--tf);font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.14em;margin-bottom:10px}
 .princ h3{font-size:20px}
+/* Les quatre principes n'etaient que des NOMS : « Simplicite », « Rapidite »,
+   sans une ligne pour dire ce qu'ils ecartent. Un principe qu'on ne peut pas
+   appliquer n'est pas un principe, c'est un mot. */
+.princ div > p:not(.n){color:var(--sur-2);font-size:16px;line-height:1.55;margin-top:9px}
 
 /* ── tarifs ────────────────────────────────────────────────────────── */
 .tarifs{border:1px solid var(--filet);border-radius:var(--r-surface);overflow:hidden;background:var(--fond-carte)}
@@ -685,7 +690,7 @@ button.btn{font-family:inherit;cursor:pointer}
 .renvois{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}
 .renvoi{display:block;background:var(--fond-carte);border:1px solid var(--filet);border-radius:var(--r-surface);padding:28px 26px;text-decoration:none;transition:border-color .2s,transform .2s}
 .renvoi:hover{border-color:var(--accent-franc);transform:translateY(-3px)}
-.renvoi h3{font-size:20px;color:var(--sur);margin-bottom:8px}
+.renvoi h3{font-size:23px;color:var(--sur);margin-bottom:8px}
 .renvoi p{color:var(--sur-2);font-size:16px}
 .renvoi span{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:var(--tf);font-weight:700;font-size:15px;color:var(--accent)}
 

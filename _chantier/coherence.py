@@ -93,8 +93,18 @@ for p in PAGES:
         # pas — il la considere comme un separateur de mots.
         n_annonce = next((v for mot, v in MOTS.items()
                           if re.search(r'(?<![-\w])' + mot + r'(?![-\w])', titre, re.I)), None)
+        # Un CHIFFRE dans un titre n'est pas forcement un decompte. « une
+        # discipline nee dans les annees 1940 » a fait refuser un titre juste
+        # le 2026-09-09 : la sonde y lisait la promesse de 1940 sections.
+        # Deux exclusions, et elles se mesurent :
+        #   · une ANNEE plausible (1800-2100) date, elle ne compte pas ;
+        #   · au-dela de 20, aucune section ne liste ce nombre de sous-titres —
+        #     un prix, un age, un effectif, jamais un sommaire.
         d = re.search(r'\b(\d+)\b', titre)
-        if d: n_annonce = int(d.group(1))
+        if d:
+            v = int(d.group(1))
+            if not (1800 <= v <= 2100) and v <= 20:
+                n_annonce = v
         if not n_annonce or n_annonce < 2: continue
         h3 = len(re.findall(r'<h3\b', m.group(2)))
         if h3 and h3 != n_annonce:
