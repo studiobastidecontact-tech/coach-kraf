@@ -52,11 +52,23 @@
   --t-filet-profond:#423B35;
   --t-contour-profond:#7A6F66;
 
-  /* la brique, prise à sa valeur de PLEIN JOUR — #BB8E5D et #CA986F à la
-     mesure. L'ancienne palette prenait sa valeur à l'ombre, #352612, et
-     tout le site en était devenu marron. */
-  --t-brique:#9C5228;          --t-brique-rgb:156,82,40;
-  --t-brique-claire:#D9A06B;   --t-brique-claire-rgb:217,160,107;
+  /* La brique. Deux corrections successives, toutes deux venues de l'œil
+     avant l'instrument. D'abord #352612 : la valeur À L'OMBRE, et tout le
+     site était marron. Puis #9C5228, médiane d'une bande de clarté
+     0,30–0,70 — encore marron, parce qu'une photo de mur contient autant
+     d'ombre que de soleil et que la médiane rend le mur en lumière
+     MOYENNE, pas la couleur de la brique. La brique foraine vit à 16-18°
+     et 44-54 % de clarté ; on y est.
+
+     Deux jetons, et la raison de leur nombre : le petit texte exige
+     4,5:1, ce qui plafonne l'accent à 42 % de clarté — six points sous
+     la brique sèche. Le non-textuel et le grand texte n'exigent que 3:1 :
+     ils prennent la franche, et c'est eux que l'œil lit comme « la
+     couleur du site ». Détail :
+     _chantier/croquis/2026-09-09-la-brique-est-trop-sombre-de-six-points.md */
+  --t-brique:#A9502F;          --t-brique-rgb:169,80,47;
+  --t-brique-franche:#B85C38;  --t-brique-franche-rgb:184,92,56;
+  --t-brique-claire:#E08A5A;   --t-brique-claire-rgb:224,138,90;
 
   /* la note bleue. 12,7 % des pixels et les plus hautes saturations de
      toute la mesure. Ce n'est pas un ajout : la richesse de Toulouse
@@ -99,6 +111,10 @@
   --sur-2:var(--t-pierre);
   --accent:var(--t-brique);           --accent-rgb:var(--t-brique-rgb);
   --accent-sur:var(--t-blanc);        /* le texte posé SUR --accent */
+  /* la brique franche : filets, barres, icônes, gros chiffres — tout ce
+     qui n'a pas besoin de 4,5:1 et que l'œil lit comme la couleur */
+  --accent-franc:var(--t-brique-franche);
+  --accent-franc-rgb:var(--t-brique-franche-rgb);
   --note:var(--t-pastel);
   --acquis:var(--t-olive);            --acquis-rgb:var(--t-olive-rgb);
   --alerte:var(--t-alerte);           --alerte-rgb:var(--t-alerte-rgb);
@@ -129,6 +145,10 @@
   --sur-2:var(--t-estompe);
   --accent:var(--t-brique-claire);    --accent-rgb:var(--t-brique-claire-rgb);
   --accent-sur:var(--t-encre);
+  /* sur fond sombre il n'y a pas deux briques : la claire tient déjà
+     6,6:1, elle n'a aucun plafond à contourner */
+  --accent-franc:var(--t-brique-claire);
+  --accent-franc-rgb:var(--t-brique-claire-rgb);
   --note:var(--t-ciel);
   --acquis:var(--t-olive-clair);      --acquis-rgb:var(--t-olive-clair-rgb);
   --alerte:var(--t-alerte-claire);    --alerte-rgb:var(--t-alerte-claire-rgb);
@@ -187,7 +207,7 @@ section{scroll-margin-top:calc(var(--tete) + 12px)}
 .sec{padding:104px 0;background:var(--fond);color:var(--sur)}
 .eyebrow{font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--note);display:flex;align-items:flex-start;gap:11px;margin-bottom:16px}
 /* le trait s'aligne sur la PREMIERE ligne, pas au milieu du bloc */
-.eyebrow::before{content:'';width:28px;height:2px;background:var(--accent);flex-shrink:0;margin-top:.62em}
+.eyebrow::before{content:'';width:28px;height:2px;background:var(--accent-franc);flex-shrink:0;margin-top:.62em}
 h2{font-size:clamp(30px,4.4vw,44px);margin-bottom:14px}
 .lead{color:var(--sur-2);max-width:660px;font-size:17px}
 .head{margin-bottom:52px}
@@ -234,7 +254,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
   linear-gradient(to top,var(--fond) 2%,transparent 46%)}
 .hero-in{position:relative;z-index:2;max-width:720px}
 .hero h1{font-size:clamp(42px,7.4vw,78px);margin:18px 0 22px}
-.hero h1 em{font-style:normal;color:var(--accent);display:block}
+.hero h1 em{font-style:normal;color:var(--accent-franc);display:block}
 .hero p{color:var(--sur-2);font-size:clamp(16px,1.7vw,19px);max-width:530px;margin-bottom:34px}
 /* L'etiquette de lieu ne subit pas la laisse de 530px, sinon elle se
    cesure. Et elle REPREND sa couleur : `.hero p` compte un element de
@@ -260,13 +280,13 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .preuve{background:var(--fond-2);border-top:1px solid var(--filet);border-bottom:1px solid var(--filet)}
 .preuve ul{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px;padding:19px 0;font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--sur-2)}
 .preuve li{display:flex;align-items:center;gap:10px}
-.preuve li::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0}
+.preuve li::before{content:'';width:6px;height:6px;background:var(--accent-franc);border-radius:50%;flex-shrink:0}
 .preuve b{color:var(--sur);font-weight:700}
 
 /* ── situations ────────────────────────────────────────────────────── */
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .sit{position:relative;background:var(--fond-carte);border:1px solid var(--filet);border-radius:var(--r-surface);padding:34px 30px 30px;display:flex;flex-direction:column;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s}
-.sit::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.sit::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent-franc);transform:scaleY(0);transform-origin:top;transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .sit:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(var(--ombre-rgb),.1);border-color:var(--contour)}
 .sit:hover::before{transform:scaleY(1)}
 .sit-n{font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.16em;color:var(--accent);margin-bottom:12px}
@@ -284,7 +304,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 /* Le chiffre est un accent PLEIN, pas une transparence. L'ancienne
    version le posait à 55 % d'opacité et tombait à 2,97:1 — sous le
    seuil, et invisible pour une sonde qui ignorait les textes courts. */
-.form-c .n{font-family:var(--tf);font-size:46px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:14px}
+.form-c .n{font-family:var(--tf);font-size:46px;font-weight:800;color:var(--accent-franc);line-height:1;margin-bottom:14px}
 .form-c h3{font-size:23px;margin-bottom:12px}
 .form-c p{color:var(--sur-2);font-size:16px}
 
@@ -295,7 +315,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .pas li{list-style:none;position:relative;padding:0 24px 0 0;display:flex;flex-direction:column}
 .pas li::before{counter-increment:e;content:counter(e);position:absolute;top:-2px;left:0;font-family:var(--tf);font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.1em}
 .pas li .barre{order:-1;height:2px;background:var(--filet);margin:26px 0 20px;position:relative}
-.pas li .barre::after{content:'';position:absolute;inset:0 auto 0 0;width:34px;background:var(--accent)}
+.pas li .barre::after{content:'';position:absolute;inset:0 auto 0 0;width:34px;background:var(--accent-franc)}
 .pas h3{font-size:19px;margin-bottom:9px}
 .pas p{font-size:15px;color:var(--sur-2)}
 
@@ -328,7 +348,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
    fond qu'aucun instrument ne peut vérifier, on prend la valeur la plus
    forte plutôt que la plus juste. */
 .coach-img figcaption{position:absolute;inset:auto 0 0 0;padding:34px 20px 16px;background:linear-gradient(to top,rgba(var(--voile-photo-rgb),.94),transparent);color:var(--sur-photo);font-size:14px}
-.coach blockquote{border-left:3px solid var(--accent);padding:4px 0 4px 20px;margin:24px 0;font-size:19px;line-height:1.55;color:var(--sur)}
+.coach blockquote{border-left:3px solid var(--accent-franc);padding:4px 0 4px 20px;margin:24px 0;font-size:19px;line-height:1.55;color:var(--sur)}
 .coach p{color:var(--sur-2);margin-bottom:16px}
 .certifs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--filet);border:1px solid var(--filet);border-radius:var(--r-surface);overflow:hidden;margin-top:52px}
 .certifs div{background:var(--fond-carte);padding:24px 22px}
@@ -375,20 +395,20 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .tarifs .l:hover{background:var(--survol)}
 .tarifs .t{font-family:var(--tf);font-weight:700;font-size:17px}
 .tarifs .d{font-size:15px;color:var(--sur-2);margin-top:3px}
-.tarifs .p{font-family:var(--tf);font-size:30px;font-weight:800;color:var(--accent);letter-spacing:-.03em;white-space:nowrap}
+.tarifs .p{font-family:var(--tf);font-size:30px;font-weight:800;color:var(--accent-franc);letter-spacing:-.03em;white-space:nowrap}
 .tarifs .p small{font-family:var(--tc);font-size:14px;font-weight:400;color:var(--sur-2);letter-spacing:0}
 .tarifs .m{font-size:15px;color:var(--sur-2)}
 .duree{max-width:58ch;margin-top:16px;font-size:15px;color:var(--sur-2)}
 .extras{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
-.extras div{border:1px solid var(--filet);border-left:3px solid var(--accent);border-radius:var(--r-surface);padding:22px 24px;background:var(--fond-carte)}
+.extras div{border:1px solid var(--filet);border-left:3px solid var(--accent-franc);border-radius:var(--r-surface);padding:22px 24px;background:var(--fond-carte)}
 .extras h3{font-size:17px;margin-bottom:7px}
 .extras p{font-size:15px;color:var(--sur-2)}
 
 /* ── contact ───────────────────────────────────────────────────────── */
 .canaux{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:44px}
 .canal{display:flex;flex-direction:column;gap:7px;background:var(--fond-carte);border:1px solid var(--filet);border-radius:var(--r-surface);padding:26px 24px;text-decoration:none;transition:border-color .2s,transform .2s,background .2s}
-.canal:hover{border-color:var(--accent);transform:translateY(-3px);background:var(--survol)}
-.canal svg{width:26px;height:26px;color:var(--accent);margin-bottom:6px}
+.canal:hover{border-color:var(--accent-franc);transform:translateY(-3px);background:var(--survol)}
+.canal svg{width:26px;height:26px;color:var(--accent-franc);margin-bottom:6px}
 .canal b{font-family:var(--tf);font-size:20px;color:var(--sur)}
 .canal span{font-size:15px;color:var(--sur-2)}
 .formulaire{display:grid;gap:18px;max-width:760px}
@@ -421,7 +441,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .hors-ue{margin:14px 0 0;font-size:15px;line-height:1.55;color:var(--sur-2);max-width:62ch}
 .hors-ue a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(var(--accent-rgb),.4)}
 .hors-ue a:hover{border-bottom-color:var(--accent)}
-.coche input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent);flex-shrink:0}
+.coche input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent-franc);flex-shrink:0}
 .envoi{background:var(--accent);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:16px;padding:17px;border:none;border-radius:var(--r-controle);cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
 .envoi:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-rgb),.3)}
 .envoi:disabled{opacity:.62;cursor:progress}
@@ -619,7 +639,7 @@ button.btn{font-family:inherit;cursor:pointer}
   .qr-item > summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;
     gap:14px;padding:15px 0}
   .qr-item h3{margin:0;font-size:17px}
-  .qr-item > summary::after{content:'';width:15px;height:15px;flex-shrink:0;background:var(--accent);
+  .qr-item > summary::after{content:'';width:15px;height:15px;flex-shrink:0;background:var(--accent-franc);
     -webkit-mask:var(--chevron) no-repeat center/contain;
             mask:var(--chevron) no-repeat center/contain;
     transition:transform .2s}
@@ -640,14 +660,14 @@ button.btn{font-family:inherit;cursor:pointer}
   #contact .renvoi span::after{width:17px;height:17px}
 }
 
-.encart{margin-top:40px;border:1px solid var(--filet);border-left:3px solid var(--accent);border-radius:var(--r-surface);background:var(--fond-carte);padding:24px 26px}
+.encart{margin-top:40px;border:1px solid var(--filet);border-left:3px solid var(--accent-franc);border-radius:var(--r-surface);background:var(--fond-carte);padding:24px 26px}
 .encart p{font-size:16px;color:var(--sur-2);margin:0}
 .encart a{color:var(--accent);font-weight:600}
 
 /* deux cartes de renvoi en bas des pages de zone */
 .renvois{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}
 .renvoi{display:block;background:var(--fond-carte);border:1px solid var(--filet);border-radius:var(--r-surface);padding:28px 26px;text-decoration:none;transition:border-color .2s,transform .2s}
-.renvoi:hover{border-color:var(--accent);transform:translateY(-3px)}
+.renvoi:hover{border-color:var(--accent-franc);transform:translateY(-3px)}
 .renvoi h3{font-size:20px;color:var(--sur);margin-bottom:8px}
 .renvoi p{color:var(--sur-2);font-size:16px}
 .renvoi span{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-family:var(--tf);font-weight:700;font-size:15px;color:var(--accent)}
@@ -705,7 +725,7 @@ button.btn{font-family:inherit;cursor:pointer}
    L'argument qui lève le frein à l'appel : il se place là où le frein
    se produit — sous les boutons de contact, et en tête des tarifs. */
 .offre{display:flex;align-items:center;gap:14px;background:var(--fond-carte);
-  border:1px solid var(--filet);border-left:3px solid var(--accent);
+  border:1px solid var(--filet);border-left:3px solid var(--accent-franc);
   border-radius:var(--r-surface);padding:18px 22px;margin-bottom:22px}
 .offre b{font-family:var(--tf);font-weight:800;font-size:19px;color:var(--sur);white-space:nowrap}
 .offre span{color:var(--sur-2);font-size:16px}

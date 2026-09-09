@@ -86,8 +86,14 @@ def ratio(a, b):
 # 1,2 = un filet doit se voir, ce n'est pas une exigence WCAG mais une
 #       exigence de dessin : en dessous, la ligne disparaît.
 FONDS = ('--fond', '--fond-2', '--fond-carte', '--survol')
+#       --accent-franc ne porte QUE du non-textuel et du grand texte
+#       (filets, barres, icônes, chiffres de 30 et 46 px) : son seuil est
+#       3,0, et c'est précisément ce qui lui permet d'être plus clair que
+#       --accent. Il a été ajouté ici le jour où il est né — cette liste
+#       est en dur, donc un rôle qu'on n'y inscrit pas n'est JAMAIS mesuré
+#       et le verdict reste vert sans avoir rien regardé.
 PAIRES = ([(t, f, 4.5) for t in ('--sur', '--sur-2', '--accent', '--note', '--acquis', '--alerte') for f in FONDS]
-          + [(t, f, 3.0) for t in ('--contour', '--focus') for f in FONDS]
+          + [(t, f, 3.0) for t in ('--contour', '--focus', '--accent-franc') for f in FONDS]
           + [(t, f, 1.2) for t in ('--filet',) for f in FONDS]
           + [('--accent-sur', '--accent', 4.5)])
 
