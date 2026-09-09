@@ -345,13 +345,37 @@ def controler_frontiere(fautes):
 
 
 # ── Une grille a un nombre de colonnes FIXE ──────────────────────────────
-# `.princ` est en repeat(4,1fr) et `.trio` en trois colonnes : y poser trois
-# cartes au lieu de quatre laisse une case VIDE a droite. Le defaut ne casse
-# rien, ne leve aucune erreur, et aucun des deux gardes ne le voyait — il a
-# fallu une capture d'ecran pour l'apercevoir, le 2026-09-09, sur la page
-# coach-sportif. C'est exactement le genre de faute qu'une relecture rate et
-# qu'un compte attrape.
-GRILLES = (('princ', r'<p class="n">', 4), ('trio', r'class="sit-n"', 3))
+# `.princ` est en quatre colonnes, `.trio` en trois, `.renvois` en deux — ses
+# variantes `trois` et `quatre` en disent le nom. Y poser un nombre de cartes
+# qui n'est pas un MULTIPLE du nombre de colonnes laisse une case VIDE sur la
+# derniere ligne. Le defaut ne casse rien, ne leve aucune erreur, et ni ce
+# garde ni verifier-direction.py ne le voyaient : il a fallu une capture
+# d'ecran pour l'apercevoir, le 2026-09-09, sur la page coach-sportif.
+#
+# Le critere est le MULTIPLE et non le compte exact : deux lignes pleines sont
+# correctes, une ligne et demie ne l'est pas.
+GRILLES = (
+    ('princ',          r'<p class="n">',  4),
+    ('trio',           r'class="sit-n"',  3),
+    ('renvois quatre', r'class="renvoi"', 4),
+    ('renvois trois',  r'class="renvoi"', 3),
+    ('renvois',        r'class="renvoi"', 2),
+)
+
+
+def _bloc(s, debut):
+    """Rend le contenu d'un <div> ouvert a `debut`, jusqu'a SA fermeture.
+
+    Se caler sur l'indentation du `</div>` marchait tant que toutes les pages
+    l'ecrivaient pareil. Elles ne le font pas : le meme motif elargi a rendu
+    CINQ faux positifs d'un coup, en s'arretant a la fermeture de la premiere
+    carte. On compte donc les balises, et on ne devine plus rien."""
+    i, prof = debut, 0
+    for m in re.finditer(r'<div\b|</div>', s[debut:]):
+        prof += 1 if m.group(0) != '</div>' else -1
+        if prof == 0:
+            return s[debut:debut + m.start()], debut + m.end()
+    return None, None
 
 
 def controler_grilles(fautes):
@@ -360,13 +384,23 @@ def controler_grilles(fautes):
         if not os.path.exists(q):
             continue
         s = open(q, encoding='utf-8').read()
-        for classe, marque, attendu in GRILLES:
-            for m in re.finditer(rf'<div class="{classe}[^"]*">(.*?)\n    </div>', s, re.S):
-                n = len(re.findall(marque, m.group(1)))
-                if n and n != attendu:
+        vus = []
+        for classe, marque, colonnes in GRILLES:
+            for m in re.finditer(rf'<div class="{classe}[^"]*">', s):
+                # « renvois » matcherait aussi « renvois trois » : les variantes
+                # sont inscrites AVANT dans la liste, on saute ce qu'elles ont
+                # deja pris.
+                if any(a <= m.start() < b for a, b in vus):
+                    continue
+                corps, fin = _bloc(s, m.start())
+                if corps is None:
+                    continue
+                vus.append((m.start(), fin))
+                n = len(re.findall(marque, corps))
+                if n and n % colonnes:
                     fautes.append(
-                        f"{p} : une grille .{classe} porte {n} carte(s) pour "
-                        f"{attendu} colonnes — la derniere case restera vide")
+                        f"{p} : une grille .{classe} porte {n} carte(s) sur "
+                        f"{colonnes} colonnes — la derniere ligne restera trouee")
 
 
 controler_charte(fautes)
