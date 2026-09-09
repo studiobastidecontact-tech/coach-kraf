@@ -402,7 +402,12 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
    fond qu'aucun instrument ne peut vérifier, on prend la valeur la plus
    forte plutôt que la plus juste. */
 .coach-img figcaption{position:absolute;inset:auto 0 0 0;padding:34px 20px 16px;background:linear-gradient(to top,rgba(var(--voile-photo-rgb),.94),transparent);color:var(--sur-photo);font-size:14px}
-.coach blockquote{border-left:3px solid var(--accent-franc);padding:4px 0 4px 20px;margin:24px 0;font-size:19px;line-height:1.55;color:var(--sur)}
+/* La citation etait scopee a .coach, donc a la seule page /le-coach/. Sa
+   parole sur la non-violence est remontee sur l'accueil le 2026-09-09 : le
+   style devient global, il n'y a que deux citations sur tout le site et elles
+   doivent se ressembler. */
+blockquote{border-left:3px solid var(--accent-franc);padding:4px 0 4px 20px;margin:24px 0 0;font-size:19px;line-height:1.55;color:var(--sur);max-width:64ch}
+blockquote cite{display:block;margin-top:10px;font-style:normal;font-family:var(--tf);font-weight:700;font-size:16px;color:var(--note)}
 .coach p{color:var(--sur-2);margin-bottom:16px}
 .certifs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--filet);border:1px solid var(--filet);border-radius:var(--r-surface);overflow:hidden;margin-top:52px}
 .certifs div{background:var(--fond-carte);padding:24px 22px}
