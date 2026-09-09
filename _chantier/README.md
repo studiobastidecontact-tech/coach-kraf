@@ -1,31 +1,35 @@
-# Refonte coach-krav.fr
+# L'atelier de coach-krav.fr
 
-Chantier de refonte complète du site vitrine. Ce dossier commence par `_` :
-**Jekyll ne le publie pas**, il reste invisible depuis coach-krav.fr tout en
-vivant dans le dépôt (il survit donc aux sessions, et il voyage avec le code).
+Ce dossier commence par `_` : **Jekyll ne le publie pas**, il reste invisible
+depuis coach-krav.fr tout en vivant dans le dépôt. Il porte l'outillage du site
+et sa direction visuelle — les deux gardes, les croquis datés, les images
+sources.
 
-## Le site en une ligne
-
-Coach particulier de Krav Maga, self-défense et boxe, à domicile ou en
-extérieur, sur Toulouse et Saint-Sulpice-la-Pointe (81). Une page unique,
-hébergée sur GitHub Pages, domaine `coach-krav.fr` via `CNAME`.
-
-## Le virage de cette refonte
-
-L'ancien site (`uber-kravmaga.jimdosite.com`) vendait **la sécurité**.
-Le site actuel vend **du fitness**. On revient à la sécurité.
-
-La cible n'est pas le pratiquant d'arts martiaux : c'est la personne qui a
-peur — un adulte qui subit des incivilités, une femme qui rentre tard, un
-parent dont l'enfant est harcelé, une entreprise qui doit former ses équipes.
+> **Le pilotage n'est plus ici.** Depuis le 2026-09-09, tout ce qui décrit la
+> *prestation* — la source de vérité du contenu, l'inventaire de ce qui est
+> sourcé, les questions au client, l'avancement — vit dans un dépôt **privé** :
+> `wdelpech-mediane/coach-kraf-chantier`.
+>
+> Ce dépôt-ci est **public**, et un fichier d'un dépôt public est lisible par
+> qui en connaît le chemin, `_` ou pas. La frontière tient en une phrase :
+> **ce qui décrit le site reste ici, ce qui décrit la prestation est là-bas.**
+> En cas de doute, là-bas.
 
 ## Le site
+
+Coach particulier de Krav Maga, self-défense et boxe, à domicile ou en
+extérieur, sur Toulouse et Saint-Sulpice-la-Pointe (81). Hébergé sur GitHub
+Pages, domaine `coach-krav.fr` via `CNAME`.
+
+Il s'adresse à qui a peur, pas au pratiquant d'arts martiaux : un adulte qui
+subit des incivilités, une femme qui rentre tard, un parent dont l'enfant est
+harcelé, une entreprise qui doit former ses équipes.
 
 Cinq pages, toutes servies depuis la racine :
 
 | Page | Rôle |
 |---|---|
-| `/` | L'accueil : situations, formules, déroulé, coach, tarifs, contact |
+| `/` | L'accueil : situations, formules, disciplines, déroulé, coach, tarifs, contact |
 | `/enfants/` | Harcèlement scolaire — le meilleur angle commercial, absent du site précédent |
 | `/toulouse/` | Lieux d'entraînement, publics et contraintes propres à la ville |
 | `/saint-sulpice/` | L'espace, le rythme, les familles — le secteur de résidence |
@@ -35,16 +39,23 @@ Cinq pages, toutes servies depuis la racine :
 (`.sit`, `.pas`, `.bien`, `.tarifs`…) ont chacun leur **variante sombre** :
 posés sur `.sec--nuit` sans elle, leur gris tombe à 2,9:1.
 
-## Les fichiers du chantier
+## Les deux gardes
 
-| Fichier | Ce qu'il porte |
+| Garde | Rôle |
 |---|---|
-| `AUDIT.md` | L'état mesuré de l'existant, avec ses chiffres |
-| `HERITAGE.md` | Ce qu'on reprend de l'ancien site, et pourquoi |
-| `CONTENU.md` | La source de vérité : textes, tarifs, mentions légales, contacts |
-| `MESURE-AUDIENCE.md` | La solution retenue, la procédure, et pourquoi elle attend |
-| `CHECKLIST.md` | L'avancement, coché au fil de l'eau |
+| `coherence.py` | Refuse le commit si le site se contredirait en ligne — prix, durées, ancres, contraste, et la frontière ci-dessus |
+| `verifier-direction.py` | Mesure chaque paire texte/fond de la charte et refuse une direction dont une paire tombe sous son seuil |
+
+Le premier tourne au `pre-commit`. Installation :
+`bash _chantier/hooks/installer.sh`.
+
+## La direction visuelle
+
+| Dossier | Rôle |
+|---|---|
 | `croquis/` | Les croquis validés, datés, jamais réécrits en place |
+| `charte.html` | La charte rendue, à ouvrir dans un navigateur |
+| `directions/` | Les directions candidates, à passer au second garde |
 | `sources/` | Les visuels récupérés de l'ancien site, et le logo d'origine |
 
 ## Règle de travail

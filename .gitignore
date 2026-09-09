@@ -1,0 +1,25 @@
+# Ce dépôt est PUBLIC. Un fichier qu'il suit est lisible par qui en connaît le
+# chemin — que Jekyll le publie ou non.
+#
+# Le pilotage de la prestation vit dans un dépôt privé :
+# wdelpech-mediane/coach-kraf-chantier. Les noms ci-dessous sont ceux qui en
+# sont partis le 2026-09-09 ; s'ils réapparaissent ici, c'est par erreur.
+#
+# Cette liste est une commodité, pas une protection : `git add -f` la traverse.
+# La protection est dans `_chantier/coherence.py`, qui lit l'index git au
+# pre-commit et REFUSE le commit.
+
+_chantier/A-VALIDER.md
+_chantier/AUDIT.md
+_chantier/AUDIT-V1.md
+_chantier/CHECKLIST.md
+_chantier/CONTENU.md
+_chantier/HERITAGE.md
+_chantier/MESURE-AUDIENCE.md
+_chantier/QUESTIONS-DAVID.md
+_chantier/SMS-DAVID.md
+_chantier/SURFACES.md
+_chantier/V2.md
+
+# macOS
+.DS_Store

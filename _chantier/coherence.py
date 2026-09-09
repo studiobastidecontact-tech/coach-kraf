@@ -302,7 +302,50 @@ def controler_charte(fautes):
     # La brique a baisse d'un point de clarte (4,57) : la dette n'existe plus,
     # et le contraste se verifie la ou il se mesure, dans verifier-direction.py.
 
+# ── La frontiere entre ce depot et celui du chantier ─────────────────────
+# Ce depot est PUBLIC : un fichier y est lisible par qui en connait le chemin,
+# que Jekyll le publie ou non. Le 2026-09-09, `_chantier/` portait le journal
+# de bord de la prestation — la source de verite du contenu, l'inventaire de ce
+# qui a ete redige sans source, les questions au client, et pendant un temps
+# une denomination sociale avec son SIRET. Tout cela est parti dans un depot
+# prive ; ce controle empeche que ca revienne.
+#
+# Il lit l'INDEX GIT, pas le disque. Un brouillon pose dans `_chantier/` sans
+# etre ajoute a git ne part pas en ligne : le signaler serait un faux positif,
+# et un garde qui crie sur ce qui ne risque rien finit contourne.
+ATELIER = (
+    'README.md', 'charte.html', 'coherence.py', 'verifier-direction.py',
+    'hooks/installer.sh', 'hooks/pre-commit',
+)
+ATELIER_DOSSIERS = ('croquis/', 'directions/', 'sources/')
+
+
+def controler_frontiere(fautes):
+    import subprocess
+    try:
+        sortie = subprocess.run(['git', '-C', R, 'ls-files', '_chantier'],
+                                capture_output=True, text=True, timeout=20)
+        if sortie.returncode != 0:
+            raise RuntimeError(sortie.stderr.strip() or f"code {sortie.returncode}")
+    except Exception as e:
+        # Trois etats, jamais deux : conforme, viole, ILLISIBLE. Un instrument
+        # muet rend le meme silence qu'une absence de faute — on le dit.
+        print(f"  (frontiere non controlee : l'index git est illisible — {e})")
+        return
+
+    suivis = [l[len('_chantier/'):] for l in sortie.stdout.splitlines()
+              if l.startswith('_chantier/')]
+    for f in sorted(suivis):
+        if f in ATELIER or f.startswith(ATELIER_DOSSIERS):
+            continue
+        fautes.append(
+            f"_chantier/{f} est suivi par git dans un depot PUBLIC — "
+            f"l'atelier ne porte que l'outillage et la direction visuelle. "
+            f"Le pilotage vit dans wdelpech-mediane/coach-kraf-chantier")
+
+
 controler_charte(fautes)
+controler_frontiere(fautes)
 
 if fautes:
     print("\n".join("  ✗ " + f for f in fautes))

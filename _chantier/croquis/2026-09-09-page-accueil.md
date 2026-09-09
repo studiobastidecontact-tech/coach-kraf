@@ -269,7 +269,7 @@ et exactement ce que les moteurs font remonter sur « krav maga toulouse ».
    ├────────────────────────────────┼─────────┼────────────────────────┤
    │  Groupe · 5 et plus            │   70 €  │  la séance             │
    └────────────────────────────────┴─────────┴────────────────────────┘
-                     ▲ grille de l'ancien site — À TRANCHER, voir CONTENU.md
+                     ▲ grille de l'ancien site — à trancher
 
    ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────┐
    │ Stage à thème        │ │ Entreprises et       │ │ Tarif réduit     │
@@ -337,15 +337,14 @@ par Chrome sur le site actuel disparaissent par construction.
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Ce que la V1 ne porte pas
+## Les manques de la V1
 
-| Absent | Raison | Emplacement prévu |
-|---|---|---|
-| Témoignages | aucun n'existe encore | bloc prêt entre 7 et 8 |
-| Photos de David | aucune exploitable | les trois emplacements photo tiennent avec des images libres bien choisies |
-| SIRET | non confirmé | mentions légales, à compléter |
-| Packs à crédits | économie incohérente | à reprendre en V2 |
-| Google Business | à créer | premier levier de référencement local |
+Cinq blocs sont dessinés mais attendent une matière qui n'existe pas encore —
+témoignages, photos, mentions légales complètes. L'inventaire est tenu dans le
+dépôt de chantier, qui est privé.
+
+> *Deux passages de ce croquis ont été retirés le 2026-09-09, quand le pilotage
+> a quitté ce dépôt public. Le dessin, lui, n'a pas bougé.*
 
 ## Ce que la V1 corrige, mesurable
 
