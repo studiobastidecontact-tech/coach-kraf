@@ -147,7 +147,7 @@
   --voile-photo-rgb:var(--t-profond-rgb);   /* sous une légende d'image */
   --voile-page-rgb:var(--t-abysse-rgb);     /* derrière une modale */
   --sur-photo:var(--t-blanc);               /* le texte posé sur une photo */
-  --chevron:var(--t-chevron);               /* le chevron du <select> */
+  --chevron:var(--t-chevron);               /* le chevron qui dit « ça s'ouvre » */
 }
 /* @charte:contextes-fin */
 
@@ -601,6 +601,44 @@ button.btn{font-family:inherit;cursor:pointer}
 .qr h3{font-size:20px;margin-bottom:10px}
 .qr p{color:var(--sur-2);font-size:16px}
 .qr a{color:var(--accent);font-weight:600}
+
+/* ── les questions se replient sur téléphone ──────────────────────────
+   Quatre questions et leurs réponses font 611 px sur un écran de 390 —
+   et une objection ne se lit pas en entier, on cherche la sienne. Elles
+   arrivent OUVERTES du serveur : sans JavaScript tout se lit, comme
+   avant. C'est le script qui les referme sous 760 px, et jamais le
+   contraire — on ne masque pas du contenu à quelqu'un qui n'a pas le
+   moyen de le rouvrir.
+   Sur écran large elles restent ouvertes et le titre se présente comme
+   avant : ni curseur, ni chevron. */
+.qr-item > summary{list-style:none;cursor:default}
+.qr-item > summary::-webkit-details-marker{display:none}
+@media (max-width:760px){
+  .qr{gap:0;border-top:1px solid var(--filet)}
+  .qr-item{border-bottom:1px solid var(--filet)}
+  .qr-item > summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+    gap:14px;padding:15px 0}
+  .qr-item h3{margin:0;font-size:17px}
+  .qr-item > summary::after{content:'';width:15px;height:15px;flex-shrink:0;background:var(--accent);
+    -webkit-mask:var(--chevron) no-repeat center/contain;
+            mask:var(--chevron) no-repeat center/contain;
+    transition:transform .2s}
+  .qr-item[open] > summary::after{transform:rotate(180deg)}
+  .qr-item > p{margin:0 0 17px}
+
+  /* Les renvois de fin de page redisent ce que le pied liste juste
+     dessous : quatre cartes de 202 px, puis 843 px de pied. À cet
+     endroit — après le formulaire, au douzième écran — le titre suffit
+     à dire où l'on va. La description part, la flèche reste. */
+  #contact .renvois{gap:9px}
+  #contact .renvoi{padding:14px 18px;
+    display:flex;align-items:center;justify-content:space-between;gap:14px}
+  #contact .renvoi:hover{transform:none}
+  #contact .renvoi p{display:none}
+  #contact .renvoi h3{font-size:17px;margin:0}
+  #contact .renvoi span{margin:0;font-size:0}
+  #contact .renvoi span::after{width:17px;height:17px}
+}
 
 .encart{margin-top:40px;border:1px solid var(--filet);border-left:3px solid var(--accent);border-radius:var(--r-surface);background:var(--fond-carte);padding:24px 26px}
 .encart p{font-size:16px;color:var(--sur-2);margin:0}

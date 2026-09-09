@@ -140,6 +140,25 @@
     });
   }
 
+  // Les questions se replient sous 760 px. Elles arrivent OUVERTES du
+  // serveur, meme raison que les listes ci-dessus : sans JS tout se lit.
+  // C'est ce script qui les referme, et jamais l'inverse. On ne touche pas
+  // au reste du document : un <details> ferme garde son contenu, il n'est
+  // ni retire ni masque pour les moteurs.
+  var questions = Array.prototype.slice.call(document.querySelectorAll('details.qr-item'));
+  if (questions.length && window.matchMedia) {
+    var etroitQ = window.matchMedia('(max-width:760px)');
+    var poserQ = function(){
+      for (var i = 0; i < questions.length; i++) {
+        if (etroitQ.matches) questions[i].removeAttribute('open');
+        else questions[i].setAttribute('open', '');
+      }
+    };
+    if (etroitQ.addEventListener) etroitQ.addEventListener('change', poserQ);
+    else if (etroitQ.addListener) etroitQ.addListener(poserQ);
+    poserQ();
+  }
+
   // Le rail d'ancres marque la section courante. Pas d'IntersectionObserver,
   // pour la meme raison que les entrees au defilement : il ne signale que ce
   // qu'il voit ENTRER, et sur un saut d'ancre les sections traversees ne sont
