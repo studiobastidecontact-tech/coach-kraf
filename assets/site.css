@@ -65,10 +65,17 @@
      la brique sèche. Le non-textuel et le grand texte n'exigent que 3:1 :
      ils prennent la franche, et c'est eux que l'œil lit comme « la
      couleur du site ». Détail :
-     _chantier/croquis/2026-09-09-la-brique-est-trop-sombre-de-six-points.md */
+     _chantier/croquis/2026-09-09-la-brique-est-trop-sombre-de-six-points.md
+
+     Un troisième pour les APLATS, et il ne double aucun des deux : une
+     même valeur lue en glyphe et lue en surface de 830 sur 130 px ne rend
+     pas la même couleur — la grande surface paraît plus claire et vire au
+     pêche. La claire est juste pour le mot du héros, trop claire pour le
+     bouton qui le suit. */
   --t-brique:#A9502F;          --t-brique-rgb:169,80,47;
   --t-brique-franche:#B85C38;  --t-brique-franche-rgb:184,92,56;
   --t-brique-claire:#E08A5A;   --t-brique-claire-rgb:224,138,90;
+  --t-brique-aplat:#D2764A;    --t-brique-aplat-rgb:210,118,74;
 
   /* la note bleue. 12,7 % des pixels et les plus hautes saturations de
      toute la mesure. Ce n'est pas un ajout : la richesse de Toulouse
@@ -115,6 +122,12 @@
      qui n'a pas besoin de 4,5:1 et que l'œil lit comme la couleur */
   --accent-franc:var(--t-brique-franche);
   --accent-franc-rgb:var(--t-brique-franche-rgb);
+  /* l'aplat d'un bouton. Sur fond clair c'est la franche : blanc dessus
+     rend 4,43:1, ce qui impose des libellés d'au moins 18,66 px gras —
+     d'où les boutons pleins à 19 px, et c'est ce qui les met à la même
+     couleur que les prix qu'ils côtoient. */
+  --accent-aplat:var(--t-brique-franche);
+  --accent-aplat-rgb:var(--t-brique-franche-rgb);
   --note:var(--t-pastel);
   --acquis:var(--t-olive);            --acquis-rgb:var(--t-olive-rgb);
   --alerte:var(--t-alerte);           --alerte-rgb:var(--t-alerte-rgb);
@@ -149,6 +162,10 @@
      6,6:1, elle n'a aucun plafond à contourner */
   --accent-franc:var(--t-brique-claire);
   --accent-franc-rgb:var(--t-brique-claire-rgb);
+  /* l'aplat, plus profond que le glyphe : 5,07:1 avec le texte encre,
+     donc bon à toute taille — la barre du pouce garde ses 15 px */
+  --accent-aplat:var(--t-brique-aplat);
+  --accent-aplat-rgb:var(--t-brique-aplat-rgb);
   --note:var(--t-ciel);
   --acquis:var(--t-olive-clair);      --acquis-rgb:var(--t-olive-clair-rgb);
   --alerte:var(--t-alerte-claire);    --alerte-rgb:var(--t-alerte-claire-rgb);
@@ -240,8 +257,8 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .nav a,.nav .nav-bouton{padding:6px 0}
 .nav a{font-family:var(--tf);font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--sur-2);text-decoration:none;transition:color .18s}
 .nav a:hover{color:var(--sur)}
-.tel-tete{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:15px;padding:11px 18px;border-radius:var(--r-controle);text-decoration:none;white-space:nowrap;transition:transform .16s,box-shadow .16s}
-.tel-tete:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(var(--accent-rgb),.28)}
+.tel-tete{display:inline-flex;align-items:center;gap:8px;background:var(--accent-aplat);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:11px 18px;border-radius:var(--r-controle);text-decoration:none;white-space:nowrap;transition:transform .16s,box-shadow .16s}
+.tel-tete:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(var(--accent-aplat-rgb),.28)}
 .burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:1px solid var(--contour);border-radius:var(--r-controle);color:var(--sur);cursor:pointer}
 .burger svg{width:20px;height:20px}
 
@@ -266,13 +283,13 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .note{margin-top:18px;font-size:15px;color:var(--sur-2);display:flex;align-items:flex-start;gap:9px;max-width:520px;margin-bottom:0}
 .note::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--acquis);flex-shrink:0;margin-top:.52em}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--tf);font-weight:800;font-size:16px;padding:16px 26px;border-radius:var(--r-controle);border:none;text-decoration:none;cursor:pointer;transition:transform .16s,box-shadow .16s,background .16s,border-color .16s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--tf);font-weight:800;font-size:19px;padding:16px 26px;border-radius:var(--r-controle);border:none;text-decoration:none;cursor:pointer;transition:transform .16s,box-shadow .16s,background .16s,border-color .16s}
 .btn svg{width:18px;height:18px;flex-shrink:0}
 /* Un seul bouton d'action, et il se peint juste sur les trois fonds :
    brique sur blanc, brique claire sur profond. .btn-3 n'existe plus —
    il ne disait que « le même, mais sur l'autre fond ». */
-.btn-1{background:var(--accent);color:var(--accent-sur)}
-.btn-1:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-rgb),.3)}
+.btn-1{background:var(--accent-aplat);color:var(--accent-sur)}
+.btn-1:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-aplat-rgb),.3)}
 .btn-2{background:transparent;color:var(--sur);border:1.5px solid var(--contour)}
 .btn-2:hover{border-color:var(--sur);transform:translateY(-2px)}
 
@@ -442,8 +459,8 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .hors-ue a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(var(--accent-rgb),.4)}
 .hors-ue a:hover{border-bottom-color:var(--accent)}
 .coche input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent-franc);flex-shrink:0}
-.envoi{background:var(--accent);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:16px;padding:17px;border:none;border-radius:var(--r-controle);cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
-.envoi:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-rgb),.3)}
+.envoi{background:var(--accent-aplat);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:17px;border:none;border-radius:var(--r-controle);cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
+.envoi:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-aplat-rgb),.3)}
 .envoi:disabled{opacity:.62;cursor:progress}
 /* L'accusé porte un RECOURS, pas seulement une confirmation : Formspree
    rend « reçu », jamais « délivré », et un message perdu se lit aujourd'hui

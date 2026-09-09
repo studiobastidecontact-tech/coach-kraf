@@ -95,7 +95,13 @@ FONDS = ('--fond', '--fond-2', '--fond-carte', '--survol')
 PAIRES = ([(t, f, 4.5) for t in ('--sur', '--sur-2', '--accent', '--note', '--acquis', '--alerte') for f in FONDS]
           + [(t, f, 3.0) for t in ('--contour', '--focus', '--accent-franc') for f in FONDS]
           + [(t, f, 1.2) for t in ('--filet',) for f in FONDS]
-          + [('--accent-sur', '--accent', 4.5)])
+          + [('--accent-sur', '--accent', 4.5)]
+          # L'aplat de bouton est à 3,0 et NON à 4,5 : sur fond clair il rend
+          # 4,43:1 avec le blanc, ce qui ne passe que par l'exemption « grand
+          # texte ». Ce seuil est donc GAGÉ sur une taille de libellé que ce
+          # fichier ne voit pas — c'est la règle 7 de coherence.py qui la
+          # vérifie, et les deux tombent ensemble si l'une disparaît.
+          + [('--accent-sur', '--accent-aplat', 3.0)])
 
 
 def main():
