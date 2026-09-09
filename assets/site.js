@@ -145,7 +145,10 @@
   // C'est ce script qui les referme, et jamais l'inverse. On ne touche pas
   // au reste du document : un <details> ferme garde son contenu, il n'est
   // ni retire ni masque pour les moteurs.
-  var questions = Array.prototype.slice.call(document.querySelectorAll('details.qr-item'));
+  // Les situations se replient comme les questions, et pour la meme raison :
+  // on ne LIT pas trois cas, on cherche le sien.
+  var questions = Array.prototype.slice.call(
+    document.querySelectorAll('details.qr-item, details.sit'));
   if (questions.length && window.matchMedia) {
     var etroitQ = window.matchMedia('(max-width:760px)');
     var poserQ = function(){

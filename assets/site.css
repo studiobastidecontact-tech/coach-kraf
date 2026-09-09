@@ -272,6 +272,18 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
   linear-gradient(100deg,var(--fond) 30%,rgba(var(--fond-rgb),.86) 52%,rgba(var(--fond-rgb),.62) 100%),
   linear-gradient(to top,var(--fond) 2%,transparent 46%)}
 .hero-in{position:relative;z-index:2;max-width:720px}
+/* LE GESTE DE CELUI QUI N'EST PAS PRÊT. Deux boutons demandaient de contacter
+   un inconnu, et rien d'autre. Quelqu'un qui hésite veut d'abord comprendre :
+   ce lien l'amène au déroulé, sans engagement. Il est délibérément plus
+   discret que les deux boutons — c'est une porte, pas une action. */
+.lien-doux{display:inline-flex;align-items:center;gap:8px;color:var(--sur-2);
+  font-family:var(--tf);font-weight:700;font-size:16px;text-decoration:none;
+  padding:10px 2px;transition:color .18s}
+.lien-doux:hover{color:var(--sur)}
+.lien-doux span::after{content:'';display:block;width:1.05em;height:1.05em;
+  background:currentColor;-webkit-mask:var(--fleche) no-repeat center/contain;
+          mask:var(--fleche) no-repeat center/contain;transition:transform .2s}
+.lien-doux:hover span::after{transform:translateX(4px)}
 .hero h1{font-size:clamp(42px,7.4vw,78px);margin:18px 0 22px}
 .hero h1 em{font-style:normal;color:var(--accent-franc);display:block}
 .hero p{color:var(--sur-2);font-size:clamp(16px,1.7vw,19px);max-width:530px;margin-bottom:34px}
@@ -308,7 +320,11 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .sit::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent-franc);transform:scaleY(0);transform-origin:top;transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .sit:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(var(--ombre-rgb),.1);border-color:var(--contour)}
 .sit:hover::before{transform:scaleY(1)}
-.sit-n{font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.16em;color:var(--accent);margin-bottom:12px}
+/* LE NUMERO ENTRE DANS LE TITRE. Il vivait dans son propre paragraphe ; un
+   <summary> n'accepte qu'un seul titre, et le sortir aurait casse le repli. */
+.sit-n{font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.16em;color:var(--accent);display:block;margin-bottom:12px}
+.sit > summary{list-style:none;cursor:default}
+.sit > summary::-webkit-details-marker{display:none}
 .sit h3{font-size:23px;margin-bottom:14px}
 .sit p{color:var(--sur-2);font-size:16px;margin-bottom:14px}
 .sit .rep{color:var(--sur);font-weight:600}
@@ -394,6 +410,24 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
    `.certifs > div:last-child` perd contre un `:nth-child`, quel que soit
    l'ordre des règles. Relevé : la grille rapportait 2 colonnes à 390 px. */
 @media (max-width:760px){
+  /* LES TROIS SITUATIONS DEVIENNENT UN CHOIX. Empilees, elles faisaient
+     2,4 ecrans — le premier contenu apres le heros, et le plus lent. Or on ne
+     les LIT pas : on cherche la sienne. Les trois titres se disent tout seuls
+     (« Vous, au quotidien », « Votre enfant, a l'ecole », « Votre equipe »).
+     Elles arrivent ouvertes du serveur : sans JavaScript, tout se lit. */
+  .sit{padding:0}
+  .sit > summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+    gap:14px;padding:22px 24px}
+  .sit > summary h3{margin:0;display:flex;align-items:baseline;gap:11px;font-size:20px}
+  .sit .sit-n{display:inline;margin:0;font-size:13px}
+  .sit > summary::after{content:'';width:16px;height:16px;flex-shrink:0;background:var(--accent-franc);
+    -webkit-mask:var(--chevron) no-repeat center/contain;
+            mask:var(--chevron) no-repeat center/contain;transition:transform .2s}
+  .sit[open] > summary::after{transform:rotate(180deg)}
+  .sit > p,.sit > .go{margin-left:24px;margin-right:24px}
+  .sit > .go{margin-bottom:22px}
+  .sit::before{display:none}
+
   .certifs > div:last-child:nth-child(2n+1),
   .certifs > div:last-child:nth-child(3n+1),
   .certifs > div:last-child:nth-child(3n+2){grid-column:auto}
@@ -622,6 +656,29 @@ button.btn{font-family:inherit;cursor:pointer}
   .bien .num{grid-row:span 2}
   .tarifs .l{grid-template-columns:1fr auto;gap:6px 14px;padding:18px 20px}
   .tarifs .m{grid-column:1/-1}
+  /* LA PHOTO REÇOIT SA BANDE. Sur téléphone le voile latéral, pensé pour un
+     écran large, laissait la photo DERRIÈRE le texte : on devinait des
+     silhouettes et rien de plus. Le voile devient vertical — opaque sous le
+     texte, transparent sous la bande — et le hero réserve 190 px en bas.
+     C'est le seul endroit de la page où l'on voit ce qu'est un cours. */
+  .hero{padding:calc(var(--tete) + 44px) 0 200px}
+  /* LA PHOTO N'EST PLUS UN FOND, C'EST UNE BANDE. En portrait, une image en
+     `cover` est mise a l'echelle sur la HAUTEUR : les 216 px du bas montrent
+     donc toujours le bas de l'image, c'est-a-dire le sol — quel que soit le
+     cadrage horizontal. Premiere tentative : du gravier sur 216 px.
+     La photo occupe desormais la bande SEULE, avec son propre cadrage, et le
+     voile ne couvre plus qu'elle : un fond uni au-dessus, une image en bas. */
+  .hero-photo{inset:auto 0 0 0;height:216px}
+  .hero-photo img{object-position:center 66%}
+  .hero-voile{inset:auto 0 0 0;height:216px;background:linear-gradient(to bottom,
+      var(--fond) 0, rgba(var(--fond-rgb),.42) 38%, rgba(var(--fond-rgb),.12) 100%)}
+  /* l'intitulé tenait sur deux lignes à cause du seul interlettrage */
+  /* L'intitulé passait sur deux lignes par le seul interlettrage : 350 px de
+     texte pour 342 de large. On retire l'espacement, pas la taille — c'est
+     elle que William trouvait trop petite. 350 -> 308 px, une ligne. */
+  .hero p.eyebrow{letter-spacing:.01em}
+  .lien-doux{padding:12px 2px}
+
   .pouce{display:flex}
   body{padding-bottom:78px}
   .bas{flex-direction:column;gap:12px}
@@ -782,7 +839,11 @@ button.btn{font-family:inherit;cursor:pointer}
    commencait a 529 px, sous la ligne de flottaison. On resserre le rythme
    vertical du heros — et de lui seul — la ou chaque pixel se paie. */
 @media (max-width:420px){
-  .hero{padding:calc(var(--tete) + 26px) 0 52px}
+  /* La bande photo vaut ici aussi : ce bloc resserre le rythme pour garder le
+     bouton d'appel au-dessus de la ligne de flottaison, et il ECRASAIT le
+     padding pose plus haut — le hero rendait 78 px de photo au lieu de 190.
+     Le contenu reste haut, la bande s'ajoute dessous. */
+  .hero{padding:calc(var(--tete) + 26px) 0 190px}
   .hero--court{padding:calc(var(--tete) + 22px) 0 44px}
   .hero .eyebrow{margin-bottom:9px}
   .hero h1{margin:10px 0 16px}
