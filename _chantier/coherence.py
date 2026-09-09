@@ -45,6 +45,16 @@ def dimensions_jpeg(chemin):
 ANCRES = {f: set(re.findall(r'\sid="([^"]+)"', open(os.path.join(R, f), encoding='utf-8').read()))
           for f in PAGES if os.path.exists(os.path.join(R, f))}
 
+# Les jetons que la feuille definit REELLEMENT. Releves ici, avant la boucle :
+# les referencer depuis une fonction declaree plus bas fait planter le script,
+# et un garde qui plante ressemble a un garde permissif pour qui ne lit que sa
+# sortie — mon propre controle negatif a rendu « 1/4 » alors que rien ne
+# tournait.
+_CSS = os.path.join(R, 'assets', 'site.css')
+JETONS = set(re.findall(r'(--[a-z0-9-]+)\s*:',
+             re.sub(r'/\*.*?\*/', '', open(_CSS, encoding='utf-8').read(), flags=re.S))) \
+         if os.path.exists(_CSS) else set()
+
 for p in PAGES:
     q = os.path.join(R, p)
     if not os.path.exists(q): continue
@@ -134,6 +144,26 @@ for p in PAGES:
             fautes.append(f"{p} : pas de meta description")
         elif len(desc.group(1)) > 160:
             fautes.append(f"{p} : description de {len(desc.group(1))} caracteres — Google en affiche 160")
+
+    # 8) le HTML ne doit pas citer un jeton que la feuille ne definit plus.
+    #    Le controle de charte ne lit que assets/site.css : un <style> en
+    #    ligne lui echappe entierement. Releve le 09/09 : `--nuit-2`, disparu
+    #    a la refonte de palette, survivait sur NEUF pages dans le repli sans
+    #    JavaScript — un fond qui ne se peignait plus, invisible a tout test
+    #    fait avec le script actif.
+    propre = re.sub(r'/\*.*?\*/', '', re.sub(r'<!--.*?-->', '', s, flags=re.S), flags=re.S)
+    for j in sorted(set(re.findall(r'var\((--[a-z0-9-]+)\)', propre))):
+        if j not in JETONS:
+            fautes.append(f"{p} : {j} cite dans le HTML mais absent de la feuille")
+
+    # 9) une page qui porte une <dialog> a besoin du script qui l'ouvre.
+    #    Sans lui, le <noscript> ne s'applique PAS — le navigateur a bien du
+    #    JavaScript — donc le declencheur reste visible et ne fait rien.
+    #    Releve le 09/09 sur 404.html : un bouton « Ecrire un message » mort.
+    if re.search(r'<dialog\b', s) and 'site.js' not in s:
+        fautes.append(f"{p} : une <dialog> sans site.js — le declencheur sera un bouton mort")
+    if re.search(r'data-ouvre=', s) and 'site.js' not in s:
+        fautes.append(f"{p} : un declencheur data-ouvre sans site.js")
 
     # 5) le balisage FAQ doit citer un texte present sur la page
     for bloc in re.findall(r'<script[^>]*ld\+json[^>]*>(.*?)</script>', s, re.S):
