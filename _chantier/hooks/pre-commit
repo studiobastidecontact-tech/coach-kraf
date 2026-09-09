@@ -1,0 +1,19 @@
+#!/bin/sh
+# Un push sur main publie immediatement sur coach-krav.fr : il n'y a pas
+# d'etage intermediaire ou rattraper une contradiction. Ce garde tourne donc
+# AVANT le commit, jamais apres.
+#
+# Installation : bash _chantier/hooks/installer.sh
+# Contournement, si vraiment necessaire : git commit --no-verify
+
+racine=$(git rev-parse --show-toplevel)
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "  (python3 absent — controle de coherence saute)"
+  exit 0
+fi
+python3 "$racine/_chantier/coherence.py" || {
+  echo ""
+  echo "  Le commit est refuse : le site se contredirait en ligne."
+  echo "  Corrigez, ou passez outre en connaissance de cause : git commit --no-verify"
+  exit 1
+}
