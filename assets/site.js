@@ -100,6 +100,50 @@
   }
 
 
+  // La modale d'ecriture. Le formulaire ne traine plus en bas de page : on
+  // l'ouvre depuis l'en-tete, ou depuis le bloc de contact. Sans script, une
+  // balise <dialog> ne s'ouvre pas — un <noscript> la rend alors au fil de la
+  // page, et masque les boutons qui ne mèneraient nulle part.
+  var modale = document.getElementById('ecrire');
+  if (modale) {
+    var ouvrantPrecedent = null;
+    // Le declencheur porte ce que sa page sait deja du visiteur : la modale
+    // s'ouvre pre-remplie. Un parent venu de la page enfants n'a pas a
+    // rechoisir « Mon enfant » — il vient de passer cinq minutes a le dire.
+    var poser = function(id, valeur){
+      if (!valeur) return;
+      var liste = modale.querySelector('#' + id);
+      if (!liste) return;
+      for (var i = 0; i < liste.options.length; i++) {
+        if (liste.options[i].value === valeur) { liste.selectedIndex = i; return; }
+      }
+    };
+    var ouvrir = function(depuis){
+      ouvrantPrecedent = depuis || null;
+      if (depuis) { poser('c-qui', depuis.getAttribute('data-pour')); poser('c-ou', depuis.getAttribute('data-ou')); }
+      if (typeof modale.showModal === 'function') modale.showModal();
+      else modale.setAttribute('open', '');            // navigateurs sans <dialog>
+      var premier = modale.querySelector('input:not([type=hidden]):not([tabindex="-1"]), select, textarea');
+      if (premier) setTimeout(function(){ premier.focus(); }, 40);
+    };
+    var fermer = function(){
+      if (typeof modale.close === 'function') modale.close();
+      else modale.removeAttribute('open');
+      if (ouvrantPrecedent) ouvrantPrecedent.focus();  // on rend le focus a son point de depart
+    };
+    document.addEventListener('click', function(e){
+      var d = e.target.closest && e.target.closest('[data-ouvre="ecrire"]');
+      if (d) { e.preventDefault(); ouvrir(d); return; }
+      if (e.target.closest && e.target.closest('[data-ferme]')) { fermer(); return; }
+      // un clic hors du panneau ferme : la zone du <dialog> deborde son contenu
+      if (e.target === modale) fermer();
+    });
+    modale.addEventListener('close', function(){ if (ouvrantPrecedent) ouvrantPrecedent.focus(); });
+    // une adresse qui pointe la modale l'ouvre : /?...#ecrire depuis une autre page
+    if (location.hash === '#ecrire') ouvrir(null);
+    window.addEventListener('hashchange', function(){ if (location.hash === '#ecrire') ouvrir(null); });
+  }
+
   // envoi du message — la saisie n'est jamais perdue en cas d'echec
   var f = document.getElementById('msg');
   if (!f) return;

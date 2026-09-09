@@ -253,7 +253,7 @@ footer{background:var(--nuit);color:var(--brume);border-top:1px solid var(--trai
 .pouce a{flex:1;font-size:15px;padding:14px 10px}
 
 /* ── volets légaux ─────────────────────────────────────────────────── */
-dialog{width:min(680px,92vw);border:1px solid var(--trait);border-radius:var(--r-surface);background:var(--nuit-2);color:var(--brume);padding:0}
+dialog{width:min(680px,92vw);margin:auto;border:1px solid var(--trait);border-radius:var(--r-surface);background:var(--nuit-2);color:var(--brume);padding:0}
 dialog::backdrop{background:rgba(var(--abysse-rgb),.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .vol{padding:36px 34px 34px;max-height:min(78vh,780px);overflow-y:auto}
 .vol h2{font-size:26px;color:var(--sur-nuit);margin-bottom:20px}
@@ -262,6 +262,25 @@ dialog::backdrop{background:rgba(var(--abysse-rgb),.82);-webkit-backdrop-filter:
 .vol a{color:var(--signal)}
 .vol .clore{position:absolute;top:16px;right:16px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--nuit);border:1px solid var(--trait);border-radius:var(--r-controle);color:var(--brume);font-size:17px;cursor:pointer}
 .vol .clore:hover{color:var(--sur-nuit)}
+/* « Contact » dans le menu ouvre la modale : c'est un bouton, il doit se
+   presenter exactement comme les liens voisins, sinon la ligne se casse. */
+.nav-bouton{font:inherit;background:none;border:0;padding:0;cursor:pointer;color:inherit;
+  font-family:var(--tf);font-size:14px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.nav .nav-bouton{color:var(--brume);transition:color .18s}
+.nav .nav-bouton:hover{color:var(--sur-nuit)}
+/* Le canal « ecrire » est devenu un bouton : meme gabarit que ses deux voisins. */
+button.canal{font:inherit;text-align:left;cursor:pointer;width:100%}
+/* Un declencheur de modale est un <button> : il doit se presenter comme les
+   liens-boutons qui l'entourent. */
+button.btn{font-family:inherit;cursor:pointer}
+/* Un declencheur pose au fil d'une phrase : il se lit comme un lien, pas
+   comme un bouton — sinon la phrase se casse en deux. */
+.lien-note{font:inherit;background:none;border:0;padding:0;cursor:pointer;color:var(--signal);
+  border-bottom:1px solid rgba(var(--signal-rgb),.4)}
+.lien-note:hover{border-bottom-color:var(--signal)}
+.vol-intro{font-size:15px;color:var(--brume);margin:-8px 0 22px;line-height:1.6}
+.vol-intro a{color:var(--signal)}
+.vol .formulaire{margin-top:0}
 
 /* ── entrées animées ────────────────────────────────────────────────
    Le contenu est VISIBLE par défaut. C'est le script qui pose .anime sur

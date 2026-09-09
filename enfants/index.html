@@ -55,7 +55,7 @@
       <a href="/#formules">Cours</a>
       <a href="/#coach">Le coach</a>
       <a href="#tarifs">Tarifs</a>
-      <a href="#contact">Contact</a>
+      <button type="button" class="nav-bouton" data-ouvre="ecrire" data-pour="Mon enfant">Contact</button>
     </nav>
     <a class="tel-tete" href="tel:+33781686084">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="width:17px;height:17px"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.4 1.8.6 2.7.7a2 2 0 0 1 1.8 2.1z"/></svg>
@@ -252,11 +252,11 @@
         <b>Envoyer un SMS</b>
         <span>Le plus efficace</span>
       </a>
-      <a class="canal" href="/?pour=Mon%20enfant#contact">
+      <button class="canal" type="button" data-ouvre="ecrire" data-pour="Mon enfant">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
         <b>Écrire un message</b>
-        <span>Formulaire, sur l’accueil</span>
-      </a>
+        <span>Si vous préférez ne pas appeler</span>
+      </button>
     </div>
       <div class="renvois monte">
       <a class="renvoi" href="/femmes/">
@@ -320,5 +320,70 @@
 </div>
 
 <script src="/assets/site.js" defer></script>
+
+<dialog id="ecrire" aria-labelledby="ecrire-titre">
+  <div class="vol">
+    <button type="button" class="clore" data-ferme aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="width:18px;height:18px"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <h2 id="ecrire-titre">Votre message</h2>
+    <p class="vol-intro">Le plus rapide reste <a href="tel:+33781686084">un appel</a> ou <a href="sms:+33781686084?&amp;body=Bonjour, je souhaite des informations sur les cours.">un SMS</a> — mais si vous préférez écrire, c’est ici.</p>
+    <form class="formulaire" id="msg" action="https://formspree.io/f/xaqlaapn" method="POST">
+      <input type="hidden" name="_subject" value="Nouvelle demande — coach-krav.fr">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      <div class="rang">
+        <div class="champ">
+          <label for="c-nom">Nom</label>
+          <input id="c-nom" name="nom" type="text" autocomplete="name" placeholder="Votre nom" required>
+        </div>
+        <div class="champ">
+          <label for="c-tel">Téléphone</label>
+          <input id="c-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Pour vous rappeler" required>
+        </div>
+      </div>
+      <div class="rang">
+        <div class="champ">
+          <label for="c-qui">Pour qui&nbsp;?</label>
+          <select id="c-qui" name="pour_qui">
+            <option value="Moi">Moi</option>
+            <option value="Mon enfant">Mon enfant</option>
+            <option value="Nous deux">Nous deux</option>
+            <option value="Un groupe">Un groupe d’amis ou de famille</option>
+            <option value="Mon equipe">Mon équipe, mon entreprise</option>
+          </select>
+        </div>
+        <div class="champ">
+          <label for="c-ou">Où&nbsp;?</label>
+          <select id="c-ou" name="lieu">
+            <option value="Toulouse">Toulouse ou agglomération</option>
+            <option value="Saint-Sulpice">Saint-Sulpice-la-Pointe et alentours</option>
+            <option value="Autre">Ailleurs — à voir ensemble</option>
+          </select>
+        </div>
+      </div>
+      <div class="champ">
+        <label for="c-msg">Votre situation</label>
+        <textarea id="c-msg" name="message" placeholder="Ce qui vous amène, votre niveau, vos disponibilités. Quelques mots suffisent." required></textarea>
+      </div>
+      <label class="coche" for="c-rgpd">
+        <input id="c-rgpd" type="checkbox" name="consentement" value="oui" required>
+        <span>J’accepte que ces informations servent uniquement à me répondre.</span>
+      </label>
+      <p class="hors-ue">Ce formulaire passe par un prestataire américain, vos données quittent donc l’Union européenne — <a href="/mentions/#confidentialite">le détail est ici</a>. Un <a href="sms:+33781686084">SMS</a> arrive directement sur le téléphone du coach, sans intermédiaire.</p>
+      <button class="envoi" type="submit" id="c-envoi">Envoyer le message</button>
+      <p class="retour" id="c-ok" role="status">Message envoyé. Je vous réponds dès que possible — si c’est urgent, un SMS au 07 81 68 60 84 ira plus vite.</p>
+      <p class="retour" id="c-ko" role="alert">L’envoi n’a pas abouti. Votre message est toujours là : réessayez, ou écrivez directement à kpitol@laposte.net.</p>
+    </form>
+  </div>
+</dialog>
+
+<noscript><style>
+  /* Sans script, une modale ne s'ouvre pas. On la rend alors au fil de la page,
+     a sa place naturelle : mieux vaut un formulaire visible qu'un bouton mort. */
+  dialog#ecrire{display:block;position:static;width:auto;max-width:820px;margin:0 auto 70px;background:var(--nuit-2)}
+  dialog#ecrire .clore{display:none}
+  [data-ouvre]{display:none!important}
+</style></noscript>
+
 </body>
 </html>
