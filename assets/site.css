@@ -189,6 +189,12 @@ header.pose{border-bottom-color:var(--trait);background:rgba(14,26,43,.97)}
    un halo, qui donne au focus une aire visible et un contraste franc */
 .champ input:focus,.champ select:focus,.champ textarea:focus{outline:none;border-color:var(--signal);box-shadow:0 0 0 3px rgba(240,180,41,.32)}
 .coche{display:flex;gap:11px;align-items:flex-start;font-size:15px;color:var(--brume);cursor:pointer}
+/* Dit au moment de la decision, pas seulement dans la page legale : on
+   n'apprend pas apres coup ou partent ses donnees. Et l'alternative est
+   nommee dans la meme phrase, sinon l'information ne sert a rien. */
+.hors-ue{margin:14px 0 0;font-size:15px;line-height:1.55;color:var(--brume);max-width:62ch}
+.hors-ue a{color:var(--signal);text-decoration:none;border-bottom:1px solid rgba(240,180,41,.4)}
+.hors-ue a:hover{border-bottom-color:var(--signal)}
 .coche input{margin-top:4px;width:18px;height:18px;accent-color:var(--signal);flex-shrink:0}
 .envoi{background:var(--signal);color:var(--nuit);font-family:var(--tf);font-weight:800;font-size:16px;padding:17px;border:none;border-radius:4px;cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
 .envoi:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(240,180,41,.3)}

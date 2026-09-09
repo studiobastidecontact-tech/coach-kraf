@@ -4,7 +4,7 @@ deux prix, ou envoyer une mention légale vers un formulaire, sans qu'un seul
 validateur bronche. Ce script les cherche. Lancer avant chaque publication :
     python3 _chantier/coherence.py
 """
-import re, os, sys, html, json
+import re, os, sys, html, json, struct
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = ['index.html','femmes/index.html','enfants/index.html',
          'toulouse/index.html','saint-sulpice/index.html','mentions/index.html','404.html']
@@ -22,6 +22,22 @@ def texte(s):
                        + re.findall(r'<title>(.*?)</title>', s, flags=re.S))
     corps = re.sub(r'<(script|style)[^>]*>.*?</\1>', '', s, flags=re.S)
     return re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', corps) + ' ' + hors_page))
+
+def dimensions_jpeg(chemin):
+    """Lit la taille dans l'en-tete du fichier — pas de dependance, et ca ne
+    ment pas, contrairement a ce que le HTML declare."""
+    d = open(chemin, 'rb').read()
+    i = 2
+    while i < len(d) - 9:
+        if d[i] != 0xFF:
+            i += 1; continue
+        if d[i+1] in (0xC0, 0xC1, 0xC2):
+            h, w = struct.unpack('>HH', d[i+5:i+9]); return w, h
+        i += 2 + struct.unpack('>H', d[i+2:i+4])[0]
+    return None
+
+ANCRES = {f: set(re.findall(r'\sid="([^"]+)"', open(os.path.join(R, f), encoding='utf-8').read()))
+          for f in PAGES if os.path.exists(os.path.join(R, f))}
 
 for p in PAGES:
     q = os.path.join(R, p)
@@ -62,6 +78,32 @@ for p in PAGES:
         h3 = len(re.findall(r'<h3\b', m.group(2)))
         if h3 and h3 != n_annonce:
             fautes.append(f"{p} : « {titre[:52]} » annonce {n_annonce}, en liste {h3}")
+
+    # 5) l'image de partage doit exister et mesurer ce qu'on annonce.
+    #    Elle est passee de 800 a 1400 px sans que les dimensions declarees
+    #    suivent : les reseaux dessinent la carte d'apres ces chiffres.
+    img = re.search(r'og:image" content="https://coach-krav\.fr/([^"]+)"', s)
+    if img:
+        chemin = os.path.join(R, img.group(1))
+        if not os.path.exists(chemin):
+            fautes.append(f"{p} : image de partage introuvable — {img.group(1)}")
+        else:
+            w = re.search(r'og:image:width" content="(\d+)"', s)
+            h = re.search(r'og:image:height" content="(\d+)"', s)
+            reel = dimensions_jpeg(chemin)
+            if not (w and h):
+                fautes.append(f"{p} : image de partage sans dimensions declarees")
+            elif reel and (int(w.group(1)), int(h.group(1))) != reel:
+                fautes.append(f"{p} : image de partage declaree {w.group(1)}x{h.group(1)}, reelle {reel[0]}x{reel[1]}")
+
+    # 6) les ancres internes doivent mener quelque part
+    for href in set(re.findall(r'href="([^"]*#[^"]+)"', s)):
+        chemin_h, _, frag = href.partition('#')
+        base = chemin_h.split('?')[0].strip('/')
+        cible = (base + '/index.html') if base else ('index.html' if chemin_h.startswith('/') else p)
+        if chemin_h == '': cible = p
+        if cible in ANCRES and frag not in ANCRES[cible]:
+            fautes.append(f"{p} : l'ancre {href} ne mene nulle part")
 
     # 5) le balisage FAQ doit citer un texte present sur la page
     for bloc in re.findall(r'<script[^>]*ld\+json[^>]*>(.*?)</script>', s, re.S):
