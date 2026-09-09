@@ -127,7 +127,7 @@ header.pose{border-bottom-color:var(--trait);background:rgba(var(--nuit-rgb),.97
 .form-c{background:var(--nuit-2);border:1px solid var(--trait);border-radius:var(--r-surface);padding:36px 32px;transition:border-color .22s,transform .22s}
 .form-c:hover{border-color:var(--nuit-3);transform:translateY(-3px)}
 /* le chiffre reste discret mais tient 3,7:1 — le bleu d'avant plafonnait a 2,7 */
-.form-c .n{font-family:var(--tf);font-size:46px;font-weight:800;color:rgba(var(--signal-rgb),.55);line-height:1;margin-bottom:14px}
+.form-c .n{font-family:var(--tf);font-size:46px;font-weight:800;color:rgba(var(--signal-rgb),.8);line-height:1;margin-bottom:14px}
 .form-c h3{font-size:23px;margin-bottom:12px}
 .form-c p{color:var(--brume);font-size:16px}
 
@@ -483,5 +483,6 @@ button.btn{font-family:inherit;cursor:pointer}
 
 /* quatre renvois tiennent sur une ligne en grand écran, deux en dessous */
 .renvois.quatre{grid-template-columns:repeat(4,1fr);margin-top:0;margin-bottom:44px}
-@media (max-width:1080px){ .renvois.quatre{grid-template-columns:1fr 1fr} }
-@media (max-width:640px){ .renvois.quatre{grid-template-columns:1fr} }
+.renvois.trois{grid-template-columns:repeat(3,1fr)}
+@media (max-width:1080px){ .renvois.quatre{grid-template-columns:1fr 1fr} .renvois.trois{grid-template-columns:1fr 1fr} }
+@media (max-width:640px){ .renvois.quatre,.renvois.trois{grid-template-columns:1fr} }

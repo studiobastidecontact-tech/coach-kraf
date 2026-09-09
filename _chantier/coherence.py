@@ -6,8 +6,14 @@ validateur bronche. Ce script les cherche. Lancer avant chaque publication :
 """
 import re, os, sys, html, json, struct
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = ['index.html','femmes/index.html','enfants/index.html',
-         'toulouse/index.html','saint-sulpice/index.html','mentions/index.html','404.html']
+PAGES = sorted(
+    os.path.relpath(os.path.join(rep, f), R)
+    for rep, _, fichiers in os.walk(R)
+    for f in fichiers
+    if f.endswith('.html')
+    and '_chantier' not in rep
+    and '/.git' not in rep
+)
 fautes = []
 
 def texte(s):
