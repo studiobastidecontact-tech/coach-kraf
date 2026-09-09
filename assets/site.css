@@ -379,3 +379,8 @@ dialog::backdrop{background:rgba(6,11,19,.82);backdrop-filter:blur(6px)}
 .note span{display:block}
 .note b{color:var(--signal);font-weight:600}
 @media (max-width:640px){ .offre{flex-direction:column;align-items:flex-start;gap:6px} }
+
+/* quatre renvois tiennent sur une ligne en grand écran, deux en dessous */
+.renvois.quatre{grid-template-columns:repeat(4,1fr);margin-top:0;margin-bottom:44px}
+@media (max-width:1080px){ .renvois.quatre{grid-template-columns:1fr 1fr} }
+@media (max-width:640px){ .renvois.quatre{grid-template-columns:1fr} }
