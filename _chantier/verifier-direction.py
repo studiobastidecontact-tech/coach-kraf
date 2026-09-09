@@ -96,12 +96,21 @@ PAIRES = ([(t, f, 4.5) for t in ('--sur', '--sur-2', '--accent', '--note', '--ac
           + [(t, f, 3.0) for t in ('--contour', '--focus', '--accent-franc') for f in FONDS]
           + [(t, f, 1.2) for t in ('--filet',) for f in FONDS]
           + [('--accent-sur', '--accent', 4.5)]
-          # L'aplat de bouton est à 3,0 et NON à 4,5 : sur fond clair il rend
-          # 4,43:1 avec le blanc, ce qui ne passe que par l'exemption « grand
-          # texte ». Ce seuil est donc GAGÉ sur une taille de libellé que ce
-          # fichier ne voit pas — c'est la règle 7 de coherence.py qui la
-          # vérifie, et les deux tombent ensemble si l'une disparaît.
-          + [('--accent-sur', '--accent-aplat', 3.0)])
+          # LE BOUTON D'APPEL, qui ne suit plus le contexte depuis le
+          # 2026-09-09 : deux briques différentes pour le même bouton, et
+          # William l'a vu du premier coup d'œil. Deux paires, et il faut les
+          # DEUX — la première seule laisserait passer un bouton illisible,
+          # la seconde seule un bouton invisible sur son fond.
+          #
+          #   · son LIBELLÉ sur son aplat : 3,0 parce que 19 px en gras. Ce
+          #     seuil est gagé sur une taille que ce fichier ne voit pas —
+          #     c'est la règle 7 de coherence.py qui la tient, et les deux
+          #     tombent ensemble si l'une disparaît.
+          #   · sa FORME contre le fond de chaque contexte : 3,0, WCAG 1.4.11.
+          #     C'est cette seconde exigence qui a désigné #B85C38 : 3,87:1
+          #     sur la pierre claire, 3,85:1 sur le fond profond.
+          + [('--accent-aplat-sur', '--accent-aplat', 3.0)]
+          + [('--accent-aplat', f, 3.0) for f in ('--fond', '--fond-2')])
 
 
 def main():

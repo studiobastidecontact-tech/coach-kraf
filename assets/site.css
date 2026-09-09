@@ -123,12 +123,6 @@
      qui n'a pas besoin de 4,5:1 et que l'œil lit comme la couleur */
   --accent-franc:var(--t-brique-franche);
   --accent-franc-rgb:var(--t-brique-franche-rgb);
-  /* l'aplat d'un bouton. Sur fond clair c'est la franche : blanc dessus
-     rend 4,43:1, ce qui impose des libellés d'au moins 18,66 px gras —
-     d'où les boutons pleins à 19 px, et c'est ce qui les met à la même
-     couleur que les prix qu'ils côtoient. */
-  --accent-aplat:var(--t-brique-franche);
-  --accent-aplat-rgb:var(--t-brique-franche-rgb);
   --note:var(--t-pastel);
   --acquis:var(--t-olive);            --acquis-rgb:var(--t-olive-rgb);
   --alerte:var(--t-alerte);           --alerte-rgb:var(--t-alerte-rgb);
@@ -163,10 +157,6 @@
      6,6:1, elle n'a aucun plafond à contourner */
   --accent-franc:var(--t-brique-claire);
   --accent-franc-rgb:var(--t-brique-claire-rgb);
-  /* l'aplat porte la MEME brique que le glyphe : 6,27:1 avec le texte encre,
-     bon a toute taille, donc la barre du pouce garde ses 15 px */
-  --accent-aplat:var(--t-brique-claire);
-  --accent-aplat-rgb:var(--t-brique-claire-rgb);
   --note:var(--t-ciel);
   --acquis:var(--t-olive-clair);      --acquis-rgb:var(--t-olive-clair-rgb);
   --alerte:var(--t-alerte-claire);    --alerte-rgb:var(--t-alerte-claire-rgb);
@@ -182,6 +172,18 @@
    Ils portent quand même un nom : sans lui, le corps de la feuille
    citerait un jeton de direction et court-circuiterait cette couche. */
 :root{
+  /* LE BOUTON D'APPEL NE CHANGE PAS AVEC LA SURFACE. C'est un objet, pas
+     un rôle : il vit dans l'en-tête clair, dans le héros sombre et dans la
+     barre du pouce, et William l'a vu tout de suite quand il portait deux
+     briques différentes. « Le même bouton » doit se reconnaître.
+     #B85C38 est le seul qui tienne des DEUX côtés, et presque à l'identique :
+     3,87:1 sur la pierre claire, 3,85:1 sur le fond profond — WCAG 1.4.11
+     demande 3,0 pour la forme d'un composant. Son libellé blanc rend 4,43:1,
+     ce qui impose 19 px en gras, et c'est la taille qu'ils ont. */
+  --accent-aplat:var(--t-brique-franche);
+  --accent-aplat-rgb:var(--t-brique-franche-rgb);
+  --accent-aplat-sur:var(--t-blanc);
+
   --voile-photo-rgb:var(--t-profond-rgb);   /* sous une légende d'image */
   --voile-page-rgb:var(--t-abysse-rgb);     /* derrière une modale */
   --sur-photo:var(--t-blanc);               /* le texte posé sur une photo */
@@ -223,9 +225,8 @@ section{scroll-margin-top:calc(var(--tete) + 12px)}
 
 /* ── rythme des sections : le blanc domine, la pierre ponctue ───────── */
 .sec{padding:104px 0;background:var(--fond);color:var(--sur)}
-.eyebrow{font-family:var(--tf);font-size:16px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--note);display:flex;align-items:flex-start;gap:11px;margin-bottom:16px}
+.eyebrow{font-family:var(--tf);font-size:16px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--note);margin-bottom:16px}
 /* le trait s'aligne sur la PREMIERE ligne, pas au milieu du bloc */
-.eyebrow::before{content:'';width:28px;height:2px;background:var(--accent-franc);flex-shrink:0;margin-top:.62em}
 h2{font-size:clamp(30px,4.4vw,44px);margin-bottom:14px}
 .lead{color:var(--sur-2);max-width:660px;font-size:17px}
 .head{margin-bottom:52px}
@@ -258,7 +259,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .nav a,.nav .nav-bouton{padding:6px 0}
 .nav a{font-family:var(--tf);font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--sur-2);text-decoration:none;transition:color .18s}
 .nav a:hover{color:var(--sur)}
-.tel-tete{display:inline-flex;align-items:center;gap:8px;background:var(--accent-aplat);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:7px 18px;border-radius:var(--r-controle);text-decoration:none;white-space:nowrap;transition:transform .16s,box-shadow .16s}
+.tel-tete{display:inline-flex;align-items:center;gap:8px;background:var(--accent-aplat);color:var(--accent-aplat-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:7px 18px;border-radius:var(--r-controle);text-decoration:none;white-space:nowrap;transition:transform .16s,box-shadow .16s}
 .tel-tete:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(var(--accent-aplat-rgb),.28)}
 .burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:1px solid var(--contour);border-radius:var(--r-controle);color:var(--sur);cursor:pointer}
 .burger svg{width:20px;height:20px}
@@ -289,7 +290,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 /* Un seul bouton d'action, et il se peint juste sur les trois fonds :
    brique sur blanc, brique claire sur profond. .btn-3 n'existe plus —
    il ne disait que « le même, mais sur l'autre fond ». */
-.btn-1{background:var(--accent-aplat);color:var(--accent-sur)}
+.btn-1{background:var(--accent-aplat);color:var(--accent-aplat-sur)}
 .btn-1:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-aplat-rgb),.3)}
 .btn-2{background:transparent;color:var(--sur);border:1.5px solid var(--contour)}
 .btn-2:hover{border-color:var(--sur);transform:translateY(-2px)}
@@ -464,7 +465,7 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 .hors-ue a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(var(--accent-rgb),.4)}
 .hors-ue a:hover{border-bottom-color:var(--accent)}
 .coche input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent-franc);flex-shrink:0}
-.envoi{background:var(--accent-aplat);color:var(--accent-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:17px;border:none;border-radius:var(--r-controle);cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
+.envoi{background:var(--accent-aplat);color:var(--accent-aplat-sur);font-family:var(--tf);font-weight:800;font-size:19px;padding:17px;border:none;border-radius:var(--r-controle);cursor:pointer;transition:transform .16s,box-shadow .16s,opacity .16s}
 .envoi:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 26px rgba(var(--accent-aplat-rgb),.3)}
 .envoi:disabled{opacity:.62;cursor:progress}
 /* L'accusé porte un RECOURS, pas seulement une confirmation : Formspree
