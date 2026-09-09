@@ -4,8 +4,8 @@
   "description": "Coach particulier de Krav Maga et de self-défense à Toulouse et Saint-Sulpice-la-Pointe.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#0E1A2B",
-  "theme_color": "#0E1A2B",
+  "background_color": "#2A1A14",
+  "theme_color": "#2A1A14",
   "lang": "fr-FR",
   "icons": [
     { "src": "/assets/favicon-32.png", "sizes": "32x32", "type": "image/png" },

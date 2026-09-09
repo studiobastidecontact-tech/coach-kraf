@@ -1,12 +1,17 @@
 ---
 version: v2
 kind: charte
-status: proposition
+status: appliquée
 supersedes: charte.html (Bleu de garde)
 date: 2026-09-09
 ---
 
 # Trois directions de couleur
+
+> **Tranché par William le 09/09 : direction 1, Terre de Toulouse. Appliquée
+> le jour même.** Les valeurs finales et les contrastes mesurés sont dans
+> `charte.html`. Les deux autres directions restent ici, écrites, au cas où la
+> conversation se rouvre.
 
 > Écrit après une réaction de William : *« je ne suis pas convaincu par les
 > choix de couleur »*. Réaction fondée — la mesure ci-dessous le dit crûment.

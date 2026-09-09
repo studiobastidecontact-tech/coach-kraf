@@ -1,12 +1,12 @@
 @font-face{font-family:Archivo;src:url(/assets/fonts/archivo-var.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 @font-face{font-family:InterVF;src:url(/assets/fonts/inter-var.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 :root{
-  --nuit:#0E1A2B; --nuit-2:#16243A; --nuit-3:#1F3350;
-  --papier:#F7F6F3; --papier-2:#EBE8E2;
-  --sur-nuit:#F7F6F3; --brume:#A8B4C4;
-  --encre:#0E1A2B; --ardoise:#55606E;
-  --signal:#F0B429; --signal-encre:#8A5D00;
-  --trait:#26364C; --trait-clair:#DAD6CE;
+  --nuit:#2A1A14; --nuit-2:#3B2820; --nuit-3:#4C3529;
+  --papier:#F4EDE4; --papier-2:#E8DDCF;
+  --sur-nuit:#F4EDE4; --brume:#C0A997;
+  --encre:#2A1A14; --ardoise:#6B5648;
+  --signal:#E9A03C; --signal-encre:#8A4F14;
+  --trait:#493329; --trait-clair:#D9CDC1;
   --alerte:#B3261E; --vert:#1F7A4C;
   --tete:68px;
   --tf:Archivo,'Helvetica Neue',Arial,sans-serif;
@@ -15,16 +15,16 @@
   /* Composantes des couleurs, pour les transparences. Sans elles, chaque
      rgba() reecrit la teinte a la main : elles etaient 17 a le faire, et
      aucune n'aurait suivi un changement de --nuit ou de --signal. */
-  --nuit-rgb:14,26,43;
-  --signal-rgb:240,180,41;
+  --nuit-rgb:42,26,20;
+  --signal-rgb:233,160,60;
   --alerte-rgb:179,38,30;
   --vert-rgb:31,122,76;
 
   /* Couleurs qui vivaient en dur dans la feuille, sans nom ni place dans la charte. */
-  --abysse:#060B13;          /* plus sombre que --nuit : voiles et fonds de modale */
-  --abysse-rgb:6,11,19;
-  --brume-2:#7B8AA0;         /* texte tertiaire sur fond nuit */
-  --brume-3:#7A889B;         /* texte d'invite dans les champs */
+  --abysse:#150C09;          /* plus sombre que --nuit : voiles et fonds de modale */
+  --abysse-rgb:21,12,9;
+  --brume-2:#9A8574;         /* texte tertiaire sur fond nuit */
+  --brume-3:#9C8676;         /* texte d'invite dans les champs */
   --vert-clair:#7BD9A6;      /* accuse de reussite, lisible sur --nuit */
   --alerte-claire:#FF9B93;   /* message d'echec, lisible sur --nuit */
 
@@ -212,7 +212,7 @@ header.pose{border-bottom-color:var(--trait);background:rgba(var(--nuit-rgb),.97
    s'aligne — mesure a Chrome, le select faisait deja 2 px de plus. */
 .champ select{
   -webkit-appearance:none;appearance:none;
-  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A8B4C4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C0A997' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 15px center;background-size:18px 18px;
   padding-right:44px;line-height:1.4;height:51px
 }
