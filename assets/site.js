@@ -103,6 +103,25 @@
   // envoi du message — la saisie n'est jamais perdue en cas d'echec
   var f = document.getElementById('msg');
   if (!f) return;
+
+  // Le formulaire ne vit que sur l'accueil : les quatre autres pages y
+  // renvoient. Sans ca, un parent venu de la page enfants arrive devant une
+  // liste ou il doit re-choisir « Mon enfant » — il vient pourtant de passer
+  // cinq minutes a le dire. On transporte le contexte dans l'adresse et on
+  // pre-remplit, en silence : ?pour=Mon enfant, ?ou=Toulouse.
+  (function(){
+    var q = new URLSearchParams(location.search);
+    var poser = function(id, valeur){
+      if (!valeur) return;
+      var s = document.getElementById(id);
+      if (!s) return;
+      for (var i = 0; i < s.options.length; i++) {
+        if (s.options[i].value === valeur) { s.selectedIndex = i; return; }
+      }
+    };
+    poser('c-qui', q.get('pour'));
+    poser('c-ou', q.get('ou'));
+  })();
   var btn = document.getElementById('c-envoi'), ok = document.getElementById('c-ok'), ko = document.getElementById('c-ko');
   var libelle = btn.textContent;
   f.addEventListener('submit', function(e){
