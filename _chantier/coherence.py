@@ -4,7 +4,7 @@ deux prix, ou envoyer une mention légale vers un formulaire, sans qu'un seul
 validateur bronche. Ce script les cherche. Lancer avant chaque publication :
     python3 _chantier/coherence.py
 """
-import re, os, sys, html, json, struct
+import re, os, sys, html, json, struct, subprocess
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = sorted(
     os.path.relpath(os.path.join(rep, f), R)
@@ -315,7 +315,7 @@ def controler_charte(fautes):
 # et un garde qui crie sur ce qui ne risque rien finit contourne.
 ATELIER = (
     'README.md', 'charte.html', 'coherence.py', 'verifier-direction.py',
-    'contraste-rendu.js',
+    'contraste-rendu.js', 'generer-sitemap.py',
     'hooks/installer.sh', 'hooks/pre-commit',
 )
 ATELIER_DOSSIERS = ('croquis/', 'directions/', 'sources/')
@@ -405,9 +405,41 @@ def controler_grilles(fautes):
                         f"{colonnes} colonnes — la derniere ligne restera trouee")
 
 
+def controler_sitemap(fautes):
+    """Refuse un sitemap qui ne decrit plus les pages du depot.
+
+    Le fichier etait tenu a la main. Le 2026-09-10, ses onze dates annoncaient
+    la veille alors que les onze pages avaient change le jour meme : une
+    journee de travail que les moteurs n'avaient aucune raison de venir
+    relire. Rien ne casse quand un sitemap se perime, donc personne ne le voit.
+
+    Le detail des ecarts est rendu par le generateur lui-meme, qui nomme chaque
+    URL et les deux dates. On ne le reecrit pas ici : une seconde
+    implementation divergerait de la premiere le jour ou l'une des deux change.
+    """
+    gen = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'generer-sitemap.py')
+    if not os.path.exists(gen):
+        fautes.append('_chantier/generer-sitemap.py a disparu — '
+                      'le sitemap n\'est plus verifiable')
+        return
+    r = subprocess.run([sys.executable, gen, '--verifier'],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        detail = [l.strip() for l in r.stdout.splitlines() if l.strip().startswith('✗')]
+        for l in detail[:4]:
+            fautes.append(f'sitemap.xml {l[2:]}')
+        if len(detail) > 4:
+            fautes.append(f'sitemap.xml : et {len(detail) - 4} autre(s) URL — '
+                          'python3 _chantier/generer-sitemap.py')
+        elif not detail:
+            fautes.append('sitemap.xml ne correspond plus au depot — '
+                          'python3 _chantier/generer-sitemap.py')
+
+
 controler_charte(fautes)
 controler_frontiere(fautes)
 controler_grilles(fautes)
+controler_sitemap(fautes)
 
 if fautes:
     print("\n".join("  ✗ " + f for f in fautes))
