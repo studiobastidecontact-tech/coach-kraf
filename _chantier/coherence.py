@@ -358,6 +358,7 @@ def controler_frontiere(fautes):
 GRILLES = (
     ('princ',          r'<p class="n">',  4),
     ('trio',           r'class="sit-n"',  3),
+    ('motifs',         r'class="sit-n"',  2),
     ('renvois quatre', r'class="renvoi"', 4),
     ('renvois trois',  r'class="renvoi"', 3),
     ('renvois',        r'class="renvoi"', 2),

@@ -353,6 +353,10 @@ header.pose{box-shadow:0 2px 18px rgba(var(--ombre-rgb),.09)}
 
 /* ── situations ────────────────────────────────────────────────────── */
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+/* Deux colonnes et non trois : les motifs sont ecrits a la premiere personne,
+   et le plus long tient sur quatre lignes dans une carte de trio. La grille
+   suit le texte. Ne pas fusionner avec la regle ci-dessus. */
+.motifs{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .sit{position:relative;background:var(--fond-carte);border:1px solid var(--filet);border-radius:var(--r-surface);padding:34px 30px 30px;display:flex;flex-direction:column;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s}
 .sit::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent-franc);transform:scaleY(0);transform-origin:top;transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .sit:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(var(--ombre-rgb),.1);border-color:var(--contour)}
@@ -715,7 +719,7 @@ button.btn{font-family:inherit;cursor:pointer}
   .hero p{margin-bottom:26px}
   .actes{flex-direction:column;align-items:stretch}
   .actes .btn{width:100%}
-  .trio,.duo,.certifs,.princ,.extras,.canaux,.rang{grid-template-columns:1fr}
+  .trio,.duo,.motifs,.certifs,.princ,.extras,.canaux,.rang{grid-template-columns:1fr}
   /* `.pied` est SORTI de cette liste le 2026-09-10 : elle le remettait a une
      seule colonne, et le placement pose plus haut (contact en colonne 2) y
      creait alors une colonne IMPLICITE de 140 px — deux colonnes inegales au
