@@ -30,7 +30,8 @@ par défaut de tout site sérieux depuis 2018.
 Deux conséquences que je n'avais pas assez pesées :
 
 - **Le bleu marine est la couleur de l'administration** — police, gendarmerie,
-  assurance, banque. Pour un ancien gendarme ce n'était pas absurde, mais ça
+  assurance, banque. Pour un instructeur à mention forces de l'ordre ce n'était
+  pas absurde, mais ça
   parle de l'institution, pas de l'homme qui vient chez vous.
 - **`#F0B429` est un jaune de signalisation.** Panneau, gilet, bandeau
   d'alerte. Sur un site qui parle de sécurité, il évoque le danger autant que
