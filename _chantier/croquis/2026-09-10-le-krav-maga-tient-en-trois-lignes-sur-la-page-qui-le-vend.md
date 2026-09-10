@@ -164,9 +164,23 @@ défilant, il marque bien « Krav Maga » puis « Cours ».
 
 Stricte du premier au dernier écran, ce qu'elle n'était pas avant.
 
-## Un doublon assumé, à trancher
+## Le doublon, tranché
 
-Sur téléphone, le numéro est maintenant visible **deux fois en même temps** :
-dans l'en-tête fixe et dans la barre du pouce. Les deux ne font pas le même
-travail — la barre offre aussi le SMS et se tient sous le pouce — mais le
-doublon est réel. Signalé à William plutôt que tranché.
+Sur téléphone, le numéro est apparu **deux fois en même temps** : dans l'en-tête
+fixe et dans la barre du pouce. William a laissé l'arbitrage.
+
+**Les deux points de contact restent, la répétition part.** Ils ne font pas le
+même travail : l'en-tête porte l'**information** — à qui l'on parle, il est
+joignable, voici son numéro — et la barre porte l'**action**, sous le pouce.
+Le défaut n'était pas d'avoir deux points d'appel, c'était d'afficher deux fois
+les mêmes chiffres au même instant.
+
+La barre passe donc à deux **verbes** : **Appeler** et **SMS**. Elle y gagne
+une symétrie qu'elle n'avait pas — un long numéro face à un sigle de trois
+lettres, sur deux boutons de largeur égale, se lisait de travers. Le lien garde
+`aria-label="Appeler le 07 81 68 60 84"` : rien ne se perd pour un lecteur
+d'écran.
+
+Appliqué aux **treize** pages. Deux d'entre elles ont une barre différente —
+`/404/` et `/merci/` offrent « Accueil » plutôt que le SMS — et `merci/`
+portait le motif deux fois, donc a demandé un ciblage dans sa barre seule.
