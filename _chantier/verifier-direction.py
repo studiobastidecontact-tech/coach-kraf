@@ -81,6 +81,20 @@ def ratio(a, b):
     return (max(x, y) + 0.05) / (min(x, y) + 0.05)
 
 
+def composer(voile, alpha, fond):
+    """La couleur REELLEMENT vue quand un voile translucide est pose sur un fond.
+
+    Ce script ne mesurait que des couleurs opaques — des jetons contre des
+    jetons. Or la feuille pose des aplats en `rgba(var(--x-rgb), a)`, et ce que
+    l'oeil voit alors n'est AUCUN jeton : c'est un melange. L'ecusson
+    « Recommande pour debuter » vivait a 3,91:1 pendant que ce script annoncait
+    « aucune paire sous son seuil » — il ne regardait simplement pas la.
+    """
+    v = [int(voile[i:i + 2], 16) for i in (1, 3, 5)]
+    f = [int(fond[i:i + 2], 16) for i in (1, 3, 5)]
+    return '#' + ''.join(f'{round(v[i] * alpha + f[i] * (1 - alpha)):02X}' for i in range(3))
+
+
 # Ce que la feuille pose réellement : un texte, sur un fond, à quel seuil.
 # 4,5 = texte courant (WCAG AA) · 3,0 = contour de composant (WCAG 1.4.11)
 # 1,2 = un filet doit se voir, ce n'est pas une exigence WCAG mais une
@@ -115,6 +129,23 @@ PAIRES = ([(t, f, 4.5) for t in ('--sur', '--sur-2', '--accent', '--note', '--ac
           + [('--accent-aplat-sur', '--accent-aplat', 4.5)]
           + [('--accent-aplat', f, 3.0) for f in ('--fond', '--fond-2')])
 
+# Ce que la feuille pose en TRANSPARENCE, et le texte qui vit dessus.
+# Chaque entree : (texte, voile, alpha, fond sous le voile, seuil).
+# Releve le 2026-09-10, quand Lighthouse a signale un ecusson a 3,91:1 que ce
+# script declarait conforme. L'alpha se lit dans la feuille, il ne se devine
+# pas : `grep 'rgba(var(--accent-rgb)' assets/site.css`.
+# Le dernier champ borne les CONTEXTES ou la composition existe reellement.
+# Sans lui, ce script mesurait un aplat d'accent pose sur le fond profond du
+# hero — une combinaison qui n'apparait sur AUCUNE des treize pages, et qui
+# faisait crier le garde a 1,90:1 sur du vide. Un garde qui refuse ce qui
+# n'existe pas finit contourne, et emporte avec lui les refus qui comptaient.
+# L'unique ecusson du site vit dans une `.sec`, en fond clair : verifie par
+# `grep -c 'class="ecusson"'` sur les treize pages, un seul, jamais en profond.
+COMPOSEES = [
+    ('--accent-sur-aplat', '--accent', 0.13, f, 4.5, ('clair', 'pierre'))
+    for f in ('--fond', '--fond-2', '--fond-carte', '--survol')
+]
+
 
 def main():
     brut = open(CSS, encoding='utf-8').read()
@@ -146,6 +177,25 @@ def main():
             if not ok:
                 echecs.append(f"{nom} : {texte} {ht} sur {fond} {hf} → {k:.2f}:1 (seuil {seuil})")
             lignes.append(f"  {'ok ' if ok else 'ECHEC'} {texte:<14} {ht} sur {fond:<13} {hf}  {k:6.2f}:1  seuil {seuil}")
+        # `ou` et non `contextes` : ce nom-la porte deja le dictionnaire des
+        # trois contextes, et l'ecraser ici faisait rendre au rapport final
+        # « sur 2 contextes » — la longueur du tuple, pas le nombre reel.
+        for texte, voile, alpha, fond, seuil, ou in COMPOSEES:
+            if nom not in ou:
+                continue
+            jt, jv, jf = roles.get(texte), roles.get(voile), roles.get(fond)
+            if not (jt and jv and jf):
+                manquants.add((nom, texte if not jt else (voile if not jv else fond))); continue
+            ht, hv, hf = teintes.get(jt), teintes.get(jv), teintes.get(jf)
+            if not (ht and hv and hf):
+                manquants.add((nom, jt if not ht else (jv if not hv else jf))); continue
+            compose = composer(hv, alpha, hf)
+            k = ratio(ht, compose); mesures += 1
+            ok = k >= seuil
+            if not ok:
+                echecs.append(f"{nom} : {texte} {ht} sur {voile} a {alpha:.0%} pose sur {fond} = {compose} → {k:.2f}:1 (seuil {seuil})")
+            lignes.append(f"  {'ok ' if ok else 'ECHEC'} {texte:<14} {ht} sur {voile}@{alpha:.0%}/{fond:<9} {compose}  {k:6.2f}:1  seuil {seuil}")
+
         print(f"── contexte {nom.upper()} ──")
         print('\n'.join(lignes)); print()
 

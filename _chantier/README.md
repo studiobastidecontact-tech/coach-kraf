@@ -39,14 +39,16 @@ Cinq pages, toutes servies depuis la racine :
 (`.sit`, `.pas`, `.bien`, `.tarifs`…) ont chacun leur **variante sombre** :
 posés sur `.sec--nuit` sans elle, leur gris tombe à 2,9:1.
 
-## Les deux gardes
+## Les trois gardes
 
 | Garde | Rôle |
 |---|---|
 | `coherence.py` | Refuse le commit si le site se contredirait en ligne — prix, durées, ancres, contraste, et la frontière ci-dessus |
 | `verifier-direction.py` | Mesure chaque paire texte/fond de la charte et refuse une direction dont une paire tombe sous son seuil |
+| `contraste-rendu.js` | Mesure le contraste de chaque texte **sur le rendu**, à coller dans la console. Il voit ce que le précédent ne peut pas : les fonds composés par transparence |
 
-Le premier tourne au `pre-commit`. Installation :
+Le premier tourne au `pre-commit` ; le troisième se colle dans la console
+d'un navigateur, sur une page ouverte. Installation du hook :
 `bash _chantier/hooks/installer.sh`.
 
 ## La direction visuelle
