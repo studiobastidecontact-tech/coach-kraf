@@ -15,15 +15,25 @@
   // Une seule lecture par image affichee suffit : l'oeil ne voit pas la
   // difference, et le premier passage se fait apres le premier calcul au lieu
   // de le declencher.
+  // Le geste lui-meme est une ECRITURE. Il prend la position en argument au
+  // lieu de la lire : c'est ce qui permet a l'appelant de grouper toutes ses
+  // lectures avant toutes ses ecritures.
   var tete = document.getElementById('tete');
-  if (tete) {
-    var poseEnAttente = false;
+  var poserTete = tete
+    ? function(y){ tete.classList.toggle('pose', y > 24); }
+    : function(){};
+
+  // Quand l'animation d'entree ne tourne pas — mouvement reduit demande —
+  // l'en-tete a besoin de son propre passage. Sinon c'est le balayage qui s'en
+  // charge, dans la MEME image : voir plus bas.
+  if (doux && tete) {
+    var teteEnAttente = false;
     var poser = function(){
-      if (poseEnAttente) return;
-      poseEnAttente = true;
+      if (teteEnAttente) return;
+      teteEnAttente = true;
       requestAnimationFrame(function(){
-        poseEnAttente = false;
-        tete.classList.toggle('pose', window.scrollY > 24);
+        teteEnAttente = false;
+        poserTete(window.scrollY);
       });
     };
     window.addEventListener('scroll', poser, {passive:true});
@@ -78,11 +88,16 @@
       for (i = 0; i < restants.length; i++) {
         if (restants[i].getBoundingClientRect().top < seuil) aReveler.push(restants[i]);
       }
+      // ── ECRITURES, toutes ensemble, apres toutes les lectures
+      poserTete(y);
       for (i = 0; i < aReveler.length; i++) aReveler[i].classList.add('vu');
       if (aReveler.length) {
         restants = restants.filter(function(el){ return aReveler.indexOf(el) === -1; });
       }
-      if (!restants.length) {
+      // Sans en-tete a poser, plus rien ne depend du defilement : on se retire.
+      // Avec, on garde le gestionnaire — un `classList.toggle` par image ne
+      // coute rien, et c'est le prix d'une seule lecture au lieu de deux.
+      if (!restants.length && !tete) {
         window.removeEventListener('scroll', demander);
         window.removeEventListener('resize', demander);
         window.removeEventListener('hashchange', sauter);
@@ -108,6 +123,7 @@
       if (aDefile || !restants.length) return;
       for (var k = 0; k < restants.length; k++) restants[k].classList.add('vu');
       restants = [];
+      if (tete) return;
       window.removeEventListener('scroll', demander);
       window.removeEventListener('resize', demander);
       window.removeEventListener('hashchange', sauter);
