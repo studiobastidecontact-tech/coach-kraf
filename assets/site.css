@@ -704,6 +704,20 @@ button.btn{font-family:inherit;cursor:pointer}
   .pied > div:nth-child(3){grid-column:2;grid-row:1}
   .pied > div:nth-child(2){grid-column:1 / -1;grid-row:2}
 }
+/* LE MENU BASCULE EN BURGER A 1100 px, ET NON A 760. Ses trois blocs — la
+   marque, la navigation, le bouton d'appel — reclament 997 px cote a cote.
+   Sous le seuil precedent, la navigation passait donc sur DEUX LIGNES et
+   debordait sur toute la plage 761-1050 px : tablette en paysage, petit
+   portable. Le defaut precedait l'entree « Krav Maga » du 2026-09-10, qui
+   n'a fait que l'elargir de 517 a 591 px.
+   Le bouton d'appel, lui, tient jusqu'a 760 : une fois la navigation repliee,
+   il ne reste que la marque, le burger et lui — 373 px. Il garde donc son
+   propre seuil, plus bas. */
+@media (max-width:1100px){
+  .nav{display:none}
+  .burger{display:flex}
+}
+
 @media (max-width:760px){
   body{font-size:16px}
   /* 224 px repris sur les huit respirations de la page. Les grilles en
@@ -712,9 +726,17 @@ button.btn{font-family:inherit;cursor:pointer}
      elles auraient fait casser le texte davantage. Mesuré, pas supposé. */
   .sec{padding:58px 0}
   .wrap{padding:0 20px}
-  .nav{display:none}
-  .burger{display:flex}
-  .tel-tete{display:none}
+  /* LE NUMERO RESTE DANS L'EN-TETE SUR TELEPHONE. Il en disparaissait, et la
+     barre du pouce ne prend le relais qu'une fois le bouton du heros sorti du
+     champ : en haut de page, l'appel n'etait joignable nulle part. Demande de
+     William le 2026-09-10. Il se compacte au lieu de partir — 19 px et 18 px
+     de marge interieure ne tiennent pas a cote de la marque et du burger. */
+  .tel-tete{font-size:16px;padding:8px 13px;gap:6px;flex-shrink:0}
+  .tel-tete svg{width:15px!important;height:15px!important}
+  .tete{gap:12px}
+  /* Sans cela le flex comprimait le burger de 44 a 32 px des que le numero
+     revenait a cote — sous le minimum tactile de WCAG 2.5.5. */
+  .burger{flex-shrink:0}
   .hero{padding:calc(var(--tete) + 54px) 0 74px}
   .hero p{margin-bottom:26px}
   .actes{flex-direction:column;align-items:stretch}
@@ -893,6 +915,13 @@ button.btn{font-family:inherit;cursor:pointer}
    « kpitol@laposte.net » fait 140 px pour 146 disponibles, il tient. Le seuil
    descend donc a 340 px, ou il ne tient plus — et ou la liste des pages, elle
    non plus, ne peut plus se scinder en deux. */
+/* Sous 375 px, la marque se reduit a son glyphe. Le numero passe avant le nom
+   du site : on est deja dessus, on ne cherche pas a savoir ou l'on est. Le
+   lien garde son aria-label, donc rien ne se perd pour un lecteur d'ecran. */
+@media (max-width:374px){
+  .marque span:not(.marque-glyphe){display:none}
+}
+
 @media (max-width:340px){
   .pied{grid-template-columns:1fr}
   .pied > div:nth-child(1),.pied > div:nth-child(2),.pied > div:nth-child(3){grid-column:1;grid-row:auto}
