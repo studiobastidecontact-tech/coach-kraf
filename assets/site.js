@@ -2,11 +2,32 @@
   'use strict';
   var doux = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // l'en-tete se pose sur une bordure des qu'on quitte le haut
+  // l'en-tete se pose sur une bordure des qu'on quitte le haut.
+  //
+  // `window.scrollY` est une LECTURE de mise en page : la demander quand des
+  // styles sont en attente oblige le navigateur a tout recalculer sur-le-champ.
+  // Cette fonction s'executait a chaque evenement de defilement — des dizaines
+  // par seconde — et une premiere fois de maniere SYNCHRONE au chargement,
+  // avant meme le premier calcul de mise en page. Le profileur du 2026-09-10 y
+  // relevait 95 ms de recalcul force sur les 101 ms de la page, soit la moitie
+  // du delai de rendu.
+  //
+  // Une seule lecture par image affichee suffit : l'oeil ne voit pas la
+  // difference, et le premier passage se fait apres le premier calcul au lieu
+  // de le declencher.
   var tete = document.getElementById('tete');
   if (tete) {
-    var poser = function(){ tete.classList.toggle('pose', window.scrollY > 24); };
-    window.addEventListener('scroll', poser, {passive:true}); poser();
+    var poseEnAttente = false;
+    var poser = function(){
+      if (poseEnAttente) return;
+      poseEnAttente = true;
+      requestAnimationFrame(function(){
+        poseEnAttente = false;
+        tete.classList.toggle('pose', window.scrollY > 24);
+      });
+    };
+    window.addEventListener('scroll', poser, {passive:true});
+    poser();
   }
 
   // Menu mobile. Chaque bloc verifie ses elements : la page 404 n'a pas de
