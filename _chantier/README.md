@@ -8,7 +8,8 @@ sources.
 > **Le pilotage n'est plus ici.** Depuis le 2026-09-09, tout ce qui décrit la
 > *prestation* — la source de vérité du contenu, l'inventaire de ce qui est
 > sourcé, les questions au client, l'avancement — vit dans un dépôt **privé** :
-> `wdelpech-mediane/coach-kraf-chantier`.
+> `wdelpech-mediane/coach-kraf-chantier`. **Son point d'entrée est
+> `A-FAIRE.md`** : la file d'attente ordonnée de ce qui reste à faire.
 >
 > Ce dépôt-ci est **public**, et un fichier d'un dépôt public est lisible par
 > qui en connaît le chemin, `_` ou pas. La frontière tient en une phrase :
