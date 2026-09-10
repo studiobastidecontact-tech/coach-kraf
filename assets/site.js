@@ -190,10 +190,38 @@
     var etroitQ = window.matchMedia('(max-width:760px)');
     var poserQ = function(){
       for (var i = 0; i < questions.length; i++) {
-        if (etroitQ.matches) questions[i].removeAttribute('open');
-        else questions[i].setAttribute('open', '');
+        var s = questions[i].querySelector('summary');
+        if (etroitQ.matches) {
+          questions[i].removeAttribute('open');
+          if (s) s.removeAttribute('tabindex');
+        } else {
+          questions[i].setAttribute('open', '');
+          // En large, le summary n'actionne plus rien : il sort du parcours de
+          // tabulation. Un controle focusable qui ne fait rien est un piege.
+          if (s) s.setAttribute('tabindex', '-1');
+        }
       }
     };
+
+    // Sur large ecran, les cartes sont OUVERTES et doivent le rester. Le CSS
+    // masque bien l'affordance (curseur, chevron), mais un <summary> reste un
+    // bouton natif : un clic sur le titre repliait la carte et faisait
+    // disparaitre son texte, sans qu'aucun signe n'ait annonce qu'elle etait
+    // repliable. Signale par William le 2026-09-10 sur le premier motif.
+    // Le clavier fait la meme chose que la souris — Entree et Espace sur un
+    // summary focus le basculent — donc les deux voies sont fermees.
+    var bloquer = function(e){ if (!etroitQ.matches) e.preventDefault(); };
+    var bloquerTouche = function(e){
+      if (etroitQ.matches) return;
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') e.preventDefault();
+    };
+    for (var q = 0; q < questions.length; q++) {
+      var sq = questions[q].querySelector('summary');
+      if (!sq) continue;
+      sq.addEventListener('click', bloquer);
+      sq.addEventListener('keydown', bloquerTouche);
+    }
+
     if (etroitQ.addEventListener) etroitQ.addEventListener('change', poserQ);
     else if (etroitQ.addListener) etroitQ.addListener(poserQ);
     poserQ();
