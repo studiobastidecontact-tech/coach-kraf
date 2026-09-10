@@ -658,10 +658,22 @@ button.btn{font-family:inherit;cursor:pointer}
 
 /* ── entrées animées ────────────────────────────────────────────────
    Le contenu est VISIBLE par défaut. C'est le script qui pose .anime sur
-   la racine, et lui seul qui masque avant de révéler : sans JS, sans
-   observateur, ou si le script casse, la page reste entièrement lisible. */
-.anime .monte{opacity:0;transform:translateY(22px);transition:opacity .62s cubic-bezier(.16,1,.3,1),transform .62s cubic-bezier(.16,1,.3,1)}
-.anime .monte.vu{opacity:1;transform:none}
+   la racine, et lui seul qui décale avant de remettre en place : sans JS,
+   sans observateur, ou si le script casse, la page reste lisible.
+
+   PLUS DE FONDU depuis le 2026-09-10. L'entrée partait d'`opacity:0`, et
+   pendant les 620 ms de la transition tout texte traversait une zone de
+   contraste insuffisant — Lighthouse y relevait trois défauts, sur des
+   couleurs qui n'appartiennent à aucune charte parce qu'elles n'existent
+   qu'au milieu du fondu. Aucun réglage n'y échappe : le calcul donne encore
+   3,83:1 à 90 % d'opacité, le seuil n'est atteint qu'à 100.
+
+   Le déplacement seul règle les deux : le texte garde son contraste du
+   début à la fin, et le contenu n'est jamais invisible — ce qui compte pour
+   qui fait défiler vite sur un téléphone. Le décalage descend de 22 à 14 px :
+   sans fondu pour l'adoucir, une montée trop ample se voit comme un saut. */
+.anime .monte{transform:translateY(14px);transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.anime .monte.vu{transform:none}
 
 /* Rien ne defile dans une feuille imprimee : ce qui attend le defilement
    n'arriverait jamais. On montre tout, et on retire ce qui n'a pas de sens
@@ -669,7 +681,7 @@ button.btn{font-family:inherit;cursor:pointer}
    Les trois valeurs ci-dessous sont les seules couleurs écrites hors de la
    direction : une page imprimée n'a pas de charte, elle a de l'encre. */
 @media print{
-  .anime .monte{opacity:1!important;transform:none!important;transition:none!important}
+  .anime .monte{transform:none!important;transition:none!important}
   .pouce,#menu,#burger,.hero-media,.hero-photo,.hero-voile,.skip{display:none!important}
   #tete{position:static!important;border:0}
   body{background:#fff;color:#000}
@@ -748,7 +760,7 @@ button.btn{font-family:inherit;cursor:pointer}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
-  .monte{opacity:1;transform:none}
+  .monte{transform:none}
 }
 /* le menu déplié sur mobile — il descend de l'en-tête, donc il en prend
    le fond clair, et non plus celui du héros */
