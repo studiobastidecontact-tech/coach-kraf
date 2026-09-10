@@ -549,8 +549,15 @@ blockquote cite{display:block;margin-top:10px;font-style:normal;font-family:var(
 .retour.ko{display:block;background:rgba(var(--alerte-rgb),.1);border:1px solid rgba(var(--alerte-rgb),.5);color:var(--alerte)}
 
 /* ── pied ──────────────────────────────────────────────────────────── */
-footer{background:var(--fond);color:var(--sur-2);border-top:1px solid var(--filet);padding:64px 0 28px}
-.pied{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:44px;margin-bottom:44px}
+footer{background:var(--fond);color:var(--sur-2);border-top:1px solid var(--filet);padding:48px 0 24px}
+/* La colonne des pages porte dix liens depuis le 2026-09-09 : en grille, sa
+   hauteur s'imposait aux deux autres, qui n'ont que 156 et 135 px de contenu —
+   537 px de vide cumule, et un pied de page a 1,35 ecran sur telephone.
+   `columns:2` les repartit et s'adapte au nombre reel : dix liens sur les onze
+   pages aujourd'hui, cinq par colonne, sans avoir a fixer un nombre de rangs. */
+.pied{display:grid;grid-template-columns:1.2fr 1.1fr .7fr;gap:40px;margin-bottom:32px}
+.pied ul.deux{display:block;columns:2;column-gap:26px}
+.pied ul.deux li{break-inside:avoid;margin-bottom:14px}
 .pied h2{font-family:var(--tf);font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sur-2);margin-bottom:15px}
 /* WCAG 2.5.8 demande 24 px de haut a une cible tactile. « Voir les tarifs »
    tenait 22, les liens du pied 20. On agrandit la ZONE de touche sans
@@ -577,8 +584,8 @@ p a[href^="tel:"]::after,p a[href^="sms:"]::after,p a[href^="mailto:"]::after{
   content:'';position:absolute;left:0;right:0;top:50%;height:28px;transform:translateY(-50%)}
 .pied a{text-decoration:none;transition:color .18s}
 .pied a:hover{color:var(--sur)}
-.pied .desc{font-size:16px;margin-top:14px;max-width:340px}
-.bas{border-top:1px solid var(--filet);padding-top:22px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:15px}
+.pied .desc{font-size:16px;margin-top:14px;max-width:400px}
+.bas{border-top:1px solid var(--filet);padding-top:18px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:15px}
 .bas nav{display:flex;gap:22px}
 .bas button{background:none;border:none;color:inherit;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 
@@ -660,7 +667,13 @@ button.btn{font-family:inherit;cursor:pointer}
   .trio,.certifs,.princ,.extras,.canaux{grid-template-columns:1fr 1fr}
   .pas{grid-template-columns:1fr 1fr;gap:34px 24px}
   .coach{grid-template-columns:1fr;gap:34px}
-  .pied{grid-template-columns:1fr 1fr;gap:32px}
+  /* La marque et le contact tiennent cote a cote ; la liste des pages passe
+     dessous, pleine largeur, ses deux colonnes intactes. Empilee en trois,
+     elle faisait un pied de page d'un ecran entier sur telephone. */
+  .pied{grid-template-columns:1fr 1fr;gap:28px}
+  .pied > div:nth-child(1){grid-column:1;grid-row:1}
+  .pied > div:nth-child(3){grid-column:2;grid-row:1}
+  .pied > div:nth-child(2){grid-column:1 / -1;grid-row:2}
 }
 @media (max-width:760px){
   body{font-size:16px}
@@ -677,7 +690,11 @@ button.btn{font-family:inherit;cursor:pointer}
   .hero p{margin-bottom:26px}
   .actes{flex-direction:column;align-items:stretch}
   .actes .btn{width:100%}
-  .trio,.duo,.certifs,.princ,.extras,.canaux,.rang,.pied{grid-template-columns:1fr}
+  .trio,.duo,.certifs,.princ,.extras,.canaux,.rang{grid-template-columns:1fr}
+  /* `.pied` est SORTI de cette liste le 2026-09-10 : elle le remettait a une
+     seule colonne, et le placement pose plus haut (contact en colonne 2) y
+     creait alors une colonne IMPLICITE de 140 px — deux colonnes inegales au
+     lieu des deux voulues. Son empilement se rend sous 400 px, plus bas. */
   .pas{grid-template-columns:1fr;gap:26px}
   .bien li{grid-template-columns:44px 1fr;gap:6px 14px}
   .bien li h3{grid-column:2}
@@ -843,6 +860,14 @@ button.btn{font-family:inherit;cursor:pointer}
 /* le numero en toutes lettres tient dans la barre du pouce : il inspire
    plus confiance qu'un simple « Appeler », et reste lisible jusqu'a 320 px */
 .pouce a{font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+/* Le seuil a d'abord ete pose a 400 px « au cas ou » : mesure a 360 px,
+   « kpitol@laposte.net » fait 140 px pour 146 disponibles, il tient. Le seuil
+   descend donc a 340 px, ou il ne tient plus — et ou la liste des pages, elle
+   non plus, ne peut plus se scinder en deux. */
+@media (max-width:340px){
+  .pied{grid-template-columns:1fr}
+  .pied > div:nth-child(1),.pied > div:nth-child(2),.pied > div:nth-child(3){grid-column:1;grid-row:auto}
+}
 @media (max-width:359px){ .pouce a{font-size:14px;padding:14px 6px} }
 
 /* la devise du coach : elle porte le titre de la page d'accueil */
