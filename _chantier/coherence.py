@@ -315,7 +315,7 @@ def controler_charte(fautes):
 # et un garde qui crie sur ce qui ne risque rien finit contourne.
 ATELIER = (
     'README.md', 'charte.html', 'coherence.py', 'verifier-direction.py',
-    'contraste-rendu.js', 'generer-sitemap.py',
+    'contraste-rendu.js', 'generer-sitemap.py', 'poser-mesure-audience.py',
     'hooks/installer.sh', 'hooks/pre-commit',
 )
 ATELIER_DOSSIERS = ('croquis/', 'directions/', 'sources/')
